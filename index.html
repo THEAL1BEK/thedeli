@@ -52,6 +52,39 @@
             color: #000;
         }
 
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000; /* Тонкий контур для элегантности */
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .search-icon::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 7px;
+            background: #000;
+            transform: rotate(45deg);
+            top: 12px;
+            left: 13px;
+            border-radius: 1px;
+        }
+
+        .search-icon::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 1px;
+            background: #000;
+            top: 17px;
+            left: 8px;
+            transform: rotate(-45deg);
+        }
+
         #banner {
             margin-top: 60px; /* Высота шапки */
             height: calc(100vh - 60px); /* Полное пространство минус шапка */
@@ -99,8 +132,21 @@
                 font-size: 1.2rem;
             }
 
-            .icon {
-                font-size: 1.2rem;
+            .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-icon::before {
+                height: 6px;
+                top: 11px;
+                left: 12px;
+            }
+
+            .search-icon::after {
+                width: 5px;
+                top: 15px;
+                left: 7px;
             }
         }
     </style>
@@ -109,7 +155,7 @@
     <header>
         <div class="logo">YourBrand</div>
         <div class="icons">
-            <span class="icon" id="search-icon">🔍</span>
+            <span class="icon search-icon" id="search-icon"></span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
     </header>
