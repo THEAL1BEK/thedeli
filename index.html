@@ -17,6 +17,7 @@
             line-height: 1.6;
             color: #000;
             background: #fff;
+            overflow-x: hidden;
         }
 
         header {
@@ -37,6 +38,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             text-transform: uppercase;
+            color: #000;
         }
 
         .icons {
@@ -47,17 +49,19 @@
         .icon {
             font-size: 1.5rem;
             cursor: pointer;
+            color: #000;
         }
 
         #banner {
             margin-top: 60px; /* Высота шапки */
-            height: 150vh; /* Длинный для прокрутки */
-            background: url('https://via.placeholder.com/1200x1800?text=Вставьте+ваше+изображение+баннера+здесь') no-repeat center/cover;
+            height: 150vh; /* Длинный баннер для прокрутки */
+            background: url('banner-placeholder.jpg') no-repeat center/cover; /* Замени на своё изображение */
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: #fff;
+            position: relative;
         }
 
         #banner .content {
@@ -97,6 +101,7 @@
             margin: 1rem 0;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #000;
         }
 
         #menu-overlay .close {
@@ -105,6 +110,7 @@
             right: 1rem;
             font-size: 2rem;
             cursor: pointer;
+            color: #000;
         }
 
         #catalog {
@@ -116,6 +122,7 @@
         #catalog h2 {
             text-align: center;
             margin-bottom: 2rem;
+            color: #000;
         }
 
         .filters {
@@ -130,6 +137,7 @@
             border: none;
             font-size: 1rem;
             cursor: pointer;
+            color: #000;
             text-decoration: underline;
         }
 
@@ -143,20 +151,26 @@
             text-align: center;
             position: relative;
             display: block;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
         }
 
         .product img {
             width: 100%;
             height: auto;
+            max-height: 200px;
+            object-fit: cover;
         }
 
         .product h3 {
             margin: 0.5rem 0;
             font-size: 1rem;
+            color: #000;
         }
 
         .product p {
             font-weight: bold;
+            color: #000;
         }
 
         .favorite {
@@ -165,12 +179,14 @@
             right: 1rem;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #000;
         }
 
         #contacts {
             padding: 4rem 1rem;
             text-align: center;
             background: #f9f9f9;
+            display: none; /* Скрыто по умолчанию */
         }
 
         @media (min-width: 768px) {
@@ -203,35 +219,39 @@
 
     <section id="catalog">
         <h2>Каталог</h2>
+        <div class="filters">
+            <button class="filter-btn" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="women">Women</button>
+            <button class="filter-btn" data-filter="men">Men</button>
+        </div>
         <div class="product-grid">
             <div class="product" data-category="men">
                 <div class="favorite">♡</div>
-                <img src="https://via.placeholder.com/300x200?text=Очки+Мужские+1" alt="Очки Мужские 1">
+                <img src="product1.jpg" alt="Очки Мужские 1"> <!-- Замени на своё изображение -->
                 <h3>RECTANGULAR FRAME SUNGLASSES</h3>
                 <p>$575</p>
             </div>
             <div class="product" data-category="women">
                 <div class="favorite">♡</div>
-                <img src="https://via.placeholder.com/300x200?text=Очки+Женские+1" alt="Очки Женские 1">
+                <img src="product2.jpg" alt="Очки Женские 1"> <!-- Замени на своё изображение -->
                 <h3>AVIATOR METAL SUNGLASSES</h3>
                 <p>$430</p>
             </div>
             <div class="product" data-category="men">
                 <div class="favorite">♡</div>
-                <img src="https://via.placeholder.com/300x200?text=Очки+Мужские+2" alt="Очки Мужские 2">
-                <h3>SQUARE FRAME SUNGLASSES</h3>
+                <img src="product3.jpg" alt="Очки Мужские 2"> <!-- Замени на своё изображение -->
                 <p>$500</p>
             </div>
             <div class="product" data-category="women">
                 <div class="favorite">♡</div>
-                <img src="https://via.placeholder.com/300x200?text=Очки+Женские+2" alt="Очки Женские 2">
+                <img src="product4.jpg" alt="Очки Женские 2"> <!-- Замени на своё изображение -->
                 <h3>RECTANGULAR FRAME SUNGLASSES</h3>
                 <p>$550</p>
             </div>
         </div>
     </section>
 
-    <section id="contacts" class="hidden">
+    <section id="contacts">
         <h2>Контакты</h2>
         <p>Свяжитесь с нами: info@yourbrand.com</p>
         <p>Телефон: +7 (123) 456-78-90</p>
@@ -253,10 +273,12 @@
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close');
         const menuItems = document.querySelectorAll('#menu-overlay li');
+        const filterButtons = document.querySelectorAll('.filter-btn');
         const products = document.querySelectorAll('.product');
         const contactsSection = document.getElementById('contacts');
         const catalogSection = document.getElementById('catalog');
 
+        // Открытие/закрытие меню
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
         });
@@ -265,18 +287,19 @@
             menuOverlay.style.display = 'none';
         });
 
+        // Обработка пунктов меню
         menuItems.forEach(item => {
             item.addEventListener('click', () => {
                 const filter = item.dataset.filter;
                 menuOverlay.style.display = 'none';
 
                 if (filter === 'contacts') {
-                    contactsSection.classList.remove('hidden');
-                    catalogSection.classList.add('hidden');
+                    contactsSection.style.display = 'block';
+                    catalogSection.style.display = 'none';
                     window.scrollTo(0, 0);
                 } else {
-                    contactsSection.classList.add('hidden');
-                    catalogSection.classList.remove('hidden');
+                    contactsSection.style.display = 'none';
+                    catalogSection.style.display = 'block';
                     products.forEach(product => {
                         if (filter === 'all' || product.dataset.category === filter) {
                             product.style.display = 'block';
@@ -289,7 +312,21 @@
             });
         });
 
-        // Симуляция поиска и корзины (можно расширить)
+        // Фильтрация через кнопки
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                products.forEach(product => {
+                    if (filter === 'all' || product.dataset.category === filter) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Симуляция поиска и корзины
         document.getElementById('search-icon').addEventListener('click', () => {
             alert('Функция поиска в разработке');
         });
