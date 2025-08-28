@@ -52,30 +52,10 @@
             color: #000;
         }
 
-        .search-icon {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #000;
-            border-radius: 50%;
-            position: relative;
-            display: inline-block;
-        }
-
-        .search-icon::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 8px;
-            background: #000;
-            transform: rotate(45deg);
-            top: 12px;
-            left: 14px;
-        }
-
         #banner {
             margin-top: 60px; /* Высота шапки */
             height: calc(100vh - 60px); /* Полное пространство минус шапка */
-            background: url('IMG_8725.JPG') no-repeat center/cover; /* Сюда ставите изображение */
+            background: url('IMG_8125.JPG') no-repeat center/cover; /* Сюда ставите изображение */
             position: relative;
         }
 
@@ -119,15 +99,8 @@
                 font-size: 1.2rem;
             }
 
-            .search-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .search-icon::before {
-                height: 6px;
-                top: 10px;
-                left: 12px;
+            .icon {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -136,7 +109,7 @@
     <header>
         <div class="logo">YourBrand</div>
         <div class="icons">
-            <span class="icon search-icon" id="search-icon"></span>
+            <span class="icon" id="search-icon">🔍</span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
     </header>
