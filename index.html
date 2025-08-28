@@ -113,75 +113,6 @@
             color: #000;
         }
 
-        #catalog {
-            padding: 4rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        #catalog h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #000;
-        }
-
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .filter-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            color: #000;
-            text-decoration: underline;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .product {
-            text-align: center;
-            position: relative;
-            display: block;
-            border: 1px solid #ddd;
-            padding: 0.5rem;
-        }
-
-        .product img {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: cover;
-        }
-
-        .product h3 {
-            margin: 0.5rem 0;
-            font-size: 1rem;
-            color: #000;
-        }
-
-        .product p {
-            font-weight: bold;
-            color: #000;
-        }
-
-        .favorite {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #000;
-        }
-
         #contacts {
             padding: 4rem 1rem;
             text-align: center;
@@ -190,13 +121,7 @@
         }
 
         @media (min-width: 768px) {
-            .product-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        .hidden {
-            display: none;
+            /* Адаптивность для больших экранов */
         }
     </style>
 </head>
@@ -204,7 +129,6 @@
     <header>
         <div class="logo">YourBrand</div>
         <div class="icons">
-            <span class="icon" id="cart-icon">🛒</span>
             <span class="icon" id="search-icon">🔍</span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
@@ -214,40 +138,6 @@
         <div class="content">
             <h1>Добро пожаловать в YourBrand</h1>
             <p>Эмоции и стиль в каждом взгляде</p>
-        </div>
-    </section>
-
-    <section id="catalog">
-        <h2>Каталог</h2>
-        <div class="filters">
-            <button class="filter-btn" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="women">Women</button>
-            <button class="filter-btn" data-filter="men">Men</button>
-        </div>
-        <div class="product-grid">
-            <div class="product" data-category="men">
-                <div class="favorite">♡</div>
-                <img src="product1.jpg" alt="Очки Мужские 1"> <!-- Замени на своё изображение -->
-                <h3>RECTANGULAR FRAME SUNGLASSES</h3>
-                <p>$575</p>
-            </div>
-            <div class="product" data-category="women">
-                <div class="favorite">♡</div>
-                <img src="product2.jpg" alt="Очки Женские 1"> <!-- Замени на своё изображение -->
-                <h3>AVIATOR METAL SUNGLASSES</h3>
-                <p>$430</p>
-            </div>
-            <div class="product" data-category="men">
-                <div class="favorite">♡</div>
-                <img src="product3.jpg" alt="Очки Мужские 2"> <!-- Замени на своё изображение -->
-                <p>$500</p>
-            </div>
-            <div class="product" data-category="women">
-                <div class="favorite">♡</div>
-                <img src="product4.jpg" alt="Очки Женские 2"> <!-- Замени на своё изображение -->
-                <h3>RECTANGULAR FRAME SUNGLASSES</h3>
-                <p>$550</p>
-            </div>
         </div>
     </section>
 
@@ -273,10 +163,7 @@
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close');
         const menuItems = document.querySelectorAll('#menu-overlay li');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const products = document.querySelectorAll('.product');
         const contactsSection = document.getElementById('contacts');
-        const catalogSection = document.getElementById('catalog');
 
         // Открытие/закрытие меню
         menuIcon.addEventListener('click', () => {
@@ -295,51 +182,17 @@
 
                 if (filter === 'contacts') {
                     contactsSection.style.display = 'block';
-                    catalogSection.style.display = 'none';
                     window.scrollTo(0, 0);
                 } else {
                     contactsSection.style.display = 'none';
-                    catalogSection.style.display = 'block';
-                    products.forEach(product => {
-                        if (filter === 'all' || product.dataset.category === filter) {
-                            product.style.display = 'block';
-                        } else {
-                            product.style.display = 'none';
-                        }
-                    });
-                    window.scrollTo(0, document.getElementById('catalog').offsetTop);
+                    window.scrollTo(0, document.getElementById('banner').offsetTop);
                 }
             });
         });
 
-        // Фильтрация через кнопки
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.dataset.filter;
-                products.forEach(product => {
-                    if (filter === 'all' || product.dataset.category === filter) {
-                        product.style.display = 'block';
-                    } else {
-                        product.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Симуляция поиска и корзины
+        // Симуляция поиска
         document.getElementById('search-icon').addEventListener('click', () => {
             alert('Функция поиска в разработке');
-        });
-
-        document.getElementById('cart-icon').addEventListener('click', () => {
-            alert('Корзина пуста');
-        });
-
-        // Избранное (сердечко)
-        document.querySelectorAll('.favorite').forEach(fav => {
-            fav.addEventListener('click', () => {
-                fav.textContent = fav.textContent === '♡' ? '❤️' : '♡';
-            });
         });
     </script>
 </body>
