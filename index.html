@@ -57,33 +57,9 @@
         }
 
         .search-icon {
-            width: 20px;
-            height: 20px;
-            position: relative;
-            display: inline-block;
+            width: 24px;
+            height: 24px;
             cursor: pointer;
-        }
-
-        .search-icon::before {
-            content: '';
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            border: 2px solid #000;
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-        }
-
-        .search-icon::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 2px;
-            background: #000;
-            top: 14px;
-            left: 10px;
-            transform: rotate(135deg);
         }
 
         #banner {
@@ -138,20 +114,8 @@
             }
 
             .search-icon {
-                width: 18px;
-                height: 18px;
-            }
-
-            .search-icon::before {
-                width: 12px;
-                height: 12px;
-                border-width: 1.5px;
-            }
-
-            .search-icon::after {
-                width: 8px;
-                top: 12px;
-                left: 8px;
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
@@ -160,7 +124,12 @@
     <header>
         <div class="logo">BOTTEGA VENETA</div>
         <div class="icons">
-            <span class="icon search-icon" id="search-icon"></span>
+            <span class="icon search-icon" id="search-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2"/>
+                    <line x1="15.5" y1="15.5" x2="20" y2="20" stroke="black" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
     </header>
@@ -197,4 +166,8 @@
 
         // Симуляция поиска
         searchIcon.addEventListener('click', () => {
-            alert('Функ
+            alert('Функция поиска в разработке');
+        });
+    </script>
+</body>
+</html>
