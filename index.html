@@ -1,108 +1,194 @@
-<!-- index.html (Главная страница) -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Главная страница</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Playfair Display', serif; background: white; overflow-x: hidden; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    /* Шапка */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f8f8f8;
+      color: #333;
+    }
+
     header {
+      width: 100%;
+      background: #222;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 10vh;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0 5vw; background: white; z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
-    .brand { font-size: 7vw; font-weight: 700; color: black; }
 
-    /* Кнопка меню */
-    .menu-btn { display: flex; flex-direction: column; justify-content: space-between; width: 10vw; height: 6vh; cursor: pointer; z-index: 1001; }
-    .menu-btn span { display: block; height: 0.8vh; background: black; border-radius: 1px; }
-
-    /* Боковое меню (на весь экран) */
-    .side-menu {
-      position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
-      background: white; transition: right 0.3s ease; z-index: 999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    .side-menu.open { right: 0; }
-    .side-menu a {
+    .brand {
       font-family: 'Playfair Display', serif;
-      margin-bottom: 5vh;
-      font-size: 8vw;
-      color: black;
+      font-size: 28px;
+    }
+
+    .menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .menu-btn span {
+      display: block;
+      height: 3px;
+      background: #fff;
+      border-radius: 3px;
+    }
+
+    .side-menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    .side-menu a {
+      color: #fff;
       text-decoration: none;
+      font-size: 18px;
+      transition: 0.3s;
     }
 
-    /* Скрытая ссылка WhatsApp */
-    #whatsappLink { display: none; margin-top: 2vh; color: green; text-decoration: none; font-size: 7vw; }
-
-    /* Основная картинка */
-    .hero { width: 100%; height: calc(100vh - 10vh); background: url("2pac.webp") no-repeat center top/cover; margin-top: 10vh; }
-
-    /* Кнопка каталога товаров */
-    .catalog-btn {
-      position: fixed; bottom: 5vh; left: 50%; transform: translateX(-50%);
-      background: white; color: black; font-family: 'Playfair Display', serif;
-      font-size: 5vw; padding: 2vh 8vw; border-radius: 8px;
-      text-decoration: none; z-index: 1001; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .catalog-btn:hover { background: #f0f0f0; }
-
-    /* Адаптив планшеты */
-    @media (min-width: 481px) and (max-width: 1024px) {
-      .brand { font-size: 4vw; }
-      .menu-btn { width: 6vw; height: 5vh; }
-      .side-menu a { font-size: 5vw; }
-      .catalog-btn { font-size: 3vw; padding: 1.5vh 6vw; }
+    .side-menu a:hover {
+      color: #f39c12;
     }
 
-    /* Адаптив ноутбуки/ПК */
-    @media (min-width: 1025px) {
-      header { height: 12vh; }
-      .brand { font-size: 2.5vw; }
-      .menu-btn { width: 3vw; height: 3vh; }
-      .side-menu a { font-size: 2vw; }
-      .catalog-btn { font-size: 1.5vw; padding: 1vh 3vw; }
+    main {
+      padding: 100px 20px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+    }
+
+    /* 📱 Адаптация для телефонов */
+    @media (max-width: 768px) {
+      .brand {
+        font-size: 22px;
+      }
+
+      .side-menu {
+        display: none;
+        flex-direction: column;
+        background: #222;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        padding: 15px;
+      }
+
+      .side-menu.active {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: flex;
+      }
+
+      .side-menu a {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .card h2 {
+        font-size: 20px;
+      }
+
+      .card p {
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">MY BRAND</div>
-    <div class="menu-btn" id="menuBtn">
-      <span></span><span></span><span></span>
+    <div class="brand">Мой Сайт</div>
+    <nav class="side-menu" id="menu">
+      <a href="#">Главная</a>
+      <a href="#">О нас</a>
+      <a href="#">Услуги</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="menu-btn" id="menu-btn">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   </header>
 
-  <nav class="side-menu" id="sideMenu">
-    <a href="javascript:history.back()">Back</a>
-    <a href="catalog.html">Все</a>
-    <a href="catalog.html?filter=men">Men</a>
-    <a href="catalog.html?filter=women">Women</a>
-    <a href="#" id="contactsBtn">Contacts</a>
-    <a href="#">Custom Care</a>
-    <a href="https://wa.me/77470383524" target="_blank" id="whatsappLink">Написать в WhatsApp</a>
-  </nav>
-
-  <section class="hero"></section>
-
-  <a href="catalog.html" class="catalog-btn">Каталог товаров</a>
+  <main>
+    <div class="cards">
+      <div class="card">
+        <h2>Карточка 1</h2>
+        <p>Описание первой карточки.</p>
+      </div>
+      <div class="card">
+        <h2>Карточка 2</h2>
+        <p>Описание второй карточки.</p>
+      </div>
+      <div class="card">
+        <h2>Карточка 3</h2>
+        <p>Описание третьей карточки.</p>
+      </div>
+      <div class="card">
+        <h2>Карточка 4</h2>
+        <p>Описание четвёртой карточки.</p>
+      </div>
+    </div>
+  </main>
 
   <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const contactsBtn = document.getElementById('contactsBtn');
-    const whatsappLink = document.getElementById('whatsappLink');
+    const menuBtn = document.getElementById("menu-btn");
+    const menu = document.getElementById("menu");
 
-    menuBtn.addEventListener('click', () => { sideMenu.classList.toggle('open'); });
-
-    contactsBtn.addEventListener('click', () => {
-      whatsappLink.style.display = whatsappLink.style.display === 'none' ? 'block' : 'none';
+    menuBtn.addEventListener("click", () => {
+      menu.classList.toggle("active");
     });
   </script>
 </body>
