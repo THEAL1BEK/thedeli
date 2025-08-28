@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YourBrand - Очки</title>
+    <title>YourBrand - Главная</title>
     <style>
         /* CSS стили */
         * {
@@ -52,30 +52,31 @@
             color: #000;
         }
 
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-icon::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: #000;
+            transform: rotate(45deg);
+            top: 12px;
+            left: 14px;
+        }
+
         #banner {
             margin-top: 60px; /* Высота шапки */
-            height: 150vh; /* Длинный баннер для прокрутки */
-            background: url('banner-placeholder.jpg') no-repeat center/cover; /* Замени на своё изображение */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
+            height: calc(100vh - 60px); /* Полное пространство минус шапка */
+            background: url('insert-image-here.jpg') no-repeat center/cover; /* Сюда ставите изображение */
             position: relative;
-        }
-
-        #banner .content {
-            background: rgba(0,0,0,0.5);
-            padding: 2rem;
-            border-radius: 5px;
-        }
-
-        #banner h1 {
-            font-size: 3rem;
-        }
-
-        #banner p {
-            font-size: 1.5rem;
         }
 
         #menu-overlay {
@@ -113,15 +114,21 @@
             color: #000;
         }
 
-        #contacts {
-            padding: 4rem 1rem;
-            text-align: center;
-            background: #f9f9f9;
-            display: none; /* Скрыто по умолчанию */
-        }
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.2rem;
+            }
 
-        @media (min-width: 768px) {
-            /* Адаптивность для больших экранов */
+            .search-icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .search-icon::before {
+                height: 6px;
+                top: 10px;
+                left: 12px;
+            }
         }
     </style>
 </head>
@@ -129,22 +136,13 @@
     <header>
         <div class="logo">YourBrand</div>
         <div class="icons">
-            <span class="icon" id="search-icon">🔍</span>
+            <span class="icon search-icon" id="search-icon"></span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
     </header>
 
     <section id="banner">
-        <div class="content">
-            <h1>Добро пожаловать в YourBrand</h1>
-            <p>Эмоции и стиль в каждом взгляде</p>
-        </div>
-    </section>
-
-    <section id="contacts">
-        <h2>Контакты</h2>
-        <p>Свяжитесь с нами: info@yourbrand.com</p>
-        <p>Телефон: +7 (123) 456-78-90</p>
+        <!-- Сюда ставите изображение -->
     </section>
 
     <div id="menu-overlay">
@@ -162,8 +160,6 @@
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close');
-        const menuItems = document.querySelectorAll('#menu-overlay li');
-        const contactsSection = document.getElementById('contacts');
 
         // Открытие/закрытие меню
         menuIcon.addEventListener('click', () => {
@@ -172,22 +168,6 @@
 
         closeBtn.addEventListener('click', () => {
             menuOverlay.style.display = 'none';
-        });
-
-        // Обработка пунктов меню
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const filter = item.dataset.filter;
-                menuOverlay.style.display = 'none';
-
-                if (filter === 'contacts') {
-                    contactsSection.style.display = 'block';
-                    window.scrollTo(0, 0);
-                } else {
-                    contactsSection.style.display = 'none';
-                    window.scrollTo(0, document.getElementById('banner').offsetTop);
-                }
-            });
         });
 
         // Симуляция поиска
