@@ -45,14 +45,15 @@
 
         .icons {
             display: flex;
-            gap: 1rem;
-            align-items: center;
+            gap: 1.5rem;
+            align-items: center; /* Выравнивание по центру */
         }
 
         .icon {
             font-size: 1.5rem;
             cursor: pointer;
             color: #000;
+            vertical-align: middle; /* Дополнительное выравнивание */
         }
 
         .search-icon {
@@ -77,12 +78,12 @@
         .search-icon::after {
             content: '';
             position: absolute;
-            width: 8px;
+            width: 10px;
             height: 2px;
             background: #000;
             top: 14px;
-            left: 14px;
-            transform: rotate(60deg);
+            left: 10px;
+            transform: rotate(135deg);
         }
 
         #banner {
@@ -132,6 +133,10 @@
                 font-size: 1.2rem;
             }
 
+            .icons {
+                gap: 1rem;
+            }
+
             .search-icon {
                 width: 18px;
                 height: 18px;
@@ -144,9 +149,9 @@
             }
 
             .search-icon::after {
-                width: 5px;
-                top: 11px;
-                left: 12px;
+                width: 8px;
+                top: 12px;
+                left: 8px;
             }
         }
     </style>
