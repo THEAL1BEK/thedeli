@@ -72,12 +72,32 @@
             align-items: flex-start;
             padding: 20px;
             z-index: 999;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        #menu-overlay .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #menu-overlay .close-btn span {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
         }
 
         #menu-overlay ul {
             list-style: none;
             width: 100%;
+            margin-top: 60px; /* Отступ сверху для избежания перекрытия крестиком */
         }
 
         #menu-overlay li {
@@ -85,17 +105,8 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #000;
-            text-align: left; /* Выравнивание текста по левому краю */
-            padding-left: 20px; /* Отступ для текста */
-        }
-
-        #menu-overlay .close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #000;
+            text-align: left;
+            padding-left: 20px;
         }
 
         @media (max-width: 768px) {
@@ -107,7 +118,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">YourBrand</div>
+        <div class="logo">THE KURDELI</div>
         <div class="icons">
             <span class="icon" id="menu-icon">☰</span>
         </div>
@@ -118,20 +129,15 @@
     </section>
 
     <div id="menu-overlay">
-        <span class="close">&times;</span> <!-- Крестик для закрытия и возврата -->
+        <div class="close-btn"><span>&times;</span></div> <!-- Круглая кнопка крестика -->
         <ul>
             <li>New In</li>
-            <li>Handbags</li>
             <li>Women</li>
             <li>Men</li>
-            <li>Children</li>
+            <li>Winter</li>
             <li>Travel</li>
-            <li>Jewelry & Watches</li>
-            <li>Décor & Lifestyle</li>
-            <li>Fragrances & Make-Up</li>
             <li>Gifts</li>
-            <li>Gucci Services</li>
-            <li>World of Gucci</li>
+            <li>Contact</li>
         </ul>
     </div>
 
@@ -139,17 +145,17 @@
         // JavaScript функционал
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
-        const closeBtn = document.querySelector('#menu-overlay .close');
+        const closeBtn = document.querySelector('#menu-overlay .close-btn');
 
         // Открытие меню
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
         });
 
-        // Закрытие меню и возврат назад при клике на крестик
+        // Закрытие меню при клике на крестик
         closeBtn.addEventListener('click', () => {
             menuOverlay.style.display = 'none';
-            window.history.back(); // Возвращает на предыдущую страницу, если она есть
+            // window.history.back(); // Раскомментируй, если нужно возвращение на предыдущую страницу
         });
     </script>
 </body>
