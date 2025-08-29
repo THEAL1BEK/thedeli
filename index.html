@@ -58,6 +58,24 @@
             height: calc(100vh - 60px); /* Полное пространство минус шапка */
             background: url('IMG_8125.JPG') no-repeat center/cover; /* Сюда ставите изображение */
             position: relative;
+            overflow-y: auto; /* Для прокрутки внутри баннера */
+        }
+
+        #shop-now-btn {
+            position: fixed;
+            bottom: 20px; /* Отступ от низа экрана */
+            left: 50%;
+            transform: translateX(-50%); /* Центрирование по горизонтали */
+            padding: 10px 20px;
+            color: #fff; /* Белый текст */
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 1001; /* Выше других элементов */
+            cursor: pointer;
+            background: transparent; /* Без фона */
+            border: 1px solid #fff; /* Белая обводка для контраста */
         }
 
         #menu-overlay {
@@ -125,6 +143,10 @@
             #menu-overlay li {
                 font-size: 16px; /* Уменьшаем шрифт для мобильных */
             }
+            #shop-now-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
@@ -138,6 +160,7 @@
 
     <section id="banner">
         <!-- Сюда ставите изображение -->
+        <a href="#" id="shop-now-btn">SHOP NOW</a>
     </section>
 
     <div id="menu-overlay">
