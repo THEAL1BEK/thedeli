@@ -58,7 +58,7 @@
             height: calc(100vh - 60px); /* Полное пространство минус шапка */
             background: url('IMG_8125.JPG') no-repeat center/cover; /* Сюда ставите изображение */
             position: relative;
-            overflow-y: auto; /* Для прокрутки внутри баннера */
+            display: block; /* По умолчанию отображается */
         }
 
         #shop-now-btn {
@@ -76,6 +76,37 @@
             cursor: pointer;
             background: transparent; /* Без фона */
             border: 1px solid #fff; /* Белая обводка для контраста */
+        }
+
+        #catalog {
+            margin-top: 60px; /* Высота шапки */
+            height: calc(100vh - 60px); /* Полное пространство минус шапка */
+            display: none; /* По умолчанию скрыт */
+            padding: 20px;
+            background: #fff;
+        }
+
+        .catalog-item {
+            width: 50%; /* Два квадрата в ряд */
+            height: 50vh; /* Половина высоты экрана */
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .catalog-item img {
+            width: 100%;
+            height: 80%; /* 80% высоты элемента для изображения */
+            object-fit: cover;
+        }
+
+        .catalog-item p {
+            margin-top: 10px; /* Пространство для текста */
+            font-size: 14px;
+            color: #000;
+            padding: 0 10px; /* Равномерное пространство */
         }
 
         #menu-overlay {
@@ -147,6 +178,9 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
+            .catalog-item {
+                height: 40vh; /* Уменьшаем высоту на мобильных */
+            }
         }
     </style>
 </head>
@@ -163,12 +197,24 @@
         <a href="#" id="shop-now-btn">SHOP NOW</a>
     </section>
 
+    <div id="catalog">
+        <div class="catalog-item">
+            <img src="product1.jpg" alt="Product 1">
+            <p>Название товара 1<br>Цена: $99</p>
+        </div>
+        <div class="catalog-item">
+            <img src="product2.jpg" alt="Product 2">
+            <p>Название товара 2<br>Цена: $129</p>
+        </div>
+    </div>
+
     <div id="menu-overlay">
         <div class="close-btn"><span>&times;</span></div> <!-- Круглая кнопка крестика -->
         <ul>
             <li>New In</li>
             <li>Women</li>
             <li>Men</li>
+            <li>Summer</li>
             <li>Winter</li>
             <li>Travel</li>
             <li>Gifts</li>
@@ -181,6 +227,9 @@
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close-btn');
+        const shopNowBtn = document.getElementById('shop-now-btn');
+        const banner = document.getElementById('banner');
+        const catalog = document.getElementById('catalog');
 
         // Открытие меню
         menuIcon.addEventListener('click', () => {
@@ -190,6 +239,12 @@
         // Закрытие меню при клике на крестик
         closeBtn.addEventListener('click', () => {
             menuOverlay.style.display = 'none';
+        });
+
+        // Открытие каталога при клике на "SHOP NOW"
+        shopNowBtn.addEventListener('click', () => {
+            banner.style.display = 'none'; // Скрываем баннер
+            catalog.style.display = 'block'; // Показываем каталог
         });
     </script>
 </body>
