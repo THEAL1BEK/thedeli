@@ -63,19 +63,21 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 250px; /* Фиксированная ширина для левой панели */
             height: 100%;
             background: #fff;
             display: none;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
             z-index: 999;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
         }
 
         #menu-overlay ul {
             list-style: none;
-            text-align: center;
+            width: 100%;
         }
 
         #menu-overlay li {
@@ -83,6 +85,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #000;
+            text-align: left; /* Выравнивание текста по левому краю */
         }
 
         #menu-overlay .close {
@@ -97,6 +100,9 @@
         @media (max-width: 768px) {
             .logo {
                 font-size: 1.2rem;
+            }
+            #menu-overlay {
+                width: 200px; /* Уменьшенная ширина для мобильных устройств */
             }
         }
     </style>
@@ -114,13 +120,20 @@
     </section>
 
     <div id="menu-overlay">
-        <span class="close">&times;</span>
+        <span class="close">&times;</span> <!-- Крестик для закрытия -->
         <ul>
             <li>New In</li>
-            <li>Men</li>
+            <li>Handbags</li>
             <li>Women</li>
+            <li>Men</li>
+            <li>Children</li>
+            <li>Travel</li>
+            <li>Jewelry & Watches</li>
+            <li>Décor & Lifestyle</li>
+            <li>Fragrances & Make-Up</li>
             <li>Gifts</li>
-            <li>Contacts</li>
+            <li>Gucci Services</li>
+            <li>World of Gucci</li>
         </ul>
     </div>
 
@@ -130,11 +143,12 @@
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close');
 
-        // Открытие/закрытие меню
+        // Открытие меню
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
         });
 
+        // Закрытие меню при клике на крестик
         closeBtn.addEventListener('click', () => {
             menuOverlay.style.display = 'none';
         });
