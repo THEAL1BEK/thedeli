@@ -32,37 +32,30 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            font-family: 'Helvetica Neue', sans-serif;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             text-transform: uppercase;
             color: #000;
-            letter-spacing: 2px;
         }
 
         .icons {
             display: flex;
-            gap: 1.5rem;
-            align-items: center;
+            gap: 1rem;
         }
 
         .icon {
             font-size: 1.5rem;
             cursor: pointer;
             color: #000;
-            vertical-align: middle;
         }
 
-      
-        }    
-
         #banner {
-            margin-top: 60px;
-            height: calc(100vh - 60px);
-            background: url('IMG_8125.JPG') no-repeat center/cover;
+            margin-top: 60px; /* Высота шапки */
+            height: calc(100vh - 60px); /* Полное пространство минус шапка */
+            background: url('IMG_8725.JPG') no-repeat center/cover; /* Сюда ставите изображение */
             position: relative;
         }
 
@@ -105,28 +98,13 @@
             .logo {
                 font-size: 1.2rem;
             }
-
-            .icons {
-                gap: 1rem;
-            }
-
-            .search-icon {
-                width: 20px;
-                height: 20px;
-            }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">BOTTEGA VENETA</div>
+        <div class="logo">YourBrand</div>
         <div class="icons">
-            <span class="icon search-icon" id="search-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2"/>
-                    <line x1="15.5" y1="15.5" x2="20" y2="20" stroke="black" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-            </span>
             <span class="icon" id="menu-icon">☰</span>
         </div>
     </header>
@@ -150,7 +128,6 @@
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close');
-        const searchIcon = document.getElementById('search-icon');
 
         // Открытие/закрытие меню
         menuIcon.addEventListener('click', () => {
@@ -159,11 +136,6 @@
 
         closeBtn.addEventListener('click', () => {
             menuOverlay.style.display = 'none';
-        });
-
-        // Симуляция поиска
-        searchIcon.addEventListener('click', () => {
-            alert('Функция поиска в разработке');
         });
     </script>
 </body>
