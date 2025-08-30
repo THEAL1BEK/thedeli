@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE KURDELI - Главная</title>
+    <title>YourBrand - Главная</title>
     <style>
         /* Сброс стилей */
         * {
@@ -139,6 +139,55 @@
             color: #888;
         }
 
+        /* Фильтр */
+        #filter-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            background: #fff;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 999;
+        }
+
+        #filter-overlay .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #filter-overlay .close-btn span {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #filter-overlay ul {
+            list-style: none;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #filter-overlay li {
+            margin: 1rem 0;
+            font-size: 18px;
+            cursor: pointer;
+            color: #000;
+            text-align: left;
+            padding-left: 20px;
+        }
+
         /* Каталог */
         #catalog {
             margin-top: 60px;
@@ -166,88 +215,28 @@
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 0;
-            padding: 0;
+            grid-gap: 10px;
+            padding: 0 10px;
         }
 
         .catalog-item {
             position: relative;
-            box-sizing: border-box;
             border: 0.8px solid #ddd;
+            text-align: center;
         }
 
         .catalog-item img {
             width: 100%;
-            height: 0;
-            padding-bottom: 165%; /* Соотношение 959:579 ≈ 165% */
-            object-fit: contain; /* Полностью вписывает изображение, как очки на Gucci */
+            height: auto;
+            object-fit: cover;
             display: block;
         }
 
         .catalog-item .item-text {
-            position: static;
-            width: 100%;
             padding: 10px;
-            background: transparent;
             color: #000;
             font-size: 14px;
             text-align: center;
-            text-transform: uppercase;
-            box-sizing: border-box;
-        }
-
-        .catalog-item .heart {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            color: #000;
-            cursor: pointer;
-        }
-
-        /* WhatsApp оверлей (выдвигается снизу) */
-        #whatsapp-overlay {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-            z-index: 1001;
-        }
-
-        #whatsapp-overlay .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: #000;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        #whatsapp-overlay .close-btn span {
-            color: #fff;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        #whatsapp-overlay a {
-            padding: 10px 20px;
-            background: #25D366;
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            margin-top: 10px;
         }
 
         /* Медиа-запросы для адаптивности */
@@ -259,7 +248,7 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            #menu-overlay li {
+            #menu-overlay li, #filter-overlay li {
                 font-size: 16px;
             }
             .catalog-item .item-text {
@@ -271,9 +260,6 @@
             }
             .catalog-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .catalog-item img {
-                padding-bottom: 165%;
             }
             #catalog {
                 padding: 10px 0;
@@ -296,61 +282,57 @@
     <div id="menu-overlay">
         <div class="close-btn"><span>&times;</span></div>
         <ul>
-            <li>Home</li>
-            <li>All</li> <!-- Добавлена для показа всех товаров -->
-            <li>New In</li>
-            <li>Women</li>
-            <li>Men</li>
-            <li>Winter</li>
+            <li id="home">Home</li>
+            <li id="new-in">New In</li>
+            <li id="women">Women</li>
+            <li id="men">Men</li>
+            <li id="winter">Winter</li>
             <li>Travel</li>
             <li>Gifts</li>
-            <li>Contact</li>
+            <li id="contact">Contact</li>
+        </ul>
+    </div>
+
+    <div id="filter-overlay">
+        <div class="close-btn"><span>&times;</span></div>
+        <ul>
+            <li id="filter-men">Men</li>
+            <li id="filter-women">Women</li>
+            <li id="filter-winter">Winter</li>
         </ul>
     </div>
 
     <div id="catalog">
         <div class="filter-sort">
-            <span>Filter</span>
+            <span id="filter-btn">Filter</span>
             <span>Sort by</span>
         </div>
         <div class="catalog-grid">
-            <div class="catalog-item" data-gender="male" data-season="" data-new="true">
-                <span class="heart">♡</span>
-                <img src="ivory.jpg" alt="Ivory" loading="lazy" onerror="console.log('Ошибка загрузки ivory.jpg')">
-                <div class="item-text">Ivory<br>$99</div>
+            <div class="catalog-item" data-gender="men" data-winter="true" data-new="false">
+                <img src="ivory.jpg" alt="Ivory Sunglasses" onerror="console.log('Ошибка загрузки ivory.jpg')">
+                <div class="item-text">Ivory Sunglasses<br>$99</div>
             </div>
-            <div class="catalog-item" data-gender="female" data-season="winter" data-new="">
-                <span class="heart">♡</span>
-                <img src="IMG_8125.JPG" alt="Lalo" loading="lazy" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Lalo<br>$129</div>
+            <div class="catalog-item" data-gender="women" data-winter="false" data-new="true">
+                <img src="IMG_8125.JPG" alt="Lalo Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Lalo Sunglasses<br>$129</div>
             </div>
-            <div class="catalog-item" data-gender="male" data-season="" data-new="true">
-                <span class="heart">♡</span>
-                <img src="IMG_8125.JPG" alt="Rod" loading="lazy" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Rod<br>$89</div>
+            <div class="catalog-item" data-gender="men" data-winter="true" data-new="false">
+                <img src="IMG_8125.JPG" alt="Rod Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Rod Sunglasses<br>$89</div>
             </div>
-            <div class="catalog-item" data-gender="female" data-season="winter" data-new="">
-                <span class="heart">♡</span>
-                <img src="IMG_8125.JPG" alt="Brock" loading="lazy" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Brock<br>$149</div>
+            <div class="catalog-item" data-gender="women" data-winter="false" data-new="false">
+                <img src="IMG_8125.JPG" alt="Brock Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Brock Sunglasses<br>$149</div>
             </div>
-            <div class="catalog-item" data-gender="male" data-season="winter" data-new="">
-                <span class="heart">♡</span>
-                <img src="IMG_8125.JPG" alt="Glock" loading="lazy" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Glock<br>$109</div>
+            <div class="catalog-item" data-gender="men" data-winter="true" data-new="true">
+                <img src="IMG_8125.JPG" alt="Glock Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Glock Sunglasses<br>$109</div>
             </div>
-            <div class="catalog-item" data-gender="female" data-season="" data-new="">
-                <span class="heart">♡</span>
-                <img src="IMG_8125.JPG" alt="Leck" loading="lazy" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Leck<br>$119</div>
+            <div class="catalog-item" data-gender="women" data-winter="false" data-new="false">
+                <img src="IMG_8125.JPG" alt="Leck Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Leck Sunglasses<br>$119</div>
             </div>
         </div>
-    </div>
-
-    <!-- WhatsApp оверлей -->
-    <div id="whatsapp-overlay">
-        <div class="close-btn"><span>&times;</span></div>
-        <a href="https://wa.me/77470383524" target="_blank">Chat in WhatsApp</a>
     </div>
 
     <script>
@@ -358,11 +340,14 @@
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close-btn');
+        const shopNowBtn = document.getElementById('shop-now-btn');
         const banner = document.getElementById('banner');
         const catalog = document.getElementById('catalog');
-        const whatsappOverlay = document.getElementById('whatsapp-overlay');
-        const whatsappCloseBtn = document.querySelector('#whatsapp-overlay .close-btn');
+        const filterBtn = document.getElementById('filter-btn');
+        const filterOverlay = document.getElementById('filter-overlay');
+        const filterCloseBtn = document.querySelector('#filter-overlay .close-btn');
 
+        // Открытие/закрытие основного меню
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
         });
@@ -371,60 +356,116 @@
             menuOverlay.style.display = 'none';
         });
 
-        // Логика переключения на каталог
-        const shopNowBtn = document.getElementById('shop-now-btn');
-        shopNowBtn.addEventListener('click', () => {
+        // Открытие/закрытие фильтра
+        filterBtn.addEventListener('click', () => {
+            filterOverlay.style.display = 'flex';
+        });
+
+        filterCloseBtn.addEventListener('click', () => {
+            filterOverlay.style.display = 'none';
+        });
+
+        // Переключение на каталог
+        shopNowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             banner.style.display = 'none';
             catalog.style.display = 'block';
-            filterCatalog('all'); // Показать все по умолчанию
+            showAllItems();
         });
 
-        // Логика для пунктов меню
-        const menuItems = document.querySelectorAll('#menu-overlay li');
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const category = item.textContent.toLowerCase().replace(' ', ''); // Убираем пробелы для 'new in'
-                menuOverlay.style.display = 'none';
+        // Логика меню
+        const homeItem = document.getElementById('home');
+        const newInItem = document.getElementById('new-in');
+        const womenItem = document.getElementById('women');
+        const menItem = document.getElementById('men');
+        const winterItem = document.getElementById('winter');
+        const contactItem = document.getElementById('contact');
 
-                if (category === 'home') {
-                    catalog.style.display = 'none';
-                    banner.style.display = 'block';
-                } else if (category === 'contact') {
-                    whatsappOverlay.style.display = 'flex';
-                } else {
-                    banner.style.display = 'none';
-                    catalog.style.display = 'block';
-                    filterCatalog(category);
-                }
-            });
+        homeItem.addEventListener('click', () => {
+            catalog.style.display = 'none';
+            banner.style.display = 'block';
+            menuOverlay.style.display = 'none';
         });
 
-        // Закрытие WhatsApp оверлея
-        whatsappCloseBtn.addEventListener('click', () => {
-            whatsappOverlay.style.display = 'none';
-        });
-
-        // Функция фильтрации каталога
-        function filterCatalog(category) {
-            const items = document.querySelectorAll('.catalog-item');
-            items.forEach(item => {
-                let show = false;
-                if (category === 'all') {
-                    show = true;
-                } else if (category === 'men' && item.dataset.gender === 'male') {
-                    show = true;
-                } else if (category === 'women' && item.dataset.gender === 'female') {
-                    show = true;
-                } else if (category === 'winter' && item.dataset.season === 'winter') {
-                    show = true;
-                } else if (category === 'newin' && item.dataset.new === 'true') { // 'new in' -> 'newin'
-                    show = true;
-                } else if (['travel', 'gifts'].includes(category)) {
-                    show = true; // Для других - показать все
-                }
-                item.style.display = show ? 'block' : 'none';
+        // Фильтрация товаров
+        function showAllItems() {
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = 'block';
             });
         }
+
+        newInItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
+            });
+        });
+
+        womenItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
+            });
+        });
+
+        menItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
+            });
+        });
+
+        winterItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
+            });
+        });
+
+        // Логика фильтра
+        const filterMen = document.getElementById('filter-men');
+        const filterWomen = document.getElementById('filter-women');
+        const filterWinter = document.getElementById('filter-winter');
+
+        filterMen.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            filterOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
+            });
+        });
+
+        filterWomen.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            filterOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
+            });
+        });
+
+        filterWinter.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            filterOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
+            });
+        });
+
+        // Логика WhatsApp для Contact
+        contactItem.addEventListener('click', () => {
+            window.location.href = 'https://wa.me/87470383524';
+        });
     </script>
 </body>
 </html>
