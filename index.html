@@ -257,13 +257,13 @@
         
         .order-btn, .back-btn {
             padding: 15px 30px;
-            color: #fff;
+            color: #000;
             text-decoration: none;
             font-size: 21px;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            background: #000;
+            background: transparent;
             border: 1px solid #000;
         }
 
@@ -664,7 +664,6 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
             });
-            renderCatalog();
         });
 
         const menItem = document.getElementById('men');
@@ -675,7 +674,6 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
             });
-            renderCatalog();
         });
 
         const winterItem = document.getElementById('winter');
@@ -686,7 +684,6 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
             });
-            renderCatalog();
         });
 
         const filterGender = document.getElementById('filter-gender');
