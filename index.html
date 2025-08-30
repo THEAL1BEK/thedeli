@@ -206,22 +206,6 @@
             overflow-y: auto;
         }
 
-        .product-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .product-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .product-price {
-            font-size: 22px;
-            color: #555;
-        }
-
         .product-images {
             position: relative;
             width: 100%;
@@ -240,6 +224,25 @@
             height: 400px;
             object-fit: cover;
             flex-shrink: 0;
+        }
+
+        .product-details {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: normal;
+            color: #000;
+            margin-bottom: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .product-price {
+            font-size: 22px;
+            color: #555;
+            font-family: 'Arial', sans-serif;
         }
 
         .back-btn {
@@ -420,12 +423,12 @@
 
     <div id="product-overlay">
         <div class="close-btn"><span>&times;</span></div>
-        <div class="product-header">
-            <div class="product-title" id="product-title"></div>
-            <div class="product-price" id="product-price"></div>
-        </div>
         <div class="product-images">
             <div class="image-container" id="image-container"></div>
+        </div>
+        <div class="product-details">
+            <div class="product-title" id="product-title"></div>
+            <div class="product-price" id="product-price"></div>
         </div>
         <button class="back-btn" id="back-btn">Back</button>
     </div>
@@ -506,7 +509,6 @@
         const backBtn = document.getElementById('back-btn');
         let currentImageIndex = 0;
 
-        // Генерация карточек из products
         function renderCatalog() {
             catalogGrid.innerHTML = '';
             products.forEach((product, index) => {
@@ -525,13 +527,16 @@
             });
         }
 
-        // Показать детали товара
         function showProductDetails(index) {
             const product = products[index];
             productTitle.textContent = product.name;
             productPrice.textContent = `$${product.price}`;
             imageContainer.innerHTML = '';
-            product.images.forEach(image => {
+            const imagesToShow = product.images.slice(0, 3);
+            while (imagesToShow.length < 3) {
+                imagesToShow.push(product.images[0]);
+            }
+            imagesToShow.forEach(image => {
                 const img = document.createElement('img');
                 img.className = 'product-image';
                 img.src = image;
@@ -545,7 +550,6 @@
             catalog.style.display = 'none';
         }
 
-        // Свайп изображений
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -561,7 +565,8 @@
         function handleSwipe() {
             const swipeThreshold = 50;
             const product = products[products.findIndex(p => p.name === productTitle.textContent)];
-            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < product.images.length - 1) {
+            const maxIndex = Math.max(2, product.images.length - 1);
+            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < maxIndex) {
                 currentImageIndex++;
                 imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
@@ -748,7 +753,6 @@
             window.location.href = 'https://wa.me/77470383524';
         });
 
-        // Инициализация каталога
         renderCatalog();
     </script>
 </body>
