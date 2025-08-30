@@ -92,7 +92,7 @@
             z-index: 999;
         }
 
-        #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn {
+        #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn, #product-overlay .close-btn {
             position: absolute;
             top: 10px;
             right: 20px;
@@ -106,7 +106,7 @@
             cursor: pointer;
         }
 
-        #menu-overlay .close-btn span, #filter-overlay .close-btn span, #contact-overlay .close-btn span {
+        #menu-overlay .close-btn span, #filter-overlay .close-btn span, #contact-overlay .close-btn span, #product-overlay .close-btn span {
             color: #fff;
             font-size: 24px;
             font-weight: bold;
@@ -192,6 +192,54 @@
             min-height: calc(100vh - 60px);
         }
 
+        #product-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            background: #fff;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: #888;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .product-images {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .image-container {
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image {
+            min-width: 100%;
+            height: 300px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
         .filter-sort {
             display: flex;
             justify-content: space-between;
@@ -238,6 +286,7 @@
             position: relative;
             border: 0.8px solid #ddd;
             text-align: center;
+            cursor: pointer;
         }
 
         .catalog-item img {
@@ -283,6 +332,9 @@
             }
             #sort-options {
                 min-width: 120px;
+            }
+            .product-image {
+                height: 200px;
             }
         }
     </style>
@@ -346,8 +398,76 @@
         <div class="catalog-grid" id="catalog-grid"></div>
     </div>
 
-    <script src="catalog.js"></script>
+    <div id="product-overlay">
+        <div class="close-btn"><span>&times;</span></div>
+        <div class="product-title" id="product-title"></div>
+        <div class="product-price" id="product-price"></div>
+        <div class="product-images">
+            <div class="image-container" id="image-container"></div>
+        </div>
+    </div>
+
     <script>
+        const products = [
+            {
+                name: "Ivory Sunglasses",
+                price: 99,
+                images: ["ivory.jpg", "ivory_side.jpg", "ivory_top.jpg"],
+                gender: "men",
+                winter: true,
+                newIn: false
+            },
+            {
+                name: "Lalo Sunglasses",
+                price: 129,
+                images: ["IMG_8125.JPG", "lalo_side.jpg", "lalo_top.jpg"],
+                gender: "women",
+                winter: false,
+                newIn: true
+            },
+            {
+                name: "Rod Sunglasses",
+                price: 89,
+                images: ["IMG_8125.JPG", "rod_side.jpg", "rod_top.jpg"],
+                gender: "men",
+                winter: true,
+                newIn: false
+            },
+            {
+                name: "Brock Sunglasses",
+                price: 149,
+                images: ["IMG_8125.JPG", "brock_side.jpg", "brock_top.jpg"],
+                gender: "women",
+                winter: false,
+                newIn: false
+            },
+            {
+                name: "Glock Sunglasses",
+                price: 109,
+                images: ["IMG_8125.JPG", "glock_side.jpg", "glock_top.jpg"],
+                gender: "men",
+                winter: true,
+                newIn: true
+            },
+            {
+                name: "Leck Sunglasses",
+                price: 119,
+                images: ["IMG_8125.JPG", "leck_side.jpg", "leck_top.jpg"],
+                gender: "women",
+                winter: false,
+                newIn: false
+            }
+            // Добавляй новые товары сюда, например:
+            // {
+            //     name: "New Product",
+            //     price: 150,
+            //     images: ["new_image1.jpg", "new_image2.jpg", "new_image3.jpg"],
+            //     gender: "women",
+            //     winter: true,
+            //     newIn: true
+            // }
+        ];
+
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
         const closeBtn = document.querySelector('#menu-overlay .close-btn');
@@ -364,23 +484,81 @@
         const contactCloseBtn = document.querySelector('#contact-overlay .close-btn');
         const waMeChat = document.getElementById('wa-me-chat');
         const catalogGrid = document.getElementById('catalog-grid');
+        const productOverlay = document.getElementById('product-overlay');
+        const productCloseBtn = document.querySelector('#product-overlay .close-btn');
+        const productTitle = document.getElementById('product-title');
+        const productPrice = document.getElementById('product-price');
+        const imageContainer = document.getElementById('image-container');
+        let currentImageIndex = 0;
 
         // Генерация карточек из products
         function renderCatalog() {
             catalogGrid.innerHTML = '';
-            products.forEach(product => {
+            products.forEach((product, index) => {
                 const item = document.createElement('div');
                 item.className = 'catalog-item';
                 item.dataset.gender = product.gender;
                 item.dataset.winter = product.winter;
                 item.dataset.new = product.newIn;
+                item.dataset.index = index; // Сохраняем индекс товара
                 item.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" onerror="console.log('Ошибка загрузки ${product.image}')">
+                    <img src="${product.images[0]}" alt="${product.name}" onerror="console.log('Ошибка загрузки ${product.images[0]}')">
                     <div class="item-text">${product.name}<br>$${product.price}</div>
                 `;
+                item.addEventListener('click', () => showProductDetails(index));
                 catalogGrid.appendChild(item);
             });
         }
+
+        // Показать детали товара
+        function showProductDetails(index) {
+            const product = products[index];
+            productTitle.textContent = product.name;
+            productPrice.textContent = `$${product.price}`;
+            imageContainer.innerHTML = '';
+            product.images.forEach(image => {
+                const img = document.createElement('img');
+                img.className = 'product-image';
+                img.src = image;
+                img.alt = `${product.name} - ${image}`;
+                img.onerror = () => console.log(`Ошибка загрузки ${image}`);
+                imageContainer.appendChild(img);
+            });
+            currentImageIndex = 0;
+            imageContainer.style.transform = `translateX(0)`;
+            productOverlay.style.display = 'flex';
+            catalog.style.display = 'none';
+        }
+
+        // Свайп изображений
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        imageContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        imageContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const images = product.images;
+            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
+                currentImageIndex--;
+                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            }
+        }
+
+        productCloseBtn.addEventListener('click', () => {
+            productOverlay.style.display = 'none';
+            catalog.style.display = 'block';
+        });
 
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
@@ -432,126 +610,3 @@
                 item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
             });
             renderCatalog();
-        });
-
-        const womenItem = document.getElementById('women');
-        womenItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
-            });
-            renderCatalog();
-        });
-
-        const menItem = document.getElementById('men');
-        menItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
-            });
-            renderCatalog();
-        });
-
-        const winterItem = document.getElementById('winter');
-        winterItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
-            });
-            renderCatalog();
-        });
-
-        const filterGender = document.getElementById('filter-gender');
-        const genderSuboptions = document.getElementById('gender-suboptions');
-        filterGender.addEventListener('click', () => {
-            genderSuboptions.style.display = genderSuboptions.style.display === 'block' ? 'none' : 'block';
-        });
-
-        const filterAll = document.getElementById('filter-all');
-        filterAll.addEventListener('click', () => {
-            showAllItems();
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-        });
-
-        const filterWomen = document.getElementById('filter-women');
-        filterWomen.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
-            });
-        });
-
-        const filterMen = document.getElementById('filter-men');
-        filterMen.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
-            });
-        });
-
-        function showAllItems() {
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = 'block';
-            });
-        }
-
-        const sortRelevance = document.getElementById('sort-relevance');
-        sortRelevance.addEventListener('click', () => {
-            showAllItems();
-            sortOptions.style.display = 'none';
-        });
-
-        const sortHighToLow = document.getElementById('sort-high-to-low');
-        sortHighToLow.addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
-                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
-                return priceB - priceA;
-            });
-            items.forEach(item => catalogGrid.appendChild(item));
-            sortOptions.style.display = 'none';
-        });
-
-        const sortLowToHigh = document.getElementById('sort-low-to-high');
-        sortLowToHigh.addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
-                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
-                return priceA - priceB;
-            });
-            items.forEach(item => catalogGrid.appendChild(item));
-            sortOptions.style.display = 'none';
-        });
-
-        contactItem.addEventListener('click', () => {
-            contactOverlay.style.display = 'flex';
-        });
-
-        contactCloseBtn.addEventListener('click', () => {
-            contactOverlay.style.display = 'none';
-        });
-
-        waMeChat.addEventListener('click', () => {
-            window.location.href = 'https://wa.me/77470383524';
-        });
-
-        // Инициализация каталога
-        renderCatalog();
-    </script>
-</body>
-</html>
