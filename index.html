@@ -206,7 +206,13 @@
             imageContainer.appendChild(img);
         });
         currentImageIndex = 0;
+        // Временно отключаем transition, чтобы мгновенно перейти к первому изображению
+        imageContainer.style.transition = 'none';
         imageContainer.style.transform = `translateX(0)`;
+        // Включаем transition снова с небольшой задержкой
+        setTimeout(() => {
+             imageContainer.style.transition = 'transform 0.3s ease';
+        }, 10);
         productOverlay.style.display = 'flex';
         catalog.style.display = 'none';
         productOverlay.scrollTop = 0;
@@ -217,7 +223,7 @@
     let touchEndX = 0;
 
     imageContainer.addEventListener('touchstart', (e) => {
-        if (!productTitle.textContent) return; // защита: товар не открыт
+        if (!productTitle.textContent) return;
         touchStartX = e.changedTouches[0].clientX;
     });
 
@@ -228,24 +234,21 @@
     });
 
     function handleSwipe() {
-        const swipeThreshold = 50; // минимальное расстояние для свайпа
+        const swipeThreshold = 50;
         const product = products.find(p => p.name === productTitle.textContent);
-        if (!product) return;
+        if (!product || product.images.length <= 1) return;
 
         const maxIndex = product.images.length - 1;
-        if (maxIndex <= 0) return;
+        const swipeDistance = touchEndX - touchStartX;
 
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // свайп влево (следующая картинка)
-            currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : 0;
-        } else if (touchEndX > touchStartX + swipeThreshold) {
-            // свайп вправо (предыдущая картинка)
-            currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : maxIndex;
+        if (swipeDistance < -swipeThreshold) { // Свайп влево
+            currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : maxIndex;
+        } else if (swipeDistance > swipeThreshold) { // Свайп вправо
+            currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : 0;
         } else {
             return;
         }
 
-        imageContainer.style.transition = "transform 0.3s ease";
         imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
     }
 
