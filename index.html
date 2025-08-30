@@ -62,13 +62,13 @@
 
         #shop-now-btn {
             position: fixed;
-            bottom: calc(20px + 1cm); /* Поднятие на 1 см вверх */
+            bottom: calc(20px + 1cm);
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 30px; /* Увеличение размера в 1.5 раза */
+            padding: 15px 30px;
             color: #fff;
             text-decoration: none;
-            font-size: 21px; /* Увеличение размера текста в 1.5 раза */
+            font-size: 21px;
             font-weight: bold;
             text-transform: uppercase;
             z-index: 1001;
@@ -231,7 +231,7 @@
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            padding: 0 10px; /* Убрано grid-gap для отсутствия пространства */
+            padding: 0 10px;
         }
 
         .catalog-item {
@@ -259,7 +259,7 @@
                 font-size: 1.2rem;
             }
             #shop-now-btn {
-                font-size: 18px; /* Адаптивное уменьшение текста */
+                font-size: 18px;
                 padding: 12px 24px;
             }
             #menu-overlay li, #filter-overlay li, #contact-overlay li {
@@ -343,34 +343,10 @@
                 <div id="sort-low-to-high">Price: Low to High</div>
             </div>
         </div>
-        <div class="catalog-grid">
-            <div class="catalog-item" data-gender="men" data-winter="true" data-new="false">
-                <img src="ivory.jpg" alt="Ivory Sunglasses" onerror="console.log('Ошибка загрузки ivory.jpg')">
-                <div class="item-text">Ivory Sunglasses<br>$99</div>
-            </div>
-            <div class="catalog-item" data-gender="women" data-winter="false" data-new="true">
-                <img src="IMG_8125.JPG" alt="Lalo Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Lalo Sunglasses<br>$129</div>
-            </div>
-            <div class="catalog-item" data-gender="men" data-winter="true" data-new="false">
-                <img src="IMG_8125.JPG" alt="Rod Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Rod Sunglasses<br>$89</div>
-            </div>
-            <div class="catalog-item" data-gender="women" data-winter="false" data-new="false">
-                <img src="IMG_8125.JPG" alt="Brock Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Brock Sunglasses<br>$149</div>
-            </div>
-            <div class="catalog-item" data-gender="men" data-winter="true" data-new="true">
-                <img src="IMG_8125.JPG" alt="Glock Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Glock Sunglasses<br>$109</div>
-            </div>
-            <div class="catalog-item" data-gender="women" data-winter="false" data-new="false">
-                <img src="IMG_8125.JPG" alt="Leck Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Leck Sunglasses<br>$119</div>
-            </div>
-        </div>
+        <div class="catalog-grid" id="catalog-grid"></div>
     </div>
 
+    <script src="catalog.js"></script>
     <script>
         const menuIcon = document.getElementById('menu-icon');
         const menuOverlay = document.getElementById('menu-overlay');
@@ -387,6 +363,24 @@
         const contactOverlay = document.getElementById('contact-overlay');
         const contactCloseBtn = document.querySelector('#contact-overlay .close-btn');
         const waMeChat = document.getElementById('wa-me-chat');
+        const catalogGrid = document.getElementById('catalog-grid');
+
+        // Генерация карточек из products
+        function renderCatalog() {
+            catalogGrid.innerHTML = '';
+            products.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'catalog-item';
+                item.dataset.gender = product.gender;
+                item.dataset.winter = product.winter;
+                item.dataset.new = product.newIn;
+                item.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" onerror="console.log('Ошибка загрузки ${product.image}')">
+                    <div class="item-text">${product.name}<br>$${product.price}</div>
+                `;
+                catalogGrid.appendChild(item);
+            });
+        }
 
         menuIcon.addEventListener('click', () => {
             menuOverlay.style.display = 'flex';
@@ -419,15 +413,7 @@
             e.preventDefault();
             banner.style.display = 'none';
             catalog.style.display = 'block';
-            window.history.pushState(null, '', '/catalog'); // Добавление состояния для "Back"
-        });
-
-        // Обработка кнопки "Back" браузера
-        window.addEventListener('popstate', () => {
-            if (catalog.style.display === 'block') {
-                catalog.style.display = 'none';
-                banner.style.display = 'block';
-            }
+            renderCatalog();
         });
 
         const homeItem = document.getElementById('home');
@@ -435,7 +421,6 @@
             catalog.style.display = 'none';
             banner.style.display = 'block';
             menuOverlay.style.display = 'none';
-            window.history.pushState(null, '', '/'); // Обновление истории
         });
 
         const newInItem = document.getElementById('new-in');
@@ -446,7 +431,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/new-in'); // Обновление истории
+            renderCatalog();
         });
 
         const womenItem = document.getElementById('women');
@@ -457,7 +442,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/women'); // Обновление истории
+            renderCatalog();
         });
 
         const menItem = document.getElementById('men');
@@ -468,7 +453,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/men'); // Обновление истории
+            renderCatalog();
         });
 
         const winterItem = document.getElementById('winter');
@@ -479,7 +464,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/winter'); // Обновление истории
+            renderCatalog();
         });
 
         const filterGender = document.getElementById('filter-gender');
@@ -493,7 +478,6 @@
             showAllItems();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
-            window.history.pushState(null, '', '/catalog'); // Обновление истории
         });
 
         const filterWomen = document.getElementById('filter-women');
@@ -505,7 +489,6 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/women'); // Обновление истории
         });
 
         const filterMen = document.getElementById('filter-men');
@@ -517,7 +500,6 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
             });
-            window.history.pushState(null, '', '/men'); // Обновление истории
         });
 
         function showAllItems() {
@@ -530,7 +512,6 @@
         sortRelevance.addEventListener('click', () => {
             showAllItems();
             sortOptions.style.display = 'none';
-            window.history.pushState(null, '', '/catalog'); // Обновление истории
         });
 
         const sortHighToLow = document.getElementById('sort-high-to-low');
@@ -541,9 +522,8 @@
                 const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
                 return priceB - priceA;
             });
-            items.forEach(item => catalog.querySelector('.catalog-grid').appendChild(item));
+            items.forEach(item => catalogGrid.appendChild(item));
             sortOptions.style.display = 'none';
-            window.history.pushState(null, '', '/catalog?sort=high-to-low'); // Обновление истории
         });
 
         const sortLowToHigh = document.getElementById('sort-low-to-high');
@@ -554,9 +534,8 @@
                 const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
                 return priceA - priceB;
             });
-            items.forEach(item => catalog.querySelector('.catalog-grid').appendChild(item));
+            items.forEach(item => catalogGrid.appendChild(item));
             sortOptions.style.display = 'none';
-            window.history.pushState(null, '', '/catalog?sort=low-to-high'); // Обновление истории
         });
 
         contactItem.addEventListener('click', () => {
@@ -570,6 +549,9 @@
         waMeChat.addEventListener('click', () => {
             window.location.href = 'https://wa.me/77470383524';
         });
+
+        // Инициализация каталога
+        renderCatalog();
     </script>
 </body>
 </html>
