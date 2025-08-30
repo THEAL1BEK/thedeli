@@ -448,7 +448,7 @@
     <script>
         const products = [
             {
-                name: "Ivory Sunglasses",
+                name: "Black Sunglasses",
                 price: 99,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
@@ -456,7 +456,7 @@
                 newIn: false
             },
             {
-                name: "Lalo Sunglasses",
+                name: "Stylish Goggles",
                 price: 129,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
@@ -464,7 +464,7 @@
                 newIn: true
             },
             {
-                name: "Rod Sunglasses",
+                name: "Sporty Shades",
                 price: 89,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
@@ -472,7 +472,7 @@
                 newIn: false
             },
             {
-                name: "Brock Sunglasses",
+                name: "Cat Eye Glasses",
                 price: 149,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
@@ -480,7 +480,7 @@
                 newIn: false
             },
             {
-                name: "Glock Sunglasses",
+                name: "Classic Aviators",
                 price: 109,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
@@ -488,7 +488,7 @@
                 newIn: true
             },
             {
-                name: "Leck Sunglasses",
+                name: "Elegant Eyewear",
                 price: 119,
                 images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
@@ -545,9 +545,6 @@
             productPrice.textContent = `$${product.price}`;
             imageContainer.innerHTML = '';
             const imagesToShow = product.images.slice(0, 3);
-            while (imagesToShow.length < 3) {
-                imagesToShow.push(product.images[0]);
-            }
             imagesToShow.forEach(image => {
                 const img = document.createElement('img');
                 img.className = 'product-image';
@@ -577,7 +574,7 @@
         function handleSwipe() {
             const swipeThreshold = 50;
             const product = products[products.findIndex(p => p.name === productTitle.textContent)];
-            const maxIndex = Math.max(2, product.images.length - 1);
+            const maxIndex = product.images.length - 1;
             if (touchEndX < touchStartX - swipeThreshold) {
                 // Swipe left
                 if (currentImageIndex < maxIndex) {
