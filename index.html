@@ -227,9 +227,9 @@
         }
 
         .product-details {
-            text-align: left; /* Changed from center to left */
+            text-align: left;
             margin-top: 20px;
-            margin-left: 20px; /* Add some left margin for spacing */
+            margin-left: 20px;
         }
 
         .product-title {
@@ -242,7 +242,7 @@
 
         .product-price {
             font-size: 22px;
-            color: #000; /* Changed to black for darker text */
+            color: #000;
             font-family: 'Arial', sans-serif;
         }
 
@@ -451,7 +451,7 @@
             {
                 name: "Cat Eye Glasses",
                 price: 149,
-                images: ["IMG_8125.JPG", "IMG_8125_2.JPG", "IMG_8125_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: false
@@ -459,7 +459,7 @@
             {
                 name: "Elegant Eyewear",
                 price: 119,
-                images: ["IMG_8126.JPG", "IMG_8126_2.JPG", "IMG_8126_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: false
@@ -467,7 +467,7 @@
             {
                 name: "Stylish Goggles",
                 price: 129,
-                images: ["IMG_8127.JPG", "IMG_8127_2.JPG", "IMG_8127_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: true
@@ -475,7 +475,7 @@
             {
                 name: "Black Sunglasses",
                 price: 99,
-                images: ["IMG_8128.JPG", "IMG_8128_2.JPG", "IMG_8128_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: false
@@ -483,7 +483,7 @@
             {
                 name: "Sporty Shades",
                 price: 89,
-                images: ["IMG_8129.JPG", "IMG_8129_2.JPG", "IMG_8129_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: false
@@ -491,7 +491,7 @@
             {
                 name: "Classic Aviators",
                 price: 109,
-                images: ["IMG_8130.JPG", "IMG_8130_2.JPG", "IMG_8130_3.JPG"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: true
@@ -532,7 +532,7 @@
                 item.dataset.new = product.newIn;
                 item.dataset.index = index;
                 item.innerHTML = `
-                    <img src="${product.images[0]}" alt="${product.name}" onerror="console.log('Ошибка загрузки ${product.images[0]}')">
+                    <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none';">
                     <div class="item-text">${product.name}<br>$${product.price}</div>
                 `;
                 item.addEventListener('click', () => showProductDetails(index));
@@ -545,13 +545,12 @@
             productTitle.textContent = product.name;
             productPrice.textContent = `$${product.price}`;
             imageContainer.innerHTML = '';
-            const imagesToShow = product.images.slice(0, 3);
-            imagesToShow.forEach(image => {
+            product.images.forEach(image => {
                 const img = document.createElement('img');
                 img.className = 'product-image';
                 img.src = image;
                 img.alt = `${product.name} - ${image}`;
-                img.onerror = () => console.log(`Ошибка загрузки ${image}`);
+                img.onerror = () => this.style.display = 'none';
                 imageContainer.appendChild(img);
             });
             currentImageIndex = 0;
@@ -576,20 +575,12 @@
             const swipeThreshold = 50;
             const product = products[products.findIndex(p => p.name === productTitle.textContent)];
             const maxIndex = product.images.length - 1;
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // Swipe left
-                if (currentImageIndex < maxIndex) {
-                    currentImageIndex++;
-                } else {
-                    currentImageIndex = 0; // Loop back to first image
-                }
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // Swipe right
-                if (currentImageIndex > 0) {
-                    currentImageIndex--;
-                } else {
-                    currentImageIndex = maxIndex; // Loop to last image
-                }
+            if (touchEndX < touchStartX - swipeThreshold && maxIndex > 0) {
+                if (currentImageIndex < maxIndex) currentImageIndex++;
+                else currentImageIndex = 0;
+            } else if (touchEndX > touchStartX + swipeThreshold && maxIndex > 0) {
+                if (currentImageIndex > 0) currentImageIndex--;
+                else currentImageIndex = maxIndex;
             }
             imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
         }
@@ -625,9 +616,7 @@
         });
 
         document.addEventListener('click', (e) => {
-            if (!sortBtn.contains(e.target)) {
-                sortOptions.style.display = 'none';
-            }
+            if (!sortBtn.contains(e.target)) sortOptions.style.display = 'none';
         });
 
         shopNowBtn.addEventListener('click', (e) => {
@@ -645,11 +634,8 @@
 
             const items = document.querySelectorAll('.catalog-item');
             items.forEach(item => {
-                if (filterType === 'all') {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = item.dataset[filterType] === 'true' || item.dataset[filterType] === filterType ? 'block' : 'none';
-                }
+                if (filterType === 'all') item.style.display = 'block';
+                else item.style.display = (item.dataset[filterType] === 'true' || item.dataset[filterType] === filterType) ? 'block' : 'none';
             });
         }
 
@@ -659,3 +645,84 @@
             banner.style.display = 'block';
             menuOverlay.style.display = 'none';
         });
+
+        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
+        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
+        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
+        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
+
+        document.getElementById('filter-all').addEventListener('click', () => {
+            handleMenuNavigation('all');
+            filterOverlay.style.display = 'none';
+            document.getElementById('gender-suboptions').style.display = 'none';
+        });
+        
+        document.getElementById('filter-women').addEventListener('click', () => {
+            handleMenuNavigation('women');
+            filterOverlay.style.display = 'none';
+            document.getElementById('gender-suboptions').style.display = 'none';
+        });
+
+        document.getElementById('filter-men').addEventListener('click', () => {
+            handleMenuNavigation('men');
+            filterOverlay.style.display = 'none';
+            document.getElementById('gender-suboptions').style.display = 'none';
+        });
+
+        const filterGender = document.getElementById('filter-gender');
+        const genderSuboptions = document.getElementById('gender-suboptions');
+        filterGender.addEventListener('click', () => {
+            genderSuboptions.style.display = genderSuboptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        function showAllItems() {
+            document.querySelectorAll('.catalog-item').forEach(item => item.style.display = 'block');
+        }
+
+        const sortRelevance = document.getElementById('sort-relevance');
+        sortRelevance.addEventListener('click', () => {
+            showAllItems();
+            sortOptions.style.display = 'none';
+        });
+
+        const sortHighToLow = document.getElementById('sort-high-to-low');
+        sortHighToLow.addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
+                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
+                return priceB - priceA;
+            });
+            items.forEach(item => catalogGrid.appendChild(item));
+            sortOptions.style.display = 'none';
+        });
+
+        const sortLowToHigh = document.getElementById('sort-low-to-high');
+        sortLowToHigh.addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
+                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
+                return priceA - priceB;
+            });
+            items.forEach(item => catalogGrid.appendChild(item));
+            sortOptions.style.display = 'none';
+        });
+
+        contactItem.addEventListener('click', () => {
+            contactOverlay.style.display = 'flex';
+        });
+
+        contactCloseBtn.addEventListener('click', () => {
+            contactOverlay.style.display = 'none';
+        });
+
+        waMeChat.addEventListener('click', () => {
+            window.location.href = 'https://wa.me/77470383524';
+        });
+
+        // Ensure catalog renders on page load if needed
+        window.onload = renderCatalog;
+    </script>
+</body>
+</html>
