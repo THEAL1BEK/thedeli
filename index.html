@@ -1,94 +1,50 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>YourBrand - Главная</title>
     <style>
-        * {margin:0;padding:0;box-sizing:border-box;}
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #000;
-            background: #fff;
-            overflow-x: hidden;
-        }
-        header {
-            background:#fff;position:fixed;top:0;left:0;width:100%;z-index:1000;
-            padding:1rem;display:flex;justify-content:space-between;align-items:center;
-            box-shadow:0 2px 4px rgba(0,0,0,0.1);height:60px;
-        }
-        .logo {font-size:1.5rem;font-weight:bold;text-transform:uppercase;color:#000;}
-        .icons {display:flex;gap:1rem;}
-        .icon {font-size:1.5rem;cursor:pointer;color:#000;}
-        #banner {margin-top:60px;height:calc(100vh - 60px);background:url('IMG_8125.JPG') no-repeat center/cover;}
-        #shop-now-btn {
-            position:fixed;bottom:calc(20px + 1cm);left:50%;transform:translateX(-50%);
-            padding:15px 30px;color:#fff;text-decoration:none;font-size:21px;font-weight:bold;
-            text-transform:uppercase;z-index:1001;cursor:pointer;background:transparent;border:1px solid #fff;
-        }
-        #menu-overlay, #filter-overlay, #contact-overlay {
-            position:fixed;background:#fff;display:none;flex-direction:column;z-index:2000;
-        }
-        #menu-overlay {top:60px;left:0;width:100%;height:calc(100% - 60px);padding:20px;}
-        #filter-overlay {
-            top:60px;left:0;width:300px;height:calc(100% - 60px);padding:20px;z-index:999;
-            box-shadow:2px 0 5px rgba(0,0,0,0.1);
-        }
-        #contact-overlay {
-            bottom:0;left:0;width:100%;padding:20px;z-index:999;
-            box-shadow:0 -2px 5px rgba(0,0,0,0.1);
-        }
-        #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn {
-            position:absolute;top:10px;right:20px;width:40px;height:40px;background:#000;border-radius:50%;
-            display:flex;justify-content:center;align-items:center;cursor:pointer;
-        }
-        #menu-overlay .close-btn span, #filter-overlay .close-btn span, #contact-overlay .close-btn span {
-            color:#fff;font-size:24px;font-weight:bold;
-        }
-        #menu-overlay ul, #filter-overlay ul {list-style:none;width:100%;margin-top:20px;}
-        #menu-overlay li, #filter-overlay li {
-            margin:1rem 0;font-size:18px;cursor:pointer;color:#000;text-align:left;padding-left:20px;position:relative;
-        }
-        #menu-overlay li:after {content:'›';position:absolute;right:20px;color:#888;}
-        #filter-overlay .filter-option {margin-bottom:10px;}
-        #filter-overlay .filter-suboptions {display:none;margin-left:20px;}
-        #filter-overlay .filter-suboptions li {margin:5px 0;}
-        #contact-overlay li {margin:1rem 0;font-size:18px;cursor:pointer;color:#000;text-align:center;}
-        #catalog {
-            margin-top:60px;padding:20px 0;background:#fff;display:none;overflow-y:auto;
-            min-height:calc(100vh - 60px);
-        }
-        #product-overlay {
-            position:fixed;top:60px;left:0;width:100%;height:calc(100% - 60px);
-            background:#fff;display:none;flex-direction:column;padding:20px;z-index:1000;overflow-y:auto;
-        }
-        .product-images {position:relative;width:100%;max-width:400px;margin:0 auto 20px;overflow:hidden;}
-        .image-container {display:flex;transition:transform 0.3s ease;}
-        .product-image {min-width:100%;height:400px;object-fit:cover;flex-shrink:0;}
-        .product-details {text-align:left;margin-top:20px;margin-left:20px;}
-        .product-title {font-size:18px;font-weight:normal;color:#000;margin-bottom:5px;}
-        .product-price {font-size:22px;color:#000;}
-        .product-actions {
-            position:fixed;bottom:calc(20px + 1cm);left:0;width:100%;
-            display:flex;justify-content:space-between;padding:0 20px;z-index:1001;
-        }
-        .order-btn,.back-btn {
-            padding:15px 30px;color:#000;text-decoration:none;font-size:21px;font-weight:bold;
-            text-transform:uppercase;cursor:pointer;background:transparent;border:1px solid #000;
-        }
-        .filter-sort {display:flex;justify-content:space-between;margin-bottom:15px;padding:0 10px;position:relative;}
-        .filter-sort span {font-size:14px;font-weight:bold;cursor:pointer;color:#000;}
-        #sort-options {
-            display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid #ddd;
-            padding:5px 0;z-index:1000;min-width:150px;
-        }
-        #sort-options div {padding:5px 10px;cursor:pointer;}
-        #sort-options div:hover {background-color:#f0f0f0;}
-        .catalog-grid {display:grid;grid-template-columns:repeat(2, 1fr);padding:0 10px;}
-        .catalog-item {border:0.8px solid #ddd;text-align:center;cursor:pointer;}
-        .catalog-item img {width:100%;object-fit:cover;display:block;}
-        .catalog-item .item-text {padding:10px;color:#000;font-size:14px;text-align:center;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:Arial, sans-serif;line-height:1.6;color:#000;background:#fff;overflow-x:hidden;}
+        header{background:#fff;position:fixed;top:0;left:0;width:100%;z-index:1000;padding:1rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 4px rgba(0,0,0,0.1);height:60px;}
+        .logo{font-size:1.5rem;font-weight:bold;text-transform:uppercase;color:#000;}
+        .icons{display:flex;gap:1rem;}
+        .icon{font-size:1.5rem;cursor:pointer;color:#000;}
+        #banner{margin-top:60px;height:calc(100vh - 60px);background:url('IMG_8125.JPG') no-repeat center/cover;position:relative;}
+        #shop-now-btn{position:fixed;bottom:calc(20px + 1cm);left:50%;transform:translateX(-50%);padding:15px 30px;color:#fff;text-decoration:none;font-size:21px;font-weight:bold;text-transform:uppercase;z-index:1001;cursor:pointer;background:transparent;border:1px solid #fff;}
+        /* overlays */
+        #menu-overlay,#filter-overlay,#contact-overlay{position:fixed;background:#fff;display:none;flex-direction:column;z-index:2000;}
+        #menu-overlay{top:60px;left:0;width:100%;height:calc(100% - 60px);padding:20px;}
+        #filter-overlay{top:60px;left:0;width:300px;height:calc(100% - 60px);padding:20px;z-index:999;box-shadow:2px 0 5px rgba(0,0,0,0.1);}
+        #contact-overlay{bottom:0;left:0;width:100%;padding:20px;z-index:999;box-shadow:0 -2px 5px rgba(0,0,0,0.1);}
+        .close-btn{position:absolute;top:10px;right:20px;width:40px;height:40px;background:#000;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;}
+        .close-btn span{color:#fff;font-size:24px;font-weight:bold;}
+        ul{list-style:none;width:100%;margin-top:20px;}
+        li{margin:1rem 0;font-size:18px;cursor:pointer;color:#000;text-align:left;padding-left:20px;position:relative;}
+        #menu-overlay li:after{content:'›';position:absolute;right:20px;color:#888;}
+        #filter-overlay .filter-option{margin-bottom:10px;}
+        #filter-overlay .filter-suboptions{display:none;margin-left:20px;}
+        #filter-overlay .filter-suboptions li{margin:5px 0;}
+        #catalog{margin-top:60px;padding:20px 0;background:#fff;display:none;overflow-y:auto;min-height:calc(100vh - 60px);}
+        #product-overlay{position:fixed;top:60px;left:0;width:100%;height:calc(100% - 60px);background:#fff;display:none;flex-direction:column;padding:20px;z-index:1000;overflow-y:auto;}
+        .product-images{position:relative;width:100%;max-width:400px;margin:0 auto 20px;overflow:hidden;}
+        .image-container{display:flex;transition:transform 0.3s ease;}
+        .product-image{min-width:100%;height:400px;object-fit:cover;flex-shrink:0;}
+        .product-details{text-align:left;margin-top:20px;margin-left:20px;}
+        .product-title{font-size:18px;font-weight:normal;color:#000;margin-bottom:5px;}
+        .product-price{font-size:22px;color:#000;}
+        .product-actions{position:fixed;bottom:calc(20px + 1cm);left:0;width:100%;display:flex;justify-content:space-between;padding:0 20px;z-index:1001;}
+        .order-btn,.back-btn{padding:15px 30px;color:#000;text-decoration:none;font-size:21px;font-weight:bold;text-transform:uppercase;cursor:pointer;background:transparent;border:1px solid #000;}
+        .filter-sort{display:flex;justify-content:space-between;margin-bottom:15px;padding:0 10px;position:relative;}
+        .filter-sort span{font-size:14px;font-weight:bold;cursor:pointer;color:#000;}
+        #sort-options{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid #ddd;padding:5px 0;z-index:1000;min-width:150px;}
+        #sort-options div{padding:5px 10px;cursor:pointer;}
+        #sort-options div:hover{background-color:#f0f0f0;}
+        .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);padding:0 10px;gap:10px;}
+        .catalog-item{border:0.8px solid #ddd;text-align:center;cursor:pointer;padding-bottom:8px;background:#fff;}
+        .catalog-item img{width:100%;object-fit:cover;display:block;}
+        .catalog-item .item-text{padding:10px;color:#000;font-size:14px;text-align:center;}
         @media (max-width:768px){
             .logo{font-size:1.2rem;}
             #shop-now-btn{font-size:18px;padding:12px 24px;}
@@ -102,199 +58,297 @@
     </style>
 </head>
 <body>
-<header>
-    <div class="logo">THE KURDELI</div>
-    <div class="icons"><span class="icon" id="menu-icon">☰</span></div>
-</header>
+    <header>
+        <div class="logo">THE KURDELI</div>
+        <div class="icons"><span class="icon" id="menu-icon">☰</span></div>
+    </header>
 
-<section id="banner"><a href="#" id="shop-now-btn">SHOP NOW</a></section>
+    <section id="banner">
+        <a href="#" id="shop-now-btn">SHOP NOW</a>
+    </section>
 
-<div id="menu-overlay">
-    <div class="close-btn"><span>&times;</span></div>
-    <ul>
-        <li id="home">Home</li>
-        <li id="new-in">New In</li>
-        <li id="women">Women</li>
-        <li id="men">Men</li>
-        <li id="winter">Winter</li>
-        <li>Gifts</li>
-        <li id="contact">Contact</li>
-    </ul>
-</div>
+    <div id="menu-overlay">
+        <div class="close-btn" id="menu-close"><span>&times;</span></div>
+        <ul>
+            <li id="home">Home</li>
+            <li id="new-in">New In</li>
+            <li id="women">Women</li>
+            <li id="men">Men</li>
+            <li id="winter">Winter</li>
+            <li>Gifts</li>
+            <li id="contact">Contact</li>
+        </ul>
+    </div>
 
-<div id="filter-overlay">
-    <div class="close-btn"><span>&times;</span></div>
-    <ul>
-        <li class="filter-option" id="filter-gender">Gender
-            <ul class="filter-suboptions" id="gender-suboptions">
-                <li id="filter-all">All</li>
-                <li id="filter-women">Women</li>
-                <li id="filter-men">Men</li>
-            </ul>
-        </li>
-        <li class="filter-option" id="filter-color">Color</li>
-    </ul>
-</div>
+    <div id="filter-overlay">
+        <div class="close-btn" id="filter-close"><span>&times;</span></div>
+        <ul>
+            <li class="filter-option" id="filter-gender">Gender
+                <ul class="filter-suboptions" id="gender-suboptions">
+                    <li id="filter-all">All</li>
+                    <li id="filter-women">Women</li>
+                    <li id="filter-men">Men</li>
+                </ul>
+            </li>
+            <li class="filter-option" id="filter-color">Color</li>
+        </ul>
+    </div>
 
-<div id="contact-overlay">
-    <div class="close-btn"><span>&times;</span></div>
-    <ul><li id="wa-me-chat">wa.me chat</li></ul>
-</div>
+    <div id="contact-overlay">
+        <div class="close-btn" id="contact-close"><span>&times;</span></div>
+        <ul>
+            <li id="wa-me-chat">wa.me chat</li>
+        </ul>
+    </div>
 
-<div id="catalog">
-    <div class="filter-sort">
-        <span id="filter-btn">Filter</span>
-        <span id="sort-btn">Sort by</span>
-        <div id="sort-options">
-            <div id="sort-relevance">Relevance</div>
-            <div id="sort-high-to-low">Price: High to Low</div>
-            <div id="sort-low-to-high">Price: Low to High</div>
+    <div id="catalog">
+        <div class="filter-sort">
+            <span id="filter-btn">Filter</span>
+            <span id="sort-btn">Sort by</span>
+            <div id="sort-options">
+                <div id="sort-relevance">Relevance</div>
+                <div id="sort-high-to-low">Price: High to Low</div>
+                <div id="sort-low-to-high">Price: Low to High</div>
+            </div>
+        </div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+    </div>
+
+    <div id="product-overlay">
+        <div class="product-images">
+            <div class="image-container" id="image-container"></div>
+        </div>
+        <div class="product-details">
+            <div class="product-title" id="product-title"></div>
+            <div class="product-price" id="product-price"></div>
+        </div>
+        <div class="product-actions">
+            <button class="order-btn" id="order-btn">Order</button>
+            <button class="back-btn" id="back-btn">Back</button>
         </div>
     </div>
-    <div class="catalog-grid" id="catalog-grid"></div>
-</div>
 
-<div id="product-overlay">
-    <div class="product-images"><div class="image-container" id="image-container"></div></div>
-    <div class="product-details">
-        <div class="product-title" id="product-title"></div>
-        <div class="product-price" id="product-price"></div>
-    </div>
-    <div class="product-actions">
-        <button class="order-btn" id="order-btn">Order</button>
-        <button class="back-btn" id="back-btn">Back</button>
-    </div>
-</div>
+    <script>
+        // === данные товаров ===
+        const products = [
+            { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
+            { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
+            { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true },
+            { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
+            { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
+            { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true }
+        ];
 
-<script>
-const products = [
-    {name:"Cat Eye Glasses",price:149,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"women",winter:false,newIn:false},
-    {name:"Elegant Eyewear",price:119,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"women",winter:false,newIn:false},
-    {name:"Stylish Goggles",price:129,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"women",winter:false,newIn:true},
-    {name:"Black Sunglasses",price:99,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"men",winter:true,newIn:false},
-    {name:"Sporty Shades",price:89,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"men",winter:true,newIn:false},
-    {name:"Classic Aviators",price:109,images:["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"],gender:"men",winter:true,newIn:true}
-];
-const menuIcon=document.getElementById('menu-icon');
-const menuOverlay=document.getElementById('menu-overlay');
-const closeBtn=document.querySelector('#menu-overlay .close-btn');
-const shopNowBtn=document.getElementById('shop-now-btn');
-const banner=document.getElementById('banner');
-const catalog=document.getElementById('catalog');
-const filterBtn=document.getElementById('filter-btn');
-const filterOverlay=document.getElementById('filter-overlay');
-const filterCloseBtn=document.querySelector('#filter-overlay .close-btn');
-const sortBtn=document.getElementById('sort-btn');
-const sortOptions=document.getElementById('sort-options');
-const contactItem=document.getElementById('contact');
-const contactOverlay=document.getElementById('contact-overlay');
-const contactCloseBtn=document.querySelector('#contact-overlay .close-btn');
-const waMeChat=document.getElementById('wa-me-chat');
-const catalogGrid=document.getElementById('catalog-grid');
-const productOverlay=document.getElementById('product-overlay');
-const productTitle=document.getElementById('product-title');
-const productPrice=document.getElementById('product-price');
-const imageContainer=document.getElementById('image-container');
-const backBtn=document.getElementById('back-btn');
-const orderBtn=document.getElementById('order-btn');
-let currentImageIndex=0;
+        // === элементы ===
+        const menuIcon = document.getElementById('menu-icon');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuClose = document.getElementById('menu-close');
 
-function renderCatalog(){
-    catalogGrid.innerHTML='';
-    products.forEach((product,index)=>{
-        const item=document.createElement('div');
-        item.className='catalog-item';
-        item.dataset.gender=product.gender;
-        item.dataset.winter=product.winter;
-        item.dataset.new=product.newIn;
-        item.dataset.index=index;
-        item.innerHTML=`<img src="${product.images[0]}" alt="${product.name}"><div class="item-text">${product.name}<br>$${product.price}</div>`;
-        item.addEventListener('click',()=>showProductDetails(index));
-        catalogGrid.appendChild(item);
-    });
-}
-function showProductDetails(index){
-    const product=products[index];
-    productTitle.textContent=product.name;
-    productPrice.textContent=`$${product.price}`;
-    imageContainer.innerHTML='';
-    product.images.forEach(image=>{
-        const img=document.createElement('img');
-        img.className='product-image';
-        img.src=image;
-        imageContainer.appendChild(img);
-    });
-    currentImageIndex=0;
-    imageContainer.style.transform=`translateX(0)`;
-    productOverlay.style.display='flex';
-    catalog.style.display='none';
-}
+        const shopNowBtn = document.getElementById('shop-now-btn');
+        const banner = document.getElementById('banner');
+        const catalog = document.getElementById('catalog');
 
-// свайпы
-let touchStartX=0,touchEndX=0;
-imageContainer.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;});
-imageContainer.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipe();});
-function handleSwipe(){
-    const swipeThreshold=50;
-    const product=products.find(p=>p.name===productTitle.textContent);
-    const maxIndex=product.images.length-1;
-    if(maxIndex>0){
-        if(touchEndX<touchStartX-swipeThreshold){
-            currentImageIndex=(currentImageIndex<maxIndex)?currentImageIndex+1:0;
-        }else if(touchEndX>touchStartX+swipeThreshold){
-            currentImageIndex=(currentImageIndex>0)?currentImageIndex-1:maxIndex;
+        const filterBtn = document.getElementById('filter-btn');
+        const filterOverlay = document.getElementById('filter-overlay');
+        const filterCloseBtn = document.getElementById('filter-close');
+
+        const sortBtn = document.getElementById('sort-btn');
+        const sortOptions = document.getElementById('sort-options');
+
+        const contactItem = document.getElementById('contact');
+        const contactOverlay = document.getElementById('contact-overlay');
+        const contactCloseBtn = document.getElementById('contact-close');
+        const waMeChat = document.getElementById('wa-me-chat');
+
+        const catalogGrid = document.getElementById('catalog-grid');
+
+        const productOverlay = document.getElementById('product-overlay');
+        const productTitle = document.getElementById('product-title');
+        const productPrice = document.getElementById('product-price');
+        const imageContainer = document.getElementById('image-container');
+
+        const backBtn = document.getElementById('back-btn');
+        const orderBtn = document.getElementById('order-btn');
+
+        let currentImageIndex = 0;
+
+        // === функции отображения каталога и товара ===
+        function renderCatalog() {
+            catalogGrid.innerHTML = '';
+            products.forEach((product, index) => {
+                const item = document.createElement('div');
+                item.className = 'catalog-item';
+                // dataset принимает строку — булевы значения станут "true"/"false"
+                item.dataset.gender = product.gender;
+                item.dataset.winter = product.winter;
+                item.dataset.new = product.newIn;
+                item.dataset.index = index;
+                item.innerHTML = `
+                    <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
+                    <div class="item-text">${product.name}<br>$${product.price}</div>
+                `;
+                item.addEventListener('click', () => showProductDetails(index));
+                catalogGrid.appendChild(item);
+            });
         }
-        imageContainer.style.transform=`translateX(-${currentImageIndex*100}%)`;
-    }
-}
 
-orderBtn.addEventListener('click',()=>{window.location.href='https://wa.me/77470383524';});
-backBtn.addEventListener('click',()=>{productOverlay.style.display='none';catalog.style.display='block';});
-menuIcon.addEventListener('click',()=>{menuOverlay.style.display='flex';});
-closeBtn.addEventListener('click',()=>{menuOverlay.style.display='none';});
-filterBtn.addEventListener('click',()=>{filterOverlay.style.display='block';});
-filterCloseBtn.addEventListener('click',()=>{filterOverlay.style.display='none';document.getElementById('gender-suboptions').style.display='none';});
-sortBtn.addEventListener('click',()=>{sortOptions.style.display=sortOptions.style.display==='block'?'none':'block';});
-document.addEventListener('click',e=>{if(!sortBtn.contains(e.target))sortOptions.style.display='none';});
-shopNowBtn.addEventListener('click',e=>{e.preventDefault();banner.style.display='none';catalog.style.display='block';renderCatalog();});
+        function showProductDetails(index) {
+            const product = products[index];
+            if (!product) return;
+            productTitle.textContent = product.name;
+            productPrice.textContent = `$${product.price}`;
+            imageContainer.innerHTML = '';
+            product.images.forEach(src => {
+                const img = document.createElement('img');
+                img.className = 'product-image';
+                img.src = src;
+                img.alt = product.name;
+                img.onerror = () => img.style.display = 'none';
+                imageContainer.appendChild(img);
+            });
+            currentImageIndex = 0;
+            imageContainer.style.transform = `translateX(0)`;
+            productOverlay.style.display = 'flex';
+            catalog.style.display = 'none';
+            // прокрутка наверх при открытии
+            productOverlay.scrollTop = 0;
+        }
 
-// исправленная фильтрация
-function handleMenuNavigation(filterType){
-    productOverlay.style.display='none';banner.style.display='none';catalog.style.display='block';menuOverlay.style.display='none';
-    const items=document.querySelectorAll('.catalog-item');
-    items.forEach(item=>{
-        if(filterType==='all'){item.style.display='block';}
-        else if(filterType==='women'||filterType==='men'){
-            item.style.display=(item.dataset.gender===filterType)?'block':'none';
-        }else if(filterType==='new'||filterType==='winter'){
-            item.style.display=(item.dataset[filterType]==='true')?'block':'none';
-        }else{item.style.display='none';}
-    });
-}
+        // === свайп (touch) для картинок (без ошибок если не открыт товар) ===
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-// меню
-document.getElementById('home').addEventListener('click',()=>{productOverlay.style.display='none';catalog.style.display='none';banner.style.display='block';menuOverlay.style.display='none';});
-document.getElementById('new-in').addEventListener('click',()=>handleMenuNavigation('new'));
-document.getElementById('women').addEventListener('click',()=>handleMenuNavigation('women'));
-document.getElementById('men').addEventListener('click',()=>handleMenuNavigation('men'));
-document.getElementById('winter').addEventListener('click',()=>handleMenuNavigation('winter'));
-document.getElementById('filter-all').addEventListener('click',()=>{handleMenuNavigation('all');filterOverlay.style.display='none';document.getElementById('gender-suboptions').style.display='none';});
-document.getElementById('filter-women').addEventListener('click',()=>{handleMenuNavigation('women');filterOverlay.style.display='none';document.getElementById('gender-suboptions').style.display='none';});
-document.getElementById('filter-men').addEventListener('click',()=>{handleMenuNavigation('men');filterOverlay.style.display='none';document.getElementById('gender-suboptions').style.display='none';});
-const filterGender=document.getElementById('filter-gender');
-const genderSuboptions=document.getElementById('gender-suboptions');
-filterGender.addEventListener('click',()=>{genderSuboptions.style.display=genderSuboptions.style.display==='block'?'none':'block';});
+        imageContainer.addEventListener('touchstart', (e) => {
+            // защита: если контейнер пуст — ничего не делать
+            if (!productTitle.textContent) return;
+            touchStartX = e.changedTouches[0].screenX;
+        });
 
-function showAllItems(){document.querySelectorAll('.catalog-item').forEach(item=>item.style.display='block');}
-document.getElementById('sort-relevance').addEventListener('click',()=>{showAllItems();sortOptions.style.display='none';});
-document.getElementById('sort-high-to-low').addEventListener('click',()=>{
-    const items=Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a,b)=>parseInt(b.querySelector('.item-text').textContent.split('$')[1])-parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
-    items.forEach(item=>catalogGrid.appendChild(item));sortOptions.style.display='none';
-});
-document.getElementById('sort-low-to-high').addEventListener('click',()=>{
-    const items=Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a,b)=>parseInt(a.querySelector('.item-text').textContent.split('$')[1])-parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
-    items.forEach(item=>catalogGrid.appendChild(item));sortOptions.style.display='none';
-});
-contactItem.addEventListener('click',()=>{
+        imageContainer.addEventListener('touchend', (e) => {
+            if (!productTitle.textContent) return;
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const product = products.find(p => p.name === productTitle.textContent);
+            if (!product) return;
+            const maxIndex = product.images.length - 1;
+            if (maxIndex <= 0) return;
+
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // свайп влево — следующая
+                currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : 0;
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // свайп вправо — предыдущая
+                currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : maxIndex;
+            } else {
+                return;
+            }
+            imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+        }
+
+        // === навигация / фильтрация ===
+        function handleMenuNavigation(filterType) {
+            // убедимся, что каталог отрисован
+            renderCatalog();
+            productOverlay.style.display = 'none';
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                if (filterType === 'all') {
+                    item.style.display = 'block';
+                } else if (filterType === 'women' || filterType === 'men') {
+                    item.style.display = (item.dataset.gender === filterType) ? 'block' : 'none';
+                } else if (filterType === 'new' || filterType === 'winter') {
+                    // dataset хранит "true"/"false"
+                    item.style.display = (item.dataset[filterType] === 'true') ? 'block' : 'none';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // === обработчики ===
+        menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
+        menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
+
+        document.getElementById('home').addEventListener('click', () => {
+            productOverlay.style.display = 'none';
+            catalog.style.display = 'none';
+            banner.style.display = 'block';
+            menuOverlay.style.display = 'none';
+        });
+        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
+        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
+        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
+        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
+
+        shopNowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            renderCatalog();
+        });
+
+        filterBtn.addEventListener('click', () => { filterOverlay.style.display = 'block'; });
+        filterCloseBtn.addEventListener('click', () => {
+            filterOverlay.style.display = 'none';
+            document.getElementById('gender-suboptions').style.display = 'none';
+        });
+
+        document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+        document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+        document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+
+        const filterGender = document.getElementById('filter-gender');
+        const genderSuboptions = document.getElementById('gender-suboptions');
+        filterGender.addEventListener('click', () => { genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block'; });
+
+        // сортировка
+        function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
+        document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
+
+        document.getElementById('sort-high-to-low').addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
+            items.forEach(i => catalogGrid.appendChild(i));
+            sortOptions.style.display = 'none';
+        });
+        document.getElementById('sort-low-to-high').addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
+            items.forEach(i => catalogGrid.appendChild(i));
+            sortOptions.style.display = 'none';
+        });
+
+        sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
+        // если клик вне кнопки сортировки и вне блока опций — скрыть
+        document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
+
+        // контакт
+        contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
+        contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
+        waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+
+        // кнопки товара
+        backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
+        orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+
+        // на случай, если пользователь перезагрузил страницу и хочет сразу увидеть каталог — не рисуем его автоматически,
+        // оставляем главную — каталог рендерится при нажатии SHOP NOW или при фильтрации/меню (handleMenuNavigation).
+        // Но можно раскомментировать следующую строку, если хотите чтобы каталог рендерился сразу:
+        // renderCatalog();
+
+        // защита: при закрытии меню/фильтра — ничего не ломается
+        window.addEventListener('error', (ev) => {
+            // для отладки: раскомментируй, если нужно логировать
+            // console.error('JS error:', ev.message, ev.filename, ev.lineno);
+        });
+    </script>
+</body>
+</html>
