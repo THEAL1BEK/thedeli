@@ -147,8 +147,7 @@
 
         .filter-sort {
             display: flex;
-            justify-content: flex-end;
-            gap: 15px;
+            justify-content: space-between;
             margin-bottom: 15px;
             padding: 0 10px;
         }
@@ -161,14 +160,12 @@
         }
 
         .catalog-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding: 0 10px;
         }
 
         .catalog-item {
-            width: 49%;
-            margin-bottom: 2%;
             position: relative;
             box-sizing: border-box;
         }
@@ -205,15 +202,15 @@
             #menu-overlay li {
                 font-size: 16px;
             }
-            .catalog-item {
-                width: 100%;
-                margin-bottom: 4%;
-            }
             .catalog-item .item-text {
                 font-size: 12px;
             }
             .filter-sort {
+                flex-direction: column;
                 gap: 10px;
+            }
+            .catalog-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -233,6 +230,7 @@
     <div id="menu-overlay">
         <div class="close-btn"><span>&times;</span></div>
         <ul>
+            <li>Home</li>
             <li>New In</li>
             <li>Women</li>
             <li>Men</li>
@@ -298,6 +296,14 @@
         shopNowBtn.addEventListener('click', () => {
             banner.style.display = 'none';
             catalog.style.display = 'block';
+        });
+
+        // Логика для возвращения на главную страницу
+        const homeItem = document.querySelector('#menu-overlay ul li:first-child');
+        homeItem.addEventListener('click', () => {
+            catalog.style.display = 'none';
+            banner.style.display = 'block';
+            menuOverlay.style.display = 'none';
         });
     </script>
 </body>
