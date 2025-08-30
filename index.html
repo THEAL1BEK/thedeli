@@ -227,8 +227,9 @@
         }
 
         .product-details {
-            text-align: center;
+            text-align: left; /* Changed from center to left */
             margin-top: 20px;
+            margin-left: 20px; /* Add some left margin for spacing */
         }
 
         .product-title {
@@ -241,7 +242,7 @@
 
         .product-price {
             font-size: 22px;
-            color: #555;
+            color: #000; /* Changed to black for darker text */
             font-family: 'Arial', sans-serif;
         }
 
@@ -448,52 +449,52 @@
     <script>
         const products = [
             {
-                name: "Black Sunglasses",
-                price: 99,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
-                gender: "men",
-                winter: true,
+                name: "Cat Eye Glasses",
+                price: 149,
+                images: ["IMG_8125.JPG", "IMG_8125_2.JPG", "IMG_8125_3.JPG"],
+                gender: "women",
+                winter: false,
+                newIn: false
+            },
+            {
+                name: "Elegant Eyewear",
+                price: 119,
+                images: ["IMG_8126.JPG", "IMG_8126_2.JPG", "IMG_8126_3.JPG"],
+                gender: "women",
+                winter: false,
                 newIn: false
             },
             {
                 name: "Stylish Goggles",
                 price: 129,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
+                images: ["IMG_8127.JPG", "IMG_8127_2.JPG", "IMG_8127_3.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: true
             },
             {
-                name: "Sporty Shades",
-                price: 89,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
+                name: "Black Sunglasses",
+                price: 99,
+                images: ["IMG_8128.JPG", "IMG_8128_2.JPG", "IMG_8128_3.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: false
             },
             {
-                name: "Cat Eye Glasses",
-                price: 149,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
-                gender: "women",
-                winter: false,
+                name: "Sporty Shades",
+                price: 89,
+                images: ["IMG_8129.JPG", "IMG_8129_2.JPG", "IMG_8129_3.JPG"],
+                gender: "men",
+                winter: true,
                 newIn: false
             },
             {
                 name: "Classic Aviators",
                 price: 109,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
+                images: ["IMG_8130.JPG", "IMG_8130_2.JPG", "IMG_8130_3.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: true
-            },
-            {
-                name: "Elegant Eyewear",
-                price: 119,
-                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
-                gender: "women",
-                winter: false,
-                newIn: false
             }
         ];
 
@@ -580,18 +581,17 @@
                 if (currentImageIndex < maxIndex) {
                     currentImageIndex++;
                 } else {
-                    currentImageIndex = 0; // Loop back to the first image
+                    currentImageIndex = 0; // Loop back to first image
                 }
-                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             } else if (touchEndX > touchStartX + swipeThreshold) {
                 // Swipe right
                 if (currentImageIndex > 0) {
                     currentImageIndex--;
                 } else {
-                    currentImageIndex = maxIndex; // Loop to the last image
+                    currentImageIndex = maxIndex; // Loop to last image
                 }
-                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             }
+            imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
         }
 
         orderBtn.addEventListener('click', () => {
@@ -659,86 +659,3 @@
             banner.style.display = 'block';
             menuOverlay.style.display = 'none';
         });
-
-        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
-        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
-        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
-        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
-
-        document.getElementById('filter-all').addEventListener('click', () => {
-            handleMenuNavigation('all');
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-        });
-        
-        document.getElementById('filter-women').addEventListener('click', () => {
-            handleMenuNavigation('women');
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-        });
-
-        document.getElementById('filter-men').addEventListener('click', () => {
-            handleMenuNavigation('men');
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-        });
-
-
-        const filterGender = document.getElementById('filter-gender');
-        const genderSuboptions = document.getElementById('gender-suboptions');
-        filterGender.addEventListener('click', () => {
-            genderSuboptions.style.display = genderSuboptions.style.display === 'block' ? 'none' : 'block';
-        });
-
-        function showAllItems() {
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = 'block';
-            });
-        }
-
-        const sortRelevance = document.getElementById('sort-relevance');
-        sortRelevance.addEventListener('click', () => {
-            showAllItems();
-            sortOptions.style.display = 'none';
-        });
-
-        const sortHighToLow = document.getElementById('sort-high-to-low');
-        sortHighToLow.addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
-                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
-                return priceB - priceA;
-            });
-            items.forEach(item => catalogGrid.appendChild(item));
-            sortOptions.style.display = 'none';
-        });
-
-        const sortLowToHigh = document.getElementById('sort-low-to-high');
-        sortLowToHigh.addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => {
-                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
-                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
-                return priceA - priceB;
-            });
-            items.forEach(item => catalogGrid.appendChild(item));
-            sortOptions.style.display = 'none';
-        });
-
-        contactItem.addEventListener('click', () => {
-            contactOverlay.style.display = 'flex';
-        });
-
-        contactCloseBtn.addEventListener('click', () => {
-            contactOverlay.style.display = 'none';
-        });
-
-        waMeChat.addEventListener('click', () => {
-            window.location.href = 'https://wa.me/77470383524';
-        });
-
-        renderCatalog();
-    </script>
-</body>
-</html>
