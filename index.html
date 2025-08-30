@@ -28,9 +28,8 @@
         #filter-overlay .filter-suboptions li{margin:5px 0;}
         #catalog{margin-top:60px;padding:20px 0;background:#fff;display:none;overflow-y:auto;min-height:calc(100vh - 60px);}
         #product-overlay{position:fixed;top:60px;left:0;width:100%;height:calc(100% - 60px);background:#fff;display:none;flex-direction:column;padding:20px;z-index:1000;overflow-y:auto;}
-        .product-images{position:relative;width:100%;max-width:400px;margin:0 auto 20px;overflow:hidden;}
-        .image-container{display:flex;transition:transform 0.3s ease;}
-        .product-image{min-width:100%;height:400px;object-fit:cover;flex-shrink:0;}
+        .product-images{position:relative;width:100%;max-width:400px;margin:0 auto 20px;}
+        .product-image{width:100%;height:400px;object-fit:cover;border:1px solid #ddd;}
         .product-details{text-align:left;margin-top:20px;margin-left:20px;}
         .product-title{font-size:18px;font-weight:normal;color:#000;margin-bottom:5px;}
         .product-price{font-size:22px;color:#000;}
@@ -41,7 +40,7 @@
         #sort-options{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid #ddd;padding:5px 0;z-index:1000;min-width:150px;}
         #sort-options div{padding:5px 10px;cursor:pointer;}
         #sort-options div:hover{background-color:#f0f0f0;}
-        .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);padding:0 10px;gap:10px;}
+        .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);padding:0 10px;gap:0;}
         .catalog-item{border:0.8px solid #ddd;text-align:center;cursor:pointer;padding-bottom:8px;background:#fff;}
         .catalog-item img{width:100%;object-fit:cover;display:block;}
         .catalog-item .item-text{padding:10px;color:#000;font-size:14px;text-align:center;}
@@ -49,7 +48,7 @@
             .logo{font-size:1.2rem;}
             #shop-now-btn{font-size:18px;padding:12px 24px;}
             .catalog-item .item-text{font-size:12px;}
-            .catalog-grid{grid-template-columns:repeat(2,1fr);}
+            .catalog-grid{grid-template-columns:repeat(2,1fr);gap:0;}
             #filter-overlay{width:250px;}
             #sort-options{min-width:120px;}
             .product-image{height:250px;}
@@ -115,9 +114,7 @@
     </div>
 
     <div id="product-overlay">
-        <div class="product-images">
-            <div class="image-container" id="image-container"></div>
-        </div>
+        <div class="product-images" id="image-container"></div>
         <div class="product-details">
             <div class="product-title" id="product-title"></div>
             <div class="product-price" id="product-price"></div>
@@ -170,8 +167,6 @@
     const backBtn = document.getElementById('back-btn');
     const orderBtn = document.getElementById('order-btn');
 
-    let currentImageIndex = 0;
-
     // === функции отображения каталога и товара ===
     function renderCatalog() {
         catalogGrid.innerHTML = '';
@@ -205,51 +200,9 @@
             img.onerror = () => img.style.display = 'none';
             imageContainer.appendChild(img);
         });
-        currentImageIndex = 0;
-        // Временно отключаем transition, чтобы мгновенно перейти к первому изображению
-        imageContainer.style.transition = 'none';
-        imageContainer.style.transform = `translateX(0)`;
-        // Включаем transition снова с небольшой задержкой
-        setTimeout(() => {
-             imageContainer.style.transition = 'transform 0.3s ease';
-        }, 10);
         productOverlay.style.display = 'flex';
         catalog.style.display = 'none';
         productOverlay.scrollTop = 0;
-    }
-
-    // === свайп (touch) для картинок ===
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    imageContainer.addEventListener('touchstart', (e) => {
-        if (!productTitle.textContent) return;
-        touchStartX = e.changedTouches[0].clientX;
-    });
-
-    imageContainer.addEventListener('touchend', (e) => {
-        if (!productTitle.textContent) return;
-        touchEndX = e.changedTouches[0].clientX;
-        handleSwipe();
-    });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const product = products.find(p => p.name === productTitle.textContent);
-        if (!product || product.images.length <= 1) return;
-
-        const maxIndex = product.images.length - 1;
-        const swipeDistance = touchEndX - touchStartX;
-
-        if (swipeDistance < -swipeThreshold) { // Свайп влево
-            currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : maxIndex;
-        } else if (swipeDistance > swipeThreshold) { // Свайп вправо
-            currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : 0;
-        } else {
-            return;
-        }
-
-        imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
     }
 
     // === навигация / фильтрация ===
