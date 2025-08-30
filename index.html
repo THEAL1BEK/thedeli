@@ -92,7 +92,7 @@
             z-index: 999;
         }
 
-        #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn, #product-overlay .close-btn {
+        #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn {
             position: absolute;
             top: 10px;
             right: 20px;
@@ -106,7 +106,7 @@
             cursor: pointer;
         }
 
-        #menu-overlay .close-btn span, #filter-overlay .close-btn span, #contact-overlay .close-btn span, #product-overlay .close-btn span {
+        #menu-overlay .close-btn span, #filter-overlay .close-btn span, #contact-overlay .close-btn span {
             color: #fff;
             font-size: 24px;
             font-weight: bold;
@@ -245,10 +245,17 @@
             font-family: 'Arial', sans-serif;
         }
 
-        .back-btn {
+        .product-actions {
             position: absolute;
             bottom: 20px;
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .order-btn, .back-btn {
             padding: 10px 20px;
             font-size: 16px;
             font-weight: bold;
@@ -257,6 +264,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-align: center;
         }
 
         .filter-sort {
@@ -355,7 +363,7 @@
             .product-image {
                 height: 250px;
             }
-            .back-btn {
+            .order-btn, .back-btn {
                 font-size: 14px;
                 padding: 8px 16px;
             }
@@ -422,7 +430,6 @@
     </div>
 
     <div id="product-overlay">
-        <div class="close-btn"><span>&times;</span></div>
         <div class="product-images">
             <div class="image-container" id="image-container"></div>
         </div>
@@ -430,7 +437,10 @@
             <div class="product-title" id="product-title"></div>
             <div class="product-price" id="product-price"></div>
         </div>
-        <button class="back-btn" id="back-btn">Back</button>
+        <div class="product-actions">
+            <button class="order-btn" id="order-btn">Order</button>
+            <button class="back-btn" id="back-btn">Back</button>
+        </div>
     </div>
 
     <script>
@@ -502,11 +512,11 @@
         const waMeChat = document.getElementById('wa-me-chat');
         const catalogGrid = document.getElementById('catalog-grid');
         const productOverlay = document.getElementById('product-overlay');
-        const productCloseBtn = document.querySelector('#product-overlay .close-btn');
         const productTitle = document.getElementById('product-title');
         const productPrice = document.getElementById('product-price');
         const imageContainer = document.getElementById('image-container');
         const backBtn = document.getElementById('back-btn');
+        const orderBtn = document.getElementById('order-btn');
         let currentImageIndex = 0;
 
         function renderCatalog() {
@@ -566,18 +576,27 @@
             const swipeThreshold = 50;
             const product = products[products.findIndex(p => p.name === productTitle.textContent)];
             const maxIndex = Math.max(2, product.images.length - 1);
-            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < maxIndex) {
-                currentImageIndex++;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left
+                if (currentImageIndex < maxIndex) {
+                    currentImageIndex++;
+                } else {
+                    currentImageIndex = 0; // Loop back to the first image
+                }
                 imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-            } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
-                currentImageIndex--;
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                } else {
+                    currentImageIndex = maxIndex; // Loop to the last image
+                }
                 imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             }
         }
 
-        productCloseBtn.addEventListener('click', () => {
-            productOverlay.style.display = 'none';
-            catalog.style.display = 'block';
+        orderBtn.addEventListener('click', () => {
+            window.location.href = 'https://wa.me/77470383524';
         });
 
         backBtn.addEventListener('click', () => {
