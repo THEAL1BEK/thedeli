@@ -172,18 +172,16 @@
 
         .catalog-item {
             position: relative;
+            box-sizing: border-box;
             border: 0.8px solid #ddd;
-            aspect-ratio: 959 / 579; /* Соотношение ≈ 1.65 */
         }
 
         .catalog-item img {
             width: 100%;
-            height: 100%;
+            height: 0;
+            padding-bottom: 165%; /* Соотношение 959:579 ≈ 165% */
             object-fit: cover;
             display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
         }
 
         .catalog-item .item-text {
@@ -220,6 +218,9 @@
             }
             .catalog-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .catalog-item img {
+                padding-bottom: 165%; /* Сохраняем соотношение 2:1 на мобильных */
             }
             #catalog {
                 padding: 10px 0;
