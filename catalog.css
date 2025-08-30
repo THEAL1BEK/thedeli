@@ -1,0 +1,70 @@
+#catalog {
+    margin-top: 60px;
+    padding: 20px 10px;
+    background: #fff;
+    display: none;
+    overflow-y: auto;
+    min-height: calc(100vh - 60px);
+}
+
+.filter-sort {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+
+.filter-sort span {
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+}
+
+.catalog-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.catalog-item {
+    width: 49%;
+    margin-bottom: 2%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.catalog-item img {
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Прямоугольная пропорция, как на картинке */
+    object-fit: cover;
+    display: block;
+}
+
+.catalog-item .item-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+    color: #000;
+    font-size: 14px;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .catalog-item {
+        width: 100%;
+        margin-bottom: 4%;
+    }
+    .catalog-item .item-text {
+        font-size: 12px;
+    }
+    .filter-sort {
+        gap: 10px;
+    }
+}
