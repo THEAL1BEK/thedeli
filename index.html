@@ -89,7 +89,7 @@
             justify-content: flex-start;
             align-items: flex-start;
             padding: 20px;
-            z-index: 2000; /* Increased z-index */
+            z-index: 2000;
         }
 
         #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn {
@@ -640,87 +640,57 @@
             renderCatalog();
         });
 
-        const homeItem = document.getElementById('home');
-        homeItem.addEventListener('click', () => {
+        function handleMenuNavigation(filterType) {
+            productOverlay.style.display = 'none';
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                if (filterType === 'all') {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = item.dataset[filterType] === 'true' || item.dataset[filterType] === filterType ? 'block' : 'none';
+                }
+            });
+        }
+
+        document.getElementById('home').addEventListener('click', () => {
+            productOverlay.style.display = 'none';
             catalog.style.display = 'none';
             banner.style.display = 'block';
             menuOverlay.style.display = 'none';
         });
 
-        const newInItem = document.getElementById('new-in');
-        newInItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
-            });
-            renderCatalog();
+        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
+        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
+        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
+        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
+
+        document.getElementById('filter-all').addEventListener('click', () => {
+            handleMenuNavigation('all');
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+        });
+        
+        document.getElementById('filter-women').addEventListener('click', () => {
+            handleMenuNavigation('women');
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
         });
 
-        const womenItem = document.getElementById('women');
-        womenItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
-            });
+        document.getElementById('filter-men').addEventListener('click', () => {
+            handleMenuNavigation('men');
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
         });
 
-        const menItem = document.getElementById('men');
-        menItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
-            });
-        });
-
-        const winterItem = document.getElementById('winter');
-        winterItem.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
-            });
-        });
 
         const filterGender = document.getElementById('filter-gender');
         const genderSuboptions = document.getElementById('gender-suboptions');
         filterGender.addEventListener('click', () => {
             genderSuboptions.style.display = genderSuboptions.style.display === 'block' ? 'none' : 'block';
-        });
-
-        const filterAll = document.getElementById('filter-all');
-        filterAll.addEventListener('click', () => {
-            showAllItems();
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-        });
-
-        const filterWomen = document.getElementById('filter-women');
-        filterWomen.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
-            });
-        });
-
-        const filterMen = document.getElementById('filter-men');
-        filterMen.addEventListener('click', () => {
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            filterOverlay.style.display = 'none';
-            genderSuboptions.style.display = 'none';
-            document.querySelectorAll('.catalog-item').forEach(item => {
-                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
-            });
         });
 
         function showAllItems() {
