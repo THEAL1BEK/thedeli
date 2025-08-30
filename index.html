@@ -166,35 +166,28 @@
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 0;
-            padding: 0;
+            grid-gap: 10px;
+            padding: 0 10px;
         }
 
         .catalog-item {
             position: relative;
-            box-sizing: border-box;
             border: 0.8px solid #ddd;
+            text-align: center;
         }
 
         .catalog-item img {
             width: 100%;
-            height: 0;
-            padding-bottom: 165%; /* Соотношение 959:579 ≈ 165% */
+            height: auto; /* Временно убрал height: 0 и padding-bottom для теста */
             object-fit: cover;
             display: block;
         }
 
         .catalog-item .item-text {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.9);
             color: #000;
             font-size: 14px;
-            text-align: left;
-            box-sizing: border-box;
+            text-align: center;
         }
 
         /* Медиа-запросы для адаптивности */
@@ -218,9 +211,6 @@
             }
             .catalog-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .catalog-item img {
-                padding-bottom: 165%; /* Сохраняем соотношение 2:1 на мобильных */
             }
             #catalog {
                 padding: 10px 0;
@@ -261,28 +251,28 @@
         </div>
         <div class="catalog-grid">
             <div class="catalog-item">
-                <img src="ivory.jpg" alt="Product 1" onerror="console.log('Ошибка загрузки ivory.jpg')">
-                <div class="item-text">Ivory<br>Цена: $99</div>
+                <img src="ivory.jpg" alt="Ivory Sunglasses" onerror="console.log('Ошибка загрузки ivory.jpg')">
+                <div class="item-text">Ivory Sunglasses<br>$99</div>
             </div>
             <div class="catalog-item">
-                <img src="IMG_8125.JPG" alt="Product 2" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Название товара 2<br>Цена: $129</div>
+                <img src="IMG_8125.JPG" alt="Product 2 Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Product 2 Sunglasses<br>$129</div>
             </div>
             <div class="catalog-item">
-                <img src="IMG_8125.JPG" alt="Product 3" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Название товара 3<br>Цена: $89</div>
+                <img src="IMG_8125.JPG" alt="Product 3 Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Product 3 Sunglasses<br>$89</div>
             </div>
             <div class="catalog-item">
-                <img src="IMG_8125.JPG" alt="Product 4" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Название товара 4<br>Цена: $149</div>
+                <img src="IMG_8125.JPG" alt="Product 4 Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Product 4 Sunglasses<br>$149</div>
             </div>
             <div class="catalog-item">
-                <img src="IMG_8125.JPG" alt="Product 5" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Название товара 5<br>Цена: $109</div>
+                <img src="IMG_8125.JPG" alt="Product 5 Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Product 5 Sunglasses<br>$109</div>
             </div>
             <div class="catalog-item">
-                <img src="IMG_8125.JPG" alt="Product 6" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
-                <div class="item-text">Название товара 6<br>Цена: $119</div>
+                <img src="IMG_8125.JPG" alt="Product 6 Sunglasses" onerror="console.log('Ошибка загрузки IMG_8125.JPG')">
+                <div class="item-text">Product 6 Sunglasses<br>$119</div>
             </div>
         </div>
     </div>
