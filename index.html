@@ -89,7 +89,7 @@
             justify-content: flex-start;
             align-items: flex-start;
             padding: 20px;
-            z-index: 999;
+            z-index: 2000; /* Increased z-index */
         }
 
         #menu-overlay .close-btn, #filter-overlay .close-btn, #contact-overlay .close-btn {
@@ -248,10 +248,12 @@
         .product-actions {
             position: fixed;
             bottom: calc(20px + 1cm);
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
+            width: 100%;
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
             z-index: 1001;
         }
         
