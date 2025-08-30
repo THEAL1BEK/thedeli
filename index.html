@@ -129,226 +129,214 @@
     </div>
 
     <script>
-        // === данные товаров ===
-        const products = [
-            { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
-            { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
-            { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true },
-            { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
-            { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
-            { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true }
-        ];
+    // === данные товаров ===
+    const products = [
+        { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
+        { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
+        { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true },
+        { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
+        { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
+        { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true }
+    ];
 
-        // === элементы ===
-        const menuIcon = document.getElementById('menu-icon');
-        const menuOverlay = document.getElementById('menu-overlay');
-        const menuClose = document.getElementById('menu-close');
+    // === элементы ===
+    const menuIcon = document.getElementById('menu-icon');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const menuClose = document.getElementById('menu-close');
 
-        const shopNowBtn = document.getElementById('shop-now-btn');
-        const banner = document.getElementById('banner');
-        const catalog = document.getElementById('catalog');
+    const shopNowBtn = document.getElementById('shop-now-btn');
+    const banner = document.getElementById('banner');
+    const catalog = document.getElementById('catalog');
 
-        const filterBtn = document.getElementById('filter-btn');
-        const filterOverlay = document.getElementById('filter-overlay');
-        const filterCloseBtn = document.getElementById('filter-close');
+    const filterBtn = document.getElementById('filter-btn');
+    const filterOverlay = document.getElementById('filter-overlay');
+    const filterCloseBtn = document.getElementById('filter-close');
 
-        const sortBtn = document.getElementById('sort-btn');
-        const sortOptions = document.getElementById('sort-options');
+    const sortBtn = document.getElementById('sort-btn');
+    const sortOptions = document.getElementById('sort-options');
 
-        const contactItem = document.getElementById('contact');
-        const contactOverlay = document.getElementById('contact-overlay');
-        const contactCloseBtn = document.getElementById('contact-close');
-        const waMeChat = document.getElementById('wa-me-chat');
+    const contactItem = document.getElementById('contact');
+    const contactOverlay = document.getElementById('contact-overlay');
+    const contactCloseBtn = document.getElementById('contact-close');
+    const waMeChat = document.getElementById('wa-me-chat');
 
-        const catalogGrid = document.getElementById('catalog-grid');
+    const catalogGrid = document.getElementById('catalog-grid');
 
-        const productOverlay = document.getElementById('product-overlay');
-        const productTitle = document.getElementById('product-title');
-        const productPrice = document.getElementById('product-price');
-        const imageContainer = document.getElementById('image-container');
+    const productOverlay = document.getElementById('product-overlay');
+    const productTitle = document.getElementById('product-title');
+    const productPrice = document.getElementById('product-price');
+    const imageContainer = document.getElementById('image-container');
 
-        const backBtn = document.getElementById('back-btn');
-        const orderBtn = document.getElementById('order-btn');
+    const backBtn = document.getElementById('back-btn');
+    const orderBtn = document.getElementById('order-btn');
 
-        let currentImageIndex = 0;
+    let currentImageIndex = 0;
 
-        // === функции отображения каталога и товара ===
-        function renderCatalog() {
-            catalogGrid.innerHTML = '';
-            products.forEach((product, index) => {
-                const item = document.createElement('div');
-                item.className = 'catalog-item';
-                // dataset принимает строку — булевы значения станут "true"/"false"
-                item.dataset.gender = product.gender;
-                item.dataset.winter = product.winter;
-                item.dataset.new = product.newIn;
-                item.dataset.index = index;
-                item.innerHTML = `
-                    <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
-                    <div class="item-text">${product.name}<br>$${product.price}</div>
-                `;
-                item.addEventListener('click', () => showProductDetails(index));
-                catalogGrid.appendChild(item);
-            });
+    // === функции отображения каталога и товара ===
+    function renderCatalog() {
+        catalogGrid.innerHTML = '';
+        products.forEach((product, index) => {
+            const item = document.createElement('div');
+            item.className = 'catalog-item';
+            item.dataset.gender = product.gender;
+            item.dataset.winter = product.winter;
+            item.dataset.new = product.newIn;
+            item.dataset.index = index;
+            item.innerHTML = `
+                <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
+                <div class="item-text">${product.name}<br>$${product.price}</div>
+            `;
+            item.addEventListener('click', () => showProductDetails(index));
+            catalogGrid.appendChild(item);
+        });
+    }
+
+    function showProductDetails(index) {
+        const product = products[index];
+        if (!product) return;
+        productTitle.textContent = product.name;
+        productPrice.textContent = `$${product.price}`;
+        imageContainer.innerHTML = '';
+        product.images.forEach(src => {
+            const img = document.createElement('img');
+            img.className = 'product-image';
+            img.src = src;
+            img.alt = product.name;
+            img.onerror = () => img.style.display = 'none';
+            imageContainer.appendChild(img);
+        });
+        currentImageIndex = 0;
+        imageContainer.style.transform = `translateX(0)`;
+        productOverlay.style.display = 'flex';
+        catalog.style.display = 'none';
+        productOverlay.scrollTop = 0;
+    }
+
+    // === свайп (touch) для картинок ===
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    imageContainer.addEventListener('touchstart', (e) => {
+        if (!productTitle.textContent) return; // защита: товар не открыт
+        touchStartX = e.changedTouches[0].clientX;
+    });
+
+    imageContainer.addEventListener('touchend', (e) => {
+        if (!productTitle.textContent) return;
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // минимальное расстояние для свайпа
+        const product = products.find(p => p.name === productTitle.textContent);
+        if (!product) return;
+
+        const maxIndex = product.images.length - 1;
+        if (maxIndex <= 0) return;
+
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // свайп влево (следующая картинка)
+            currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : 0;
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // свайп вправо (предыдущая картинка)
+            currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : maxIndex;
+        } else {
+            return;
         }
 
-        function showProductDetails(index) {
-            const product = products[index];
-            if (!product) return;
-            productTitle.textContent = product.name;
-            productPrice.textContent = `$${product.price}`;
-            imageContainer.innerHTML = '';
-            product.images.forEach(src => {
-                const img = document.createElement('img');
-                img.className = 'product-image';
-                img.src = src;
-                img.alt = product.name;
-                img.onerror = () => img.style.display = 'none';
-                imageContainer.appendChild(img);
-            });
-            currentImageIndex = 0;
-            imageContainer.style.transform = `translateX(0)`;
-            productOverlay.style.display = 'flex';
-            catalog.style.display = 'none';
-            // прокрутка наверх при открытии
-            productOverlay.scrollTop = 0;
-        }
+        imageContainer.style.transition = "transform 0.3s ease";
+        imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+    }
 
-        // === свайп (touch) для картинок (без ошибок если не открыт товар) ===
-        let touchStartX = 0;
-        let touchEndX = 0;
+    // === навигация / фильтрация ===
+    function handleMenuNavigation(filterType) {
+        renderCatalog();
+        productOverlay.style.display = 'none';
+        banner.style.display = 'none';
+        catalog.style.display = 'block';
+        menuOverlay.style.display = 'none';
 
-        imageContainer.addEventListener('touchstart', (e) => {
-            // защита: если контейнер пуст — ничего не делать
-            if (!productTitle.textContent) return;
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        imageContainer.addEventListener('touchend', (e) => {
-            if (!productTitle.textContent) return;
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const product = products.find(p => p.name === productTitle.textContent);
-            if (!product) return;
-            const maxIndex = product.images.length - 1;
-            if (maxIndex <= 0) return;
-
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // свайп влево — следующая
-                currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : 0;
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // свайп вправо — предыдущая
-                currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : maxIndex;
+        const items = document.querySelectorAll('.catalog-item');
+        items.forEach(item => {
+            if (filterType === 'all') {
+                item.style.display = 'block';
+            } else if (filterType === 'women' || filterType === 'men') {
+                item.style.display = (item.dataset.gender === filterType) ? 'block' : 'none';
+            } else if (filterType === 'new' || filterType === 'winter') {
+                item.style.display = (item.dataset[filterType] === 'true') ? 'block' : 'none';
             } else {
-                return;
+                item.style.display = 'none';
             }
-            imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-        }
-
-        // === навигация / фильтрация ===
-        function handleMenuNavigation(filterType) {
-            // убедимся, что каталог отрисован
-            renderCatalog();
-            productOverlay.style.display = 'none';
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            menuOverlay.style.display = 'none';
-
-            const items = document.querySelectorAll('.catalog-item');
-            items.forEach(item => {
-                if (filterType === 'all') {
-                    item.style.display = 'block';
-                } else if (filterType === 'women' || filterType === 'men') {
-                    item.style.display = (item.dataset.gender === filterType) ? 'block' : 'none';
-                } else if (filterType === 'new' || filterType === 'winter') {
-                    // dataset хранит "true"/"false"
-                    item.style.display = (item.dataset[filterType] === 'true') ? 'block' : 'none';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // === обработчики ===
-        menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
-        menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
-
-        document.getElementById('home').addEventListener('click', () => {
-            productOverlay.style.display = 'none';
-            catalog.style.display = 'none';
-            banner.style.display = 'block';
-            menuOverlay.style.display = 'none';
         });
-        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
-        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
-        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
-        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
+    }
 
-        shopNowBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            banner.style.display = 'none';
-            catalog.style.display = 'block';
-            renderCatalog();
-        });
+    // === обработчики ===
+    menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
+    menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
 
-        filterBtn.addEventListener('click', () => { filterOverlay.style.display = 'block'; });
-        filterCloseBtn.addEventListener('click', () => {
-            filterOverlay.style.display = 'none';
-            document.getElementById('gender-suboptions').style.display = 'none';
-        });
+    document.getElementById('home').addEventListener('click', () => {
+        productOverlay.style.display = 'none';
+        catalog.style.display = 'none';
+        banner.style.display = 'block';
+        menuOverlay.style.display = 'none';
+    });
+    document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
+    document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
+    document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
+    document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
 
-        document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
-        document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
-        document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+    shopNowBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        banner.style.display = 'none';
+        catalog.style.display = 'block';
+        renderCatalog();
+    });
 
-        const filterGender = document.getElementById('filter-gender');
-        const genderSuboptions = document.getElementById('gender-suboptions');
-        filterGender.addEventListener('click', () => { genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block'; });
+    filterBtn.addEventListener('click', () => { filterOverlay.style.display = 'block'; });
+    filterCloseBtn.addEventListener('click', () => {
+        filterOverlay.style.display = 'none';
+        document.getElementById('gender-suboptions').style.display = 'none';
+    });
 
-        // сортировка
-        function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
-        document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
+    document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+    document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+    document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
 
-        document.getElementById('sort-high-to-low').addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
-            items.forEach(i => catalogGrid.appendChild(i));
-            sortOptions.style.display = 'none';
-        });
-        document.getElementById('sort-low-to-high').addEventListener('click', () => {
-            const items = Array.from(document.querySelectorAll('.catalog-item'));
-            items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
-            items.forEach(i => catalogGrid.appendChild(i));
-            sortOptions.style.display = 'none';
-        });
+    const filterGender = document.getElementById('filter-gender');
+    const genderSuboptions = document.getElementById('gender-suboptions');
+    filterGender.addEventListener('click', () => { genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block'; });
 
-        sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
-        // если клик вне кнопки сортировки и вне блока опций — скрыть
-        document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
+    // сортировка
+    function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
+    document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
 
-        // контакт
-        contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
-        contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
-        waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+    document.getElementById('sort-high-to-low').addEventListener('click', () => {
+        const items = Array.from(document.querySelectorAll('.catalog-item'));
+        items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
+        items.forEach(i => catalogGrid.appendChild(i));
+        sortOptions.style.display = 'none';
+    });
+    document.getElementById('sort-low-to-high').addEventListener('click', () => {
+        const items = Array.from(document.querySelectorAll('.catalog-item'));
+        items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
+        items.forEach(i => catalogGrid.appendChild(i));
+        sortOptions.style.display = 'none';
+    });
 
-        // кнопки товара
-        backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
-        orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+    sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
+    document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
 
-        // на случай, если пользователь перезагрузил страницу и хочет сразу увидеть каталог — не рисуем его автоматически,
-        // оставляем главную — каталог рендерится при нажатии SHOP NOW или при фильтрации/меню (handleMenuNavigation).
-        // Но можно раскомментировать следующую строку, если хотите чтобы каталог рендерился сразу:
-        // renderCatalog();
+    // контакт
+    contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
+    contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
+    waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-        // защита: при закрытии меню/фильтра — ничего не ломается
-        window.addEventListener('error', (ev) => {
-            // для отладки: раскомментируй, если нужно логировать
-            // console.error('JS error:', ev.message, ev.filename, ev.lineno);
-        });
-    </script>
+    // кнопки товара
+    backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
+    orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+
+    window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
+</script>
 </body>
 </html>
