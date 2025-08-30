@@ -206,10 +206,10 @@
             imageContainer.appendChild(img);
         });
         currentImageIndex = 0;
-        // Временно отключаем transition, чтобы мгновенно перейти к первому изображению
+        // Мгновенный переход к первому изображению
         imageContainer.style.transition = 'none';
         imageContainer.style.transform = `translateX(0)`;
-        // Включаем transition снова с небольшой задержкой
+        // Включаем transition снова с небольшой задержкой для плавности последующих свайпов
         setTimeout(() => {
              imageContainer.style.transition = 'transform 0.3s ease';
         }, 10);
@@ -225,6 +225,7 @@
     imageContainer.addEventListener('touchstart', (e) => {
         if (!productTitle.textContent) return;
         touchStartX = e.changedTouches[0].clientX;
+        touchEndX = 0; // Сбрасываем конечную точку при начале свайпа
     });
 
     imageContainer.addEventListener('touchend', (e) => {
@@ -234,21 +235,21 @@
     });
 
     function handleSwipe() {
-        const swipeThreshold = 50;
+        const swipeThreshold = 50; // Минимальное расстояние для свайпа
         const product = products.find(p => p.name === productTitle.textContent);
         if (!product || product.images.length <= 1) return;
 
         const maxIndex = product.images.length - 1;
         const swipeDistance = touchEndX - touchStartX;
 
-        if (swipeDistance < -swipeThreshold) { // Свайп влево
+        if (swipeDistance < -swipeThreshold) { // Свайп влево (следующее изображение)
             currentImageIndex = (currentImageIndex < maxIndex) ? currentImageIndex + 1 : maxIndex;
-        } else if (swipeDistance > swipeThreshold) { // Свайп вправо
+        } else if (swipeDistance > swipeThreshold) { // Свайп вправо (предыдущее изображение)
             currentImageIndex = (currentImageIndex > 0) ? currentImageIndex - 1 : 0;
         } else {
             return;
         }
-
+        
         imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
     }
 
