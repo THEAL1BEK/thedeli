@@ -62,13 +62,13 @@
 
         #shop-now-btn {
             position: fixed;
-            bottom: 20px;
+            bottom: calc(20px + 1cm); /* Поднятие на 1 см вверх */
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 20px;
+            padding: 15px 30px; /* Увеличение размера в 1.5 раза */
             color: #fff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 21px; /* Увеличение размера текста в 1.5 раза */
             font-weight: bold;
             text-transform: uppercase;
             z-index: 1001;
@@ -231,8 +231,7 @@
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 10px;
-            padding: 0 10px;
+            padding: 0 10px; /* Убрано grid-gap для отсутствия пространства */
         }
 
         .catalog-item {
@@ -260,8 +259,8 @@
                 font-size: 1.2rem;
             }
             #shop-now-btn {
-                font-size: 12px;
-                padding: 8px 16px;
+                font-size: 18px; /* Адаптивное уменьшение текста */
+                padding: 12px 24px;
             }
             #menu-overlay li, #filter-overlay li, #contact-overlay li {
                 font-size: 16px;
@@ -308,7 +307,6 @@
             <li id="women">Women</li>
             <li id="men">Men</li>
             <li id="winter">Winter</li>
-            <li>Travel</li>
             <li>Gifts</li>
             <li id="contact">Contact</li>
         </ul>
@@ -340,7 +338,7 @@
             <span id="filter-btn">Filter</span>
             <span id="sort-btn">Sort by</span>
             <div id="sort-options">
-                <div id="sort-relevance">Relevance ✓</div>
+                <div id="sort-relevance">Relevance</div>
                 <div id="sort-high-to-low">Price: High to Low</div>
                 <div id="sort-low-to-high">Price: Low to High</div>
             </div>
@@ -421,7 +419,15 @@
             e.preventDefault();
             banner.style.display = 'none';
             catalog.style.display = 'block';
-            showAllItems();
+            window.history.pushState(null, '', '/catalog'); // Добавление состояния для "Back"
+        });
+
+        // Обработка кнопки "Back" браузера
+        window.addEventListener('popstate', () => {
+            if (catalog.style.display === 'block') {
+                catalog.style.display = 'none';
+                banner.style.display = 'block';
+            }
         });
 
         const homeItem = document.getElementById('home');
@@ -429,6 +435,7 @@
             catalog.style.display = 'none';
             banner.style.display = 'block';
             menuOverlay.style.display = 'none';
+            window.history.pushState(null, '', '/'); // Обновление истории
         });
 
         const newInItem = document.getElementById('new-in');
@@ -439,6 +446,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/new-in'); // Обновление истории
         });
 
         const womenItem = document.getElementById('women');
@@ -449,6 +457,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/women'); // Обновление истории
         });
 
         const menItem = document.getElementById('men');
@@ -459,6 +468,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/men'); // Обновление истории
         });
 
         const winterItem = document.getElementById('winter');
@@ -469,6 +479,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/winter'); // Обновление истории
         });
 
         const filterGender = document.getElementById('filter-gender');
@@ -482,6 +493,7 @@
             showAllItems();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
+            window.history.pushState(null, '', '/catalog'); // Обновление истории
         });
 
         const filterWomen = document.getElementById('filter-women');
@@ -493,6 +505,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/women'); // Обновление истории
         });
 
         const filterMen = document.getElementById('filter-men');
@@ -504,6 +517,7 @@
             document.querySelectorAll('.catalog-item').forEach(item => {
                 item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
             });
+            window.history.pushState(null, '', '/men'); // Обновление истории
         });
 
         function showAllItems() {
@@ -516,6 +530,7 @@
         sortRelevance.addEventListener('click', () => {
             showAllItems();
             sortOptions.style.display = 'none';
+            window.history.pushState(null, '', '/catalog'); // Обновление истории
         });
 
         const sortHighToLow = document.getElementById('sort-high-to-low');
@@ -528,6 +543,7 @@
             });
             items.forEach(item => catalog.querySelector('.catalog-grid').appendChild(item));
             sortOptions.style.display = 'none';
+            window.history.pushState(null, '', '/catalog?sort=high-to-low'); // Обновление истории
         });
 
         const sortLowToHigh = document.getElementById('sort-low-to-high');
@@ -540,6 +556,7 @@
             });
             items.forEach(item => catalog.querySelector('.catalog-grid').appendChild(item));
             sortOptions.style.display = 'none';
+            window.history.pushState(null, '', '/catalog?sort=low-to-high'); // Обновление истории
         });
 
         contactItem.addEventListener('click', () => {
