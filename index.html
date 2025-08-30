@@ -206,25 +206,27 @@
             overflow-y: auto;
         }
 
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .product-header {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .product-price {
-            font-size: 20px;
-            color: #888;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 22px;
+            color: #555;
         }
 
         .product-images {
             position: relative;
             width: 100%;
             max-width: 400px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
             overflow: hidden;
         }
 
@@ -235,9 +237,23 @@
 
         .product-image {
             min-width: 100%;
-            height: 300px;
+            height: 400px;
             object-fit: cover;
             flex-shrink: 0;
+        }
+
+        .back-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .filter-sort {
@@ -334,7 +350,11 @@
                 min-width: 120px;
             }
             .product-image {
-                height: 200px;
+                height: 250px;
+            }
+            .back-btn {
+                font-size: 14px;
+                padding: 8px 16px;
             }
         }
     </style>
@@ -400,11 +420,14 @@
 
     <div id="product-overlay">
         <div class="close-btn"><span>&times;</span></div>
-        <div class="product-title" id="product-title"></div>
-        <div class="product-price" id="product-price"></div>
+        <div class="product-header">
+            <div class="product-title" id="product-title"></div>
+            <div class="product-price" id="product-price"></div>
+        </div>
         <div class="product-images">
             <div class="image-container" id="image-container"></div>
         </div>
+        <button class="back-btn" id="back-btn">Back</button>
     </div>
 
     <script>
@@ -412,7 +435,7 @@
             {
                 name: "Ivory Sunglasses",
                 price: 99,
-                images: ["ivory.jpg", "ivory_side.jpg", "ivory_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: false
@@ -420,7 +443,7 @@
             {
                 name: "Lalo Sunglasses",
                 price: 129,
-                images: ["IMG_8125.JPG", "lalo_side.jpg", "lalo_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: true
@@ -428,7 +451,7 @@
             {
                 name: "Rod Sunglasses",
                 price: 89,
-                images: ["IMG_8125.JPG", "rod_side.jpg", "rod_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: false
@@ -436,7 +459,7 @@
             {
                 name: "Brock Sunglasses",
                 price: 149,
-                images: ["IMG_8125.JPG", "brock_side.jpg", "brock_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: false
@@ -444,7 +467,7 @@
             {
                 name: "Glock Sunglasses",
                 price: 109,
-                images: ["IMG_8125.JPG", "glock_side.jpg", "glock_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "men",
                 winter: true,
                 newIn: true
@@ -452,7 +475,7 @@
             {
                 name: "Leck Sunglasses",
                 price: 119,
-                images: ["IMG_8125.JPG", "leck_side.jpg", "leck_top.jpg"],
+                images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"],
                 gender: "women",
                 winter: false,
                 newIn: false
@@ -480,6 +503,7 @@
         const productTitle = document.getElementById('product-title');
         const productPrice = document.getElementById('product-price');
         const imageContainer = document.getElementById('image-container');
+        const backBtn = document.getElementById('back-btn');
         let currentImageIndex = 0;
 
         // Генерация карточек из products
@@ -536,19 +560,22 @@
 
         function handleSwipe() {
             const swipeThreshold = 50;
-            const product = products.find(p => p.name === productTitle.textContent && `$${p.price}` === productPrice.textContent);
-            if (product) {
-                if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < product.images.length - 1) {
-                    currentImageIndex++;
-                    imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-                } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
-                    currentImageIndex--;
-                    imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-                }
+            const product = products[products.findIndex(p => p.name === productTitle.textContent)];
+            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < product.images.length - 1) {
+                currentImageIndex++;
+                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
+                currentImageIndex--;
+                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             }
         }
 
         productCloseBtn.addEventListener('click', () => {
+            productOverlay.style.display = 'none';
+            catalog.style.display = 'block';
+        });
+
+        backBtn.addEventListener('click', () => {
             productOverlay.style.display = 'none';
             catalog.style.display = 'block';
         });
