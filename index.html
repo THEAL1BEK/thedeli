@@ -138,7 +138,7 @@
 
         #catalog {
             margin-top: 60px;
-            padding: 20px 0; /* Убрал горизонтальные отступы */
+            padding: 20px 0;
             background: #fff;
             display: none;
             overflow-y: auto;
@@ -162,20 +162,20 @@
         .catalog-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: 0; /* Убрал промежутки между карточками */
-            padding: 0; /* Убрал внутренние отступы */
+            grid-gap: 0;
+            padding: 0;
         }
 
         .catalog-item {
             position: relative;
             box-sizing: border-box;
-            border: 1px solid #ccc; /* Границы карточек */
+            border: 0.5px solid #ddd; /* Тоньше и мягче границы */
         }
 
         .catalog-item img {
             width: 100%;
             height: 0;
-            padding-bottom: 200%; /* Соотношение 2:1 (высота в 2 раза больше ширины) */
+            padding-bottom: 165%; /* Соотношение 959:579 ≈ 165% */
             object-fit: cover;
             display: block;
         }
@@ -212,13 +212,13 @@
                 justify-content: space-between;
             }
             .catalog-grid {
-                grid-template-columns: repeat(2, 1fr); /* Сохраняем два столбца */
+                grid-template-columns: repeat(2, 1fr);
             }
             .catalog-item img {
-                padding-bottom: 200%; /* Сохраняем соотношение 2:1 на мобильных */
+                padding-bottom: 165%; /* Сохраняем соотношение 2:1 на мобильных */
             }
             #catalog {
-                padding: 10px 0; /* Уменьшил отступы для мобильной версии */
+                padding: 10px 0;
             }
         }
     </style>
