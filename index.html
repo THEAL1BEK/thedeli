@@ -575,14 +575,18 @@
             const swipeThreshold = 50;
             const product = products[products.findIndex(p => p.name === productTitle.textContent)];
             const maxIndex = product.images.length - 1;
-            if (touchEndX < touchStartX - swipeThreshold && maxIndex > 0) {
-                if (currentImageIndex < maxIndex) currentImageIndex++;
-                else currentImageIndex = 0;
-            } else if (touchEndX > touchStartX + swipeThreshold && maxIndex > 0) {
-                if (currentImageIndex > 0) currentImageIndex--;
-                else currentImageIndex = maxIndex;
+            if (maxIndex > 0) { // Only swipe if there are multiple images
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left
+                    if (currentImageIndex < maxIndex) currentImageIndex++;
+                    else currentImageIndex = 0;
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right
+                    if (currentImageIndex > 0) currentImageIndex--;
+                    else currentImageIndex = maxIndex;
+                }
+                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
             }
-            imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
         }
 
         orderBtn.addEventListener('click', () => {
@@ -721,7 +725,6 @@
             window.location.href = 'https://wa.me/77470383524';
         });
 
-        // Ensure catalog renders on page load if needed
         window.onload = renderCatalog;
     </script>
 </body>
