@@ -457,15 +457,6 @@
                 winter: false,
                 newIn: false
             }
-            // Добавляй новые товары сюда, например:
-            // {
-            //     name: "New Product",
-            //     price: 150,
-            //     images: ["new_image1.jpg", "new_image2.jpg", "new_image3.jpg"],
-            //     gender: "women",
-            //     winter: true,
-            //     newIn: true
-            // }
         ];
 
         const menuIcon = document.getElementById('menu-icon');
@@ -500,7 +491,7 @@
                 item.dataset.gender = product.gender;
                 item.dataset.winter = product.winter;
                 item.dataset.new = product.newIn;
-                item.dataset.index = index; // Сохраняем индекс товара
+                item.dataset.index = index;
                 item.innerHTML = `
                     <img src="${product.images[0]}" alt="${product.name}" onerror="console.log('Ошибка загрузки ${product.images[0]}')">
                     <div class="item-text">${product.name}<br>$${product.price}</div>
@@ -545,13 +536,15 @@
 
         function handleSwipe() {
             const swipeThreshold = 50;
-            const images = product.images;
-            if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < images.length - 1) {
-                currentImageIndex++;
-                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
-            } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
-                currentImageIndex--;
-                imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            const product = products.find(p => p.name === productTitle.textContent && `$${p.price}` === productPrice.textContent);
+            if (product) {
+                if (touchEndX < touchStartX - swipeThreshold && currentImageIndex < product.images.length - 1) {
+                    currentImageIndex++;
+                    imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+                } else if (touchEndX > touchStartX + swipeThreshold && currentImageIndex > 0) {
+                    currentImageIndex--;
+                    imageContainer.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+                }
             }
         }
 
@@ -610,3 +603,126 @@
                 item.style.display = item.dataset.new === 'true' ? 'block' : 'none';
             });
             renderCatalog();
+        });
+
+        const womenItem = document.getElementById('women');
+        womenItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
+            });
+            renderCatalog();
+        });
+
+        const menItem = document.getElementById('men');
+        menItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
+            });
+            renderCatalog();
+        });
+
+        const winterItem = document.getElementById('winter');
+        winterItem.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.winter === 'true' ? 'block' : 'none';
+            });
+            renderCatalog();
+        });
+
+        const filterGender = document.getElementById('filter-gender');
+        const genderSuboptions = document.getElementById('gender-suboptions');
+        filterGender.addEventListener('click', () => {
+            genderSuboptions.style.display = genderSuboptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        const filterAll = document.getElementById('filter-all');
+        filterAll.addEventListener('click', () => {
+            showAllItems();
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+        });
+
+        const filterWomen = document.getElementById('filter-women');
+        filterWomen.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'women' ? 'block' : 'none';
+            });
+        });
+
+        const filterMen = document.getElementById('filter-men');
+        filterMen.addEventListener('click', () => {
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.gender === 'men' ? 'block' : 'none';
+            });
+        });
+
+        function showAllItems() {
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = 'block';
+            });
+        }
+
+        const sortRelevance = document.getElementById('sort-relevance');
+        sortRelevance.addEventListener('click', () => {
+            showAllItems();
+            sortOptions.style.display = 'none';
+        });
+
+        const sortHighToLow = document.getElementById('sort-high-to-low');
+        sortHighToLow.addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
+                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
+                return priceB - priceA;
+            });
+            items.forEach(item => catalogGrid.appendChild(item));
+            sortOptions.style.display = 'none';
+        });
+
+        const sortLowToHigh = document.getElementById('sort-low-to-high');
+        sortLowToHigh.addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.item-text').textContent.split('$')[1]);
+                const priceB = parseInt(b.querySelector('.item-text').textContent.split('$')[1]);
+                return priceA - priceB;
+            });
+            items.forEach(item => catalogGrid.appendChild(item));
+            sortOptions.style.display = 'none';
+        });
+
+        contactItem.addEventListener('click', () => {
+            contactOverlay.style.display = 'flex';
+        });
+
+        contactCloseBtn.addEventListener('click', () => {
+            contactOverlay.style.display = 'none';
+        });
+
+        waMeChat.addEventListener('click', () => {
+            window.location.href = 'https://wa.me/77470383524';
+        });
+
+        // Инициализация каталога
+        renderCatalog();
+    </script>
+</body>
+</html>
