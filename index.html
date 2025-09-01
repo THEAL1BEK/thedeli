@@ -55,13 +55,19 @@
             box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
         }
         .color-option {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            margin: 5px;
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
             cursor: pointer;
         }
-        .color-option:hover {
+        .color-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+        }
+        .color-option:hover .color-circle {
             opacity: 0.7;
         }
         @media (max-width:768px){
@@ -111,18 +117,18 @@
             </li>
             <li class="filter-option" id="filter-color">Color
                 <div id="color-suboptions" class="filter-suboptions" style="display: none;">
-                    <div class="color-option" data-color="black" style="background-color: black;"></div>
-                    <div class="color-option" data-color="brown" style="background-color: brown;"></div>
-                    <div class="color-option" data-color="gold" style="background-color: gold;"></div>
-                    <div class="color-option" data-color="silver" style="background-color: silver;"></div>
-                    <div class="color-option" data-color="grey" style="background-color: grey;"></div>
-                    <div class="color-option" data-color="blue" style="background-color: blue;"></div>
-                    <div class="color-option" data-color="bordeaux" style="background-color: #800020;"></div>
-                    <div class="color-option" data-color="green" style="background-color: green;"></div>
-                    <div class="color-option" data-color="white" style="background-color: white; border: 1px solid #ccc;"></div>
-                    <div class="color-option" data-color="orange" style="background-color: orange;"></div>
-                    <div class="color-option" data-color="red" style="background-color: red;"></div>
-                    <div class="color-option" data-color="yellow" style="background-color: yellow;"></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: black;" data-color="black"></div>Black</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: brown;" data-color="brown"></div>Brown</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: gold;" data-color="gold"></div>Gold</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: silver;" data-color="silver"></div>Silver</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: grey;" data-color="grey"></div>Grey</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: blue;" data-color="blue"></div>Blue</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: #800020;" data-color="bordeaux"></div>Bordeaux</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: green;" data-color="green"></div>Green</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: white;" data-color="white"></div>White</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: orange;" data-color="orange"></div>Orange</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: red;" data-color="red"></div>Red</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: yellow;" data-color="yellow"></div>Yellow</div>
                 </div>
             </li>
         </ul>
@@ -248,122 +254,4 @@
         renderCatalog();
         productOverlay.style.display = 'none';
         banner.style.display = 'none';
-        catalog.style.display = 'block';
-        menuOverlay.style.display = 'none';
-
-        const items = document.querySelectorAll('.catalog-item');
-        items.forEach(item => {
-            if (filterType === 'all') {
-                item.style.display = 'block';
-            } else if (filterType === 'women' || filterType === 'men') {
-                item.style.display = (item.dataset.gender === filterType) ? 'block' : 'none';
-            } else if (filterType === 'new' || filterType === 'winter') {
-                item.style.display = (item.dataset[filterType] === 'true') ? 'block' : 'none';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    function filterByColor(color) {
-        renderCatalog();
-        const items = document.querySelectorAll('.catalog-item');
-        items.forEach(item => {
-            const product = products[item.dataset.index];
-            if (!product || !product.color) {
-                item.style.display = 'none';
-            } else if (color === 'all' || product.color === color) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    // === обработчики ===
-    menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
-    menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
-
-    document.getElementById('home').addEventListener('click', () => {
-        productOverlay.style.display = 'none';
-        catalog.style.display = 'none';
-        banner.style.display = 'block';
-        menuOverlay.style.display = 'none';
-    });
-    document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
-    document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
-    document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
-    document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
-
-    shopNowBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        banner.style.display = 'none';
-        catalog.style.display = 'block';
-        renderCatalog();
-    });
-
-    filterBtn.addEventListener('click', () => { filterOverlay.style.display = 'block'; });
-    filterCloseBtn.addEventListener('click', () => {
-        filterOverlay.style.display = 'none';
-        document.getElementById('gender-suboptions').style.display = 'none';
-        colorSuboptions.style.display = 'none';
-    });
-
-    document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
-    document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
-    document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
-
-    const filterGender = document.getElementById('filter-gender');
-    const genderSuboptions = document.getElementById('gender-suboptions');
-    filterGender.addEventListener('click', () => {
-        genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block';
-        colorSuboptions.style.display = 'none'; // Скрыть цвет при открытии Gender
-    });
-
-    filterColor.addEventListener('click', () => {
-        colorSuboptions.style.display = (colorSuboptions.style.display === 'block') ? 'none' : 'block';
-        genderSuboptions.style.display = 'none'; // Скрыть Gender при открытии Color
-    });
-
-    document.querySelectorAll('.color-option').forEach(option => {
-        option.addEventListener('click', () => {
-            const selectedColor = option.getAttribute('data-color');
-            filterByColor(selectedColor);
-            colorSuboptions.style.display = 'none';
-            filterOverlay.style.display = 'none';
-        });
-    });
-
-    // сортировка
-    function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
-    document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
-
-    document.getElementById('sort-high-to-low').addEventListener('click', () => {
-        const items = Array.from(document.querySelectorAll('.catalog-item'));
-        items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
-        items.forEach(i => catalogGrid.appendChild(i));
-        sortOptions.style.display = 'none';
-    });
-    document.getElementById('sort-low-to-high').addEventListener('click', () => {
-        const items = Array.from(document.querySelectorAll('.catalog-item'));
-        items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
-        items.forEach(i => catalogGrid.appendChild(i));
-        sortOptions.style.display = 'none';
-    });
-
-    sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
-    document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
-
-    // контакт
-    contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
-    contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
-    waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
-
-    // кнопки товара
-    backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
-    orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
-
-    window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
-    </script>
-</body>
-</html>
+        catalog.style.display = 'block
