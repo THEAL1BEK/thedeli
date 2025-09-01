@@ -5,5 +5,8 @@ const products = [
     { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
     { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
     { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "unisex", winter: true, newIn: true, color: "blue" }
-   
+    // Добавляйте новые товары здесь, например:
+    // { name: "New Item 1", price: 100, images: ["img.jpg"], gender: "unisex", winter: false, newIn: true, color: "red" },
+    // { name: "New Item 2", price: 150, images: ["img.jpg"], gender: "women", winter: true, newIn: false, color: "green" }
+    // Убедитесь, что нет лишней запятой в конце массива
 ];
