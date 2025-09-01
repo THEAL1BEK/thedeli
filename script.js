@@ -112,7 +112,7 @@ document.getElementById('home').addEventListener('click', () => {
     banner.style.display = 'block';
     menuOverlay.style.display = 'none';
 });
-document.getElementById('all').addEventListener('click', () => handleMenuNavigation('all')); // Добавлено: Обработчик для "All"
+document.getElementById('all').addEventListener('click', () => handleMenuNavigation('all')); // Обработчик для "All"
 document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
 document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
 document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
@@ -120,6 +120,7 @@ document.getElementById('winter').addEventListener('click', () => handleMenuNavi
 
 shopNowBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    currentFilters = { gender: 'all', category: null, color: null }; // Сбрасываем фильтры для полного каталога
     banner.style.display = 'none';
     catalog.style.display = 'block';
     renderCatalog();
@@ -225,7 +226,7 @@ waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me
 backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
 orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-window.addEventListener('error', (ev) => { console.error(ev.message); }); // Включил логирование ошибок для отладки
+window.addEventListener('error', (ev) => { console.error(ev.message); }); // Логирование ошибок для отладки
 
 // Инициализация
 renderCatalog();
