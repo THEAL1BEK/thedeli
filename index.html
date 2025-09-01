@@ -1,352 +1,429 @@
-<section id="banner">
-    <a href="#" id="shop-now-btn">SHOP NOW</a>
-</section>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourBrand - Главная</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #000; background: #fff; overflow-x: hidden; }
+        header { background: #fff; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); height: 60px; }
+        .logo { font-size: 1.5rem; font-weight: bold; text-transform: uppercase; color: #000; }
+        .icons { display: flex; gap: 1rem; }
+        .icon { font-size: 1.5rem; cursor: pointer; color: #000; }
+        #banner { margin-top: 60px; height: calc(100vh - 60px); background: url('IMG_8125.JPG') no-repeat center/cover; position: relative; }
+        #shop-now-btn { position: fixed; bottom: calc(20px + 1cm); left: 50%; transform: translateX(-50%); padding: 15px 30px; color: #fff; text-decoration: none; font-size: 21px; font-weight: bold; text-transform: uppercase; z-index: 1001; cursor: pointer; background: transparent; border: 1px solid #fff; }
+        /* overlays */
+        #menu-overlay, #filter-overlay, #contact-overlay { position: fixed; background: #fff; display: none; flex-direction: column; z-index: 2000; }
+        #menu-overlay { top: 60px; left: 0; width: 100%; height: calc(100% - 60px); padding: 20px; }
+        #filter-overlay { top: 60px; left: 0; width: 300px; height: calc(100% - 60px); padding: 20px; z-index: 999; box-shadow: 2px 0 5px rgba(0,0,0,0.1); }
+        #contact-overlay { bottom: 0; left: 0; width: 100%; padding: 20px; z-index: 999; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+        .close-btn { position: absolute; top: 10px; right: 20px; width: 40px; height: 40px; background: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .close-btn span { color: #fff; font-size: 24px; font-weight: bold; }
+        ul { list-style: none; width: 100%; margin-top: 20px; }
+        li { margin: 1rem 0; font-size: 18px; cursor: pointer; color: #000; text-align: left; padding-left: 20px; position: relative; }
+        #menu-overlay li:after { content: '›'; position: absolute; right: 20px; color: #888; }
+        #filter-overlay .filter-option { margin-bottom: 10px; position: relative; }
+        #filter-overlay .filter-suboptions { display: none; }
+        #filter-overlay .filter-suboptions li { margin: 5px 0; }
+        #catalog { margin-top: 60px; padding: 20px 0; background: #fff; display: none; overflow-y: auto; min-height: calc(100vh - 60px); }
+        #product-overlay { position: fixed; top: 60px; left: 0; width: 100%; height: calc(100% - 60px); background: #fff; display: none; flex-direction: column; padding: 20px; z-index: 1000; overflow-y: auto; }
+        .product-images { position: relative; width: 100%; max-width: 400px; margin: 0 auto 20px; }
+        .product-image { width: 100%; height: 400px; object-fit: cover; border: 1px solid #ddd; }
+        .product-details { text-align: left; margin-top: 20px; margin-left: 20px; }
+        .product-title { font-size: 18px; font-weight: normal; color: #000; margin-bottom: 5px; }
+        .product-price { font-size: 22px; color: #000; }
+        .product-actions { display: flex; justify-content: space-between; padding: 20px 20px 0; }
+        .order-btn, .back-btn { padding: 15px 30px; color: #000; text-decoration: none; font-size: 21px; font-weight: bold; text-transform: uppercase; cursor: pointer; background: transparent; border: 1px solid #000; }
+        .filter-sort { display: flex; justify-content: space-between; margin-bottom: 15px; padding: 0 10px; position: relative; }
+        .filter-sort span { font-size: 14px; font-weight: bold; cursor: pointer; color: #000; }
+        #sort-options { display: none; position: absolute; top: 100%; right: 0; background: #fff; border: 1px solid #ddd; padding: 5px 0; z-index: 1000; min-width: 150px; }
+        #sort-options div { padding: 5px 10px; cursor: pointer; }
+        #sort-options div:hover { background-color: #f0f0f0; }
+        .catalog-grid { display: grid; grid-template-columns: repeat(2, 1fr); padding: 0 10px; gap: 0; }
+        .catalog-item { border: 0.8px solid #ddd; text-align: center; cursor: pointer; padding-bottom: 8px; background: #fff; }
+        .catalog-item img { width: 100%; object-fit: cover; display: block; }
+        .catalog-item .item-text { padding: 10px; color: #000; font-size: 14px; text-align: center; }
+        #color-suboptions {
+            position: absolute;
+            top: 100%; /* Выдвигается сразу под кнопкой Color */
+            left: 0;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 столбца, как на картинке */
+            gap: 10px;
+            z-index: 1001;
+            width: 280px;
+            max-height: 200px; /* Ограничение высоты для прокрутки */
+            overflow-y: auto;
+        }
+        .color-option {
+            text-align: center;
+            cursor: pointer;
+        }
+        .color-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 auto 5px;
+            border: 1px solid #ccc;
+        }
+        .color-option:hover .color-circle {
+            opacity: 0.7;
+        }
+        #filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #reset-all {
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .logo { font-size: 1.2rem; }
+            #shop-now-btn { font-size: 18px; padding: 12px 24px; }
+            .catalog-item .item-text { font-size: 12px; }
+            .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
+            #filter-overlay { width: 250px; }
+            #sort-options { min-width: 120px; }
+            .product-image { height: 250px; }
+            .order-btn, .back-btn { font-size: 18px; padding: 12px 24px; }
+            #color-suboptions { width: 230px; grid-template-columns: repeat(3, 1fr); } /* 3 столбца на мобильных */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">THE KURDELI</div>
+        <div class="icons"><span class="icon" id="menu-icon">☰</span></div>
+    </header>
 
-<div id="menu-overlay">
-    <div class="close-btn" id="menu-close"><span>&times;</span></div>
-    <ul>
-        <li id="home">Home</li>
-        <li id="new-in">New In</li>
-        <li id="women">Women</li>
-        <li id="men">Men</li>
-        <li id="winter">Winter</li>
-        <li>Gifts</li>
-        <li id="contact">Contact</li>
-    </ul>
-</div>
+    <section id="banner">
+        <a href="#" id="shop-now-btn">SHOP NOW</a>
+    </section>
 
-<div id="filter-overlay">
-    <div id="filter-header">
-        <span>FILTER</span>
-        <span id="reset-all">Reset All</span>
+    <div id="menu-overlay">
+        <div class="close-btn" id="menu-close"><span>&times;</span></div>
+        <ul>
+            <li id="home">Home</li>
+            <li id="new-in">New In</li>
+            <li id="women">Women</li>
+            <li id="men">Men</li>
+            <li id="winter">Winter</li>
+            <li>Gifts</li>
+            <li id="contact">Contact</li>
+        </ul>
     </div>
-    <div class="close-btn" id="filter-close"><span>&times;</span></div>
-    <ul>
-        <li class="filter-option" id="filter-gender">Gender
-            <ul class="filter-suboptions" id="gender-suboptions">
-                <li id="filter-all">All</li>
-                <li id="filter-women">Women</li>
-                <li id="filter-men">Men</li>
-            </ul>
-        </li>
-        <li class="filter-option" id="filter-color">Color
-            <div id="color-suboptions" style="display: none;">
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: black;" data-color="black"></div>
-                    Black
+
+    <div id="filter-overlay">
+        <div id="filter-header">
+            <span>FILTER</span>
+            <span id="reset-all">Reset All</span>
+        </div>
+        <div class="close-btn" id="filter-close"><span>&times;</span></div>
+        <ul>
+            <li class="filter-option" id="filter-gender">Gender
+                <ul class="filter-suboptions" id="gender-suboptions">
+                    <li id="filter-all">All</li>
+                    <li id="filter-women">Women</li>
+                    <li id="filter-men">Men</li>
+                </ul>
+            </li>
+            <li class="filter-option" id="filter-color">Color
+                <div id="color-suboptions" style="display: none;">
+                    <div class="color-option"><div class="color-circle" style="background-color: black;" data-color="black"></div>Black</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: brown;" data-color="brown"></div>Brown</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: gold;" data-color="gold"></div>Gold</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: silver;" data-color="silver"></div>Silver</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: grey;" data-color="grey"></div>Grey</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: blue;" data-color="blue"></div>Blue</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: #800020;" data-color="bordeaux"></div>Bordeaux</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: green;" data-color="green"></div>Green</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: white;" data-color="white"></div>White</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: orange;" data-color="orange"></div>Orange</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: red;" data-color="red"></div>Red</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: yellow;" data-color="yellow"></div>Yellow</div>
                 </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: brown;" data-color="brown"></div>
-                    Brown
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: gold;" data-color="gold"></div>
-                    Gold
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: silver;" data-color="silver"></div>
-                    Silver
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: grey;" data-color="grey"></div>
-                    Grey
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: blue;" data-color="blue"></div>
-                    Blue
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: #800020;" data-color="bordeaux"></div>
-                    Bordeaux
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: green;" data-color="green"></div>
-                    Green
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: white;" data-color="white"></div>
-                    White
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: orange;" data-color="orange"></div>
-                    Orange
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: red;" data-color="red"></div>
-                    Red
-                </div>
-                <div class="color-option">
-                    <div class="color-circle" style="background-color: yellow;" data-color="yellow"></div>
-                    Yellow
-                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div id="contact-overlay">
+        <div class="close-btn" id="contact-close"><span>&times;</span></div>
+        <ul>
+            <li id="wa-me-chat">wa.me chat</li>
+        </ul>
+    </div>
+
+    <div id="catalog">
+        <div class="filter-sort">
+            <span id="filter-btn">Filter</span>
+            <span id="sort-btn">Sort by</span>
+            <div id="sort-options">
+                <div id="sort-relevance">Relevance</div>
+                <div id="sort-high-to-low">Price: High to Low</div>
+                <div id="sort-low-to-high">Price: Low to High</div>
             </div>
-        </li>
-    </ul>
-</div>
+        </div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+    </div>
 
-<div id="contact-overlay">
-    <div class="close-btn" id="contact-close"><span>&times;</span></div>
-    <ul>
-        <li id="wa-me-chat">wa.me chat</li>
-    </ul>
-</div>
-
-<div id="catalog">
-    <div class="filter-sort">
-        <span id="filter-btn">Filter</span>
-        <span id="sort-btn">Sort by</span>
-        <div id="sort-options">
-            <div id="sort-relevance">Relevance</div>
-            <div id="sort-high-to-low">Price: High to Low</div>
-            <div id="sort-low-to-high">Price: Low to High</div>
+    <div id="product-overlay">
+        <div class="product-images" id="image-container"></div>
+        <div class="product-details">
+            <div class="product-title" id="product-title"></div>
+            <div class="product-price" id="product-price"></div>
+        </div>
+        <div class="product-actions">
+            <button class="order-btn" id="order-btn">Order</button>
+            <button class="back-btn" id="back-btn">Back</button>
         </div>
     </div>
-    <div class="catalog-grid" id="catalog-grid"></div>
-</div>
 
-<div id="product-overlay">
-    <div class="product-images" id="image-container"></div>
-    <div class="product-details">
-        <div class="product-title" id="product-title"></div>
-        <div class="product-price" id="product-price"></div>
-    </div>
-    <div class="product-actions">
-        <button class="order-btn" id="order-btn">Order</button>
-        <button class="back-btn" id="back-btn">Back</button>
-    </div>
-</div>
+    <script>
+        // === данные товаров ===
+        const products = [
+            { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "black" },
+            { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "brown" },
+            { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "women", winter: false, newIn: true, color: "gold" },
+            { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
+            { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
+            { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: true, color: "blue" }
+        ];
 
-<script>
-// === данные товаров ===
-const products = [
-    { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "black" },
-    { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "brown" },
-    { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true, color: "gold" },
-    { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
-    { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
-    { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true, color: "blue" }
-];
+        let currentFilters = { gender: 'all', category: null, color: null };
 
-let currentFilters = { gender: 'all', category: null, color: null };
+        // === элементы ===
+        const menuIcon = document.getElementById('menu-icon');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuClose = document.getElementById('menu-close');
 
-// === элементы ===
-const menuIcon = document.getElementById('menu-icon');
-const menuOverlay = document.getElementById('menu-overlay');
-const menuClose = document.getElementById('menu-close');
+        const shopNowBtn = document.getElementById('shop-now-btn');
+        const banner = document.getElementById('banner');
+        const catalog = document.getElementById('catalog');
 
-const shopNowBtn = document.getElementById('shop-now-btn');
-const banner = document.getElementById('banner');
-const catalog = document.getElementById('catalog');
+        const filterBtn = document.getElementById('filter-btn');
+        const filterOverlay = document.getElementById('filter-overlay');
+        const filterCloseBtn = document.getElementById('filter-close');
 
-const filterBtn = document.getElementById('filter-btn');
-const filterOverlay = document.getElementById('filter-overlay');
-const filterCloseBtn = document.getElementById('filter-close');
+        const sortBtn = document.getElementById('sort-btn');
+        const sortOptions = document.getElementById('sort-options');
 
-const sortBtn = document.getElementById('sort-btn');
-const sortOptions = document.getElementById('sort-options');
+        const contactItem = document.getElementById('contact');
+        const contactOverlay = document.getElementById('contact-overlay');
+        const contactCloseBtn = document.getElementById('contact-close');
+        const waMeChat = document.getElementById('wa-me-chat');
 
-const contactItem = document.getElementById('contact');
-const contactOverlay = document.getElementById('contact-overlay');
-const contactCloseBtn = document.getElementById('contact-close');
-const waMeChat = document.getElementById('wa-me-chat');
+        const catalogGrid = document.getElementById('catalog-grid');
 
-const catalogGrid = document.getElementById('catalog-grid');
+        const productOverlay = document.getElementById('product-overlay');
+        const productTitle = document.getElementById('product-title');
+        const productPrice = document.getElementById('product-price');
+        const imageContainer = document.getElementById('image-container');
 
-const productOverlay = document.getElementById('product-overlay');
-const productTitle = document.getElementById('product-title');
-const productPrice = document.getElementById('product-price');
-const imageContainer = document.getElementById('image-container');
+        const backBtn = document.getElementById('back-btn');
+        const orderBtn = document.getElementById('order-btn');
 
-const backBtn = document.getElementById('back-btn');
-const orderBtn = document.getElementById('order-btn');
+        const filterGender = document.getElementById('filter-gender');
+        const genderSuboptions = document.getElementById('gender-suboptions');
+        const filterColor = document.getElementById('filter-color');
+        const colorSuboptions = document.getElementById('color-suboptions');
+        const resetAll = document.getElementById('reset-all');
 
-const filterColor = document.getElementById('filter-color');
-const colorSuboptions = document.getElementById('color-suboptions');
-const genderSuboptions = document.getElementById('gender-suboptions');
-const resetAll = document.getElementById('reset-all');
+        // === функции отображения каталога и товара ===
+        function renderCatalog() {
+            catalogGrid.innerHTML = '';
+            products.forEach((product, index) => {
+                const item = document.createElement('div');
+                item.className = 'catalog-item';
+                item.dataset.gender = product.gender;
+                item.dataset.winter = product.winter;
+                item.dataset.new = product.newIn;
+                item.dataset.index = index;
+                item.dataset.color = product.color;
+                item.innerHTML = `
+                    <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
+                    <div class="item-text">${product.name}<br>$${product.price}</div>
+                `;
+                item.addEventListener('click', () => showProductDetails(index));
+                catalogGrid.appendChild(item);
+            });
+            applyFilters();
+        }
 
-// === функции отображения каталога и товара ===
-function renderCatalog() {
-    catalogGrid.innerHTML = '';
-    products.forEach((product, index) => {
-        const item = document.createElement('div');
-        item.className = 'catalog-item';
-        item.dataset.gender = product.gender;
-        item.dataset.winter = product.winter;
-        item.dataset.new = product.newIn;
-        item.dataset.index = index;
-        item.dataset.color = product.color;
-        item.innerHTML = `
-            <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
-            <div class="item-text">${product.name}<br>$${product.price}</div>
-        `;
-        item.addEventListener('click', () => showProductDetails(index));
-        catalogGrid.appendChild(item);
-    });
-}
+        function showProductDetails(index) {
+            const product = products[index];
+            if (!product) return;
+            productTitle.textContent = product.name;
+            productPrice.textContent = `$${product.price}`;
+            imageContainer.innerHTML = '';
+            product.images.forEach(src => {
+                const img = document.createElement('img');
+                img.className = 'product-image';
+                img.src = src;
+                img.alt = product.name;
+                img.onerror = () => img.style.display = 'none';
+                imageContainer.appendChild(img);
+            });
+            productOverlay.style.display = 'flex';
+            catalog.style.display = 'none';
+            productOverlay.scrollTop = 0;
+        }
 
-function showProductDetails(index) {
-    const product = products[index];
-    if (!product) return;
-    productTitle.textContent = product.name;
-    productPrice.textContent = `$${product.price}`;
-    imageContainer.innerHTML = '';
-    product.images.forEach(src => {
-        const img = document.createElement('img');
-        img.className = 'product-image';
-        img.src = src;
-        img.alt = product.name;
-        img.onerror = () => img.style.display = 'none';
-        imageContainer.appendChild(img);
-    });
-    productOverlay.style.display = 'flex';
-    catalog.style.display = 'none';
-    productOverlay.scrollTop = 0;
-}
+        // === применение фильтров ===
+        function applyFilters() {
+            const items = document.querySelectorAll('.catalog-item');
+            items.forEach(item => {
+                const product = products[item.dataset.index];
+                let show = true;
+                if (currentFilters.gender !== 'all' && product.gender !== currentFilters.gender) show = false;
+                if (currentFilters.color && product.color !== currentFilters.color) show = false;
+                if (currentFilters.category && item.dataset[currentFilters.category] !== 'true') show = false;
+                item.style.display = show ? 'block' : 'none';
+            });
+        }
 
-// === применение фильтров ===
-function applyFilters() {
-    const items = document.querySelectorAll('.catalog-item');
-    items.forEach(item => {
-        const product = products[item.dataset.index];
-        let show = true;
-        if (currentFilters.gender !== 'all' && product.gender !== currentFilters.gender) show = false;
-        if (currentFilters.color && product.color !== currentFilters.color) show = false;
-        if (currentFilters.category && item.dataset[currentFilters.category] !== 'true') show = false;
-        item.style.display = show ? 'block' : 'none';
-    });
-}
+        // === навигация / фильтрация ===
+        function handleMenuNavigation(filterType) {
+            currentFilters.color = null; // Сбрасываем цвет при выборе из меню
+            if (filterType === 'all') {
+                currentFilters.gender = 'all';
+                currentFilters.category = null;
+            } else if (filterType === 'women' || filterType === 'men') {
+                currentFilters.gender = filterType;
+                currentFilters.category = null;
+            } else if (filterType === 'new' || filterType === 'winter') {
+                currentFilters.category = filterType;
+                currentFilters.gender = 'all';
+            }
+            renderCatalog();
+            productOverlay.style.display = 'none';
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            menuOverlay.style.display = 'none';
+        }
 
-// === навигация / фильтрация ===
-function handleMenuNavigation(filterType) {
-    currentFilters.color = null; // Reset color when navigating from menu
-    if (filterType === 'all') {
-        currentFilters.gender = 'all';
-        currentFilters.category = null;
-    } else if (filterType === 'women' || filterType === 'men') {
-        currentFilters.gender = filterType;
-        currentFilters.category = null;
-    } else if (filterType === 'new' || filterType === 'winter') {
-        currentFilters.category = filterType;
-        currentFilters.gender = 'all';
-    }
-    renderCatalog();
-    applyFilters();
-    productOverlay.style.display = 'none';
-    banner.style.display = 'none';
-    catalog.style.display = 'block';
-    menuOverlay.style.display = 'none';
-}
+        // === обработчики ===
+        menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
+        menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
 
-// === обработчики ===
-menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
-menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
+        document.getElementById('home').addEventListener('click', () => {
+            productOverlay.style.display = 'none';
+            catalog.style.display = 'none';
+            banner.style.display = 'block';
+            menuOverlay.style.display = 'none';
+        });
+        document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
+        document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
+        document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
+        document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
 
-document.getElementById('home').addEventListener('click', () => {
-    productOverlay.style.display = 'none';
-    catalog.style.display = 'none';
-    banner.style.display = 'block';
-    menuOverlay.style.display = 'none';
-});
-document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
-document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
-document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
-document.getElementById('winter').addEventListener('click', () => handleMenuNavigation('winter'));
+        shopNowBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            banner.style.display = 'none';
+            catalog.style.display = 'block';
+            renderCatalog();
+        });
 
-shopNowBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    banner.style.display = 'none';
-    catalog.style.display = 'block';
-    renderCatalog();
-    applyFilters();
-});
+        filterBtn.addEventListener('click', () => {
+            filterOverlay.style.display = 'block';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
+        filterCloseBtn.addEventListener('click', () => {
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
 
-filterBtn.addEventListener('click', () => { filterOverlay.style.display = 'block'; });
-filterCloseBtn.addEventListener('click', () => {
-    filterOverlay.style.display = 'none';
-    genderSuboptions.style.display = 'none';
-    colorSuboptions.style.display = 'none';
-});
+        document.getElementById('filter-all').addEventListener('click', () => {
+            currentFilters.gender = 'all';
+            applyFilters();
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
+        document.getElementById('filter-women').addEventListener('click', () => {
+            currentFilters.gender = 'women';
+            applyFilters();
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
+        document.getElementById('filter-men').addEventListener('click', () => {
+            currentFilters.gender = 'men';
+            applyFilters();
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
 
-document.getElementById('filter-all').addEventListener('click', () => { 
-    currentFilters.gender = 'all'; 
-    applyFilters(); 
-    filterOverlay.style.display = 'none'; 
-    genderSuboptions.style.display = 'none'; 
-    colorSuboptions.style.display = 'none'; 
-});
-document.getElementById('filter-women').addEventListener('click', () => { 
-    currentFilters.gender = 'women'; 
-    applyFilters(); 
-    filterOverlay.style.display = 'none'; 
-    genderSuboptions.style.display = 'none'; 
-    colorSuboptions.style.display = 'none'; 
-});
-document.getElementById('filter-men').addEventListener('click', () => { 
-    currentFilters.gender = 'men'; 
-    applyFilters(); 
-    filterOverlay.style.display = 'none'; 
-    genderSuboptions.style.display = 'none'; 
-    colorSuboptions.style.display = 'none'; 
-});
+        filterGender.addEventListener('click', () => {
+            genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block';
+            colorSuboptions.style.display = 'none';
+        });
 
-const filterGender = document.getElementById('filter-gender');
-filterGender.addEventListener('click', () => { 
-    genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block'; 
-    colorSuboptions.style.display = 'none'; 
-});
+        filterColor.addEventListener('click', () => {
+            colorSuboptions.style.display = (colorSuboptions.style.display === 'block') ? 'none' : 'block';
+            genderSuboptions.style.display = 'none';
+        });
 
-filterColor.addEventListener('click', () => { 
-    colorSuboptions.style.display = (colorSuboptions.style.display === 'block') ? 'none' : 'block'; 
-    genderSuboptions.style.display = 'none'; 
-});
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedColor = option.querySelector('.color-circle').getAttribute('data-color');
+                currentFilters.color = selectedColor;
+                applyFilters();
+                colorSuboptions.style.display = 'none';
+                filterOverlay.style.display = 'none';
+            });
+        });
 
-document.querySelectorAll('.color-option').forEach(option => {
-    option.addEventListener('click', () => {
-        const selectedColor = option.querySelector('.color-circle').getAttribute('data-color');
-        currentFilters.color = selectedColor;
-        applyFilters();
-        colorSuboptions.style.display = 'none';
-        filterOverlay.style.display = 'none';
-    });
-});
+        resetAll.addEventListener('click', () => {
+            currentFilters = { gender: 'all', category: null, color: null };
+            renderCatalog(); // Перерисовываем каталог с сбросом фильтров
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+            filterOverlay.style.display = 'none';
+        });
 
-resetAll.addEventListener('click', () => {
-    currentFilters = { gender: 'all', category: null, color: null };
-    applyFilters();
-    genderSuboptions.style.display = 'none';
-    colorSuboptions.style.display = 'none';
-    filterOverlay.style.display = 'none';
-});
+        // сортировка
+        function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
+        document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
 
-// сортировка
-function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
-document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
+        document.getElementById('sort-high-to-low').addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
+            items.forEach(i => catalogGrid.appendChild(i));
+            sortOptions.style.display = 'none';
+        });
+        document.getElementById('sort-low-to-high').addEventListener('click', () => {
+            const items = Array.from(document.querySelectorAll('.catalog-item'));
+            items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
+            items.forEach(i => catalogGrid.appendChild(i));
+            sortOptions.style.display = 'none';
+        });
 
-document.getElementById('sort-high-to-low').addEventListener('click', () => {
-    const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('`\(')[1]) - parseInt(a.querySelector('.item-text').textContent.split('\)`')[1]));
-    items.forEach(i => catalogGrid.appendChild(i));
-    sortOptions.style.display = 'none';
-});
-document.getElementById('sort-low-to-high').addEventListener('click', () => {
-    const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('`\(')[1]) - parseInt(b.querySelector('.item-text').textContent.split('\)`')[1]));
-    items.forEach(i => catalogGrid.appendChild(i));
-    sortOptions.style.display = 'none';
-});
+        sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
+        document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
 
-sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
-document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
+        // контакт
+        contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
+        contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
+        waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-// контакт
-contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
-contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
-waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+        // кнопки товара
+        backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
+        orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-// кнопки товара
-backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
-orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
+        window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
 
-window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
-</script>
+        // Инициализация
+        renderCatalog();
+    </script>
+</body>
+</html>
