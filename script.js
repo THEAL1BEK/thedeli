@@ -49,7 +49,7 @@ function renderCatalog() {
         item.dataset.color = product.color;
         item.innerHTML = `
             <img src="${product.images[0]}" alt="${product.name}" onerror="this.style.display='none'">
-            <div class="item-text">${product.name}<br>$${product.price}</div>
+            <div class="item-text">${product.name}<br>₸ ${product.price}</div>
         `;
         item.addEventListener('click', () => showProductDetails(index));
         catalogGrid.appendChild(item);
@@ -61,7 +61,7 @@ function showProductDetails(index) {
     const product = products[index];
     if (!product) return;
     productTitle.textContent = product.name;
-    productPrice.textContent = `$${product.price}`;
+    productPrice.textContent = `₸ ${product.price}`;
     imageContainer.innerHTML = '';
     product.images.forEach(src => {
         const img = document.createElement('img');
@@ -200,13 +200,13 @@ function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i =
 document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
 document.getElementById('sort-high-to-low').addEventListener('click', () => {
     const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
+    items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('₸')[1]) - parseInt(a.querySelector('.item-text').textContent.split('₸')[1]));
     items.forEach(i => catalogGrid.appendChild(i));
     sortOptions.style.display = 'none';
 });
 document.getElementById('sort-low-to-high').addEventListener('click', () => {
     const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('$')[1]) - parseInt(b.querySelector('.item-text').textContent.split('$')[1]));
+    items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('₸')[1]) - parseInt(b.querySelector('.item-text').textContent.split('₸')[1]));
     items.forEach(i => catalogGrid.appendChild(i));
     sortOptions.style.display = 'none';
 });
