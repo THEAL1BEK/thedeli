@@ -1,42 +1,34 @@
 let currentFilters = { gender: 'all', category: null, color: null };
 
-// === элементы ===
+// Элементы
 const menuIcon = document.getElementById('menu-icon');
 const menuOverlay = document.getElementById('menu-overlay');
 const menuClose = document.getElementById('menu-close');
-
 const shopNowBtn = document.getElementById('shop-now-btn');
 const banner = document.getElementById('banner');
 const catalog = document.getElementById('catalog');
-
 const filterBtn = document.getElementById('filter-btn');
 const filterOverlay = document.getElementById('filter-overlay');
 const filterCloseBtn = document.getElementById('filter-close');
-
 const sortBtn = document.getElementById('sort-btn');
 const sortOptions = document.getElementById('sort-options');
-
 const contactItem = document.getElementById('contact');
 const contactOverlay = document.getElementById('contact-overlay');
 const contactCloseBtn = document.getElementById('contact-close');
 const waMeChat = document.getElementById('wa-me-chat');
-
 const catalogGrid = document.getElementById('catalog-grid');
-
 const productOverlay = document.getElementById('product-overlay');
 const productTitle = document.getElementById('product-title');
 const productPrice = document.getElementById('product-price');
 const imageContainer = document.getElementById('image-container');
-
 const backBtn = document.getElementById('back-btn');
 const orderBtn = document.getElementById('order-btn');
-
 const filterGender = document.getElementById('filter-gender');
 const genderSuboptions = document.getElementById('gender-suboptions');
 const filterColor = document.getElementById('filter-color');
 const colorSuboptions = document.getElementById('color-suboptions');
 
-// === функции отображения каталога и товара ===
+// Функции отображения каталога и товара
 function renderCatalog() {
     catalogGrid.innerHTML = '';
     products.forEach((product, index) => {
@@ -76,7 +68,7 @@ function showProductDetails(index) {
     productOverlay.scrollTop = 0;
 }
 
-// === применение фильтров ===
+// Применение фильтров
 function applyFilters() {
     const items = document.querySelectorAll('.catalog-item');
     items.forEach(item => {
@@ -89,12 +81,13 @@ function applyFilters() {
     });
 }
 
-// === навигация / фильтрация ===
+// Навигация / фильтрация
 function handleMenuNavigation(filterType) {
-    currentFilters.color = null; // Сбрасываем цвет при выборе из меню
+    currentFilters.color = null; // Сбрасываем цвет
     if (filterType === 'all') {
         currentFilters.gender = 'all';
         currentFilters.category = null;
+        currentFilters.color = null; // Явный сброс для "All"
     } else if (filterType === 'women' || filterType === 'men' || filterType === 'unisex') {
         currentFilters.gender = filterType;
         currentFilters.category = null;
@@ -109,7 +102,7 @@ function handleMenuNavigation(filterType) {
     menuOverlay.style.display = 'none';
 }
 
-// === обработчики ===
+// Обработчики
 menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
 menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
 
@@ -119,6 +112,7 @@ document.getElementById('home').addEventListener('click', () => {
     banner.style.display = 'block';
     menuOverlay.style.display = 'none';
 });
+document.getElementById('all').addEventListener('click', () => handleMenuNavigation('all')); // Добавлено: Обработчик для "All"
 document.getElementById('new-in').addEventListener('click', () => handleMenuNavigation('new'));
 document.getElementById('women').addEventListener('click', () => handleMenuNavigation('women'));
 document.getElementById('men').addEventListener('click', () => handleMenuNavigation('men'));
@@ -144,7 +138,7 @@ filterCloseBtn.addEventListener('click', () => {
 
 document.getElementById('filter-all').addEventListener('click', () => {
     currentFilters.gender = 'all';
-    currentFilters.color = null; // Сброс цвета при выборе "All"
+    currentFilters.color = null;
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -152,7 +146,7 @@ document.getElementById('filter-all').addEventListener('click', () => {
 });
 document.getElementById('filter-women').addEventListener('click', () => {
     currentFilters.gender = 'women';
-    currentFilters.color = null; // Сброс цвета при выборе "Women"
+    currentFilters.color = null;
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -160,7 +154,7 @@ document.getElementById('filter-women').addEventListener('click', () => {
 });
 document.getElementById('filter-men').addEventListener('click', () => {
     currentFilters.gender = 'men';
-    currentFilters.color = null; // Сброс цвета при выборе "Men"
+    currentFilters.color = null;
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -168,7 +162,7 @@ document.getElementById('filter-men').addEventListener('click', () => {
 });
 document.getElementById('filter-unisex').addEventListener('click', () => {
     currentFilters.gender = 'unisex';
-    currentFilters.color = null; // Сброс цвета при выборе "Unisex"
+    currentFilters.color = null;
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -195,18 +189,26 @@ document.querySelectorAll('.color-option').forEach(option => {
     });
 });
 
-// сортировка
+// Сортировка
 function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
 document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
 document.getElementById('sort-high-to-low').addEventListener('click', () => {
     const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('₸')[1]) - parseInt(a.querySelector('.item-text').textContent.split('₸')[1]));
+    items.sort((a, b) => {
+        const priceA = parseInt(a.querySelector('.item-text').textContent.split('₸')[1].trim()) || 0;
+        const priceB = parseInt(b.querySelector('.item-text').textContent.split('₸')[1].trim()) || 0;
+        return priceB - priceA;
+    });
     items.forEach(i => catalogGrid.appendChild(i));
     sortOptions.style.display = 'none';
 });
 document.getElementById('sort-low-to-high').addEventListener('click', () => {
     const items = Array.from(document.querySelectorAll('.catalog-item'));
-    items.sort((a, b) => parseInt(a.querySelector('.item-text').textContent.split('₸')[1]) - parseInt(b.querySelector('.item-text').textContent.split('₸')[1]));
+    items.sort((a, b) => {
+        const priceA = parseInt(a.querySelector('.item-text').textContent.split('₸')[1].trim()) || 0;
+        const priceB = parseInt(b.querySelector('.item-text').textContent.split('₸')[1].trim()) || 0;
+        return priceA - priceB;
+    });
     items.forEach(i => catalogGrid.appendChild(i));
     sortOptions.style.display = 'none';
 });
@@ -214,16 +216,16 @@ document.getElementById('sort-low-to-high').addEventListener('click', () => {
 sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortOptions.style.display = (sortOptions.style.display === 'block') ? 'none' : 'block'; });
 document.addEventListener('click', (e) => { if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) sortOptions.style.display = 'none'; });
 
-// контакт
+// Контакт
 contactItem.addEventListener('click', () => { contactOverlay.style.display = 'flex'; menuOverlay.style.display = 'none'; });
 contactCloseBtn.addEventListener('click', () => { contactOverlay.style.display = 'none'; });
 waMeChat.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-// кнопки товара
+// Кнопки товара
 backBtn.addEventListener('click', () => { productOverlay.style.display = 'none'; catalog.style.display = 'block'; });
 orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
-window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
+window.addEventListener('error', (ev) => { console.error(ev.message); }); // Включил логирование ошибок для отладки
 
 // Инициализация
 renderCatalog();
