@@ -23,7 +23,7 @@
         ul { list-style: none; width: 100%; margin-top: 20px; }
         li { margin: 1rem 0; font-size: 18px; cursor: pointer; color: #000; text-align: left; padding-left: 20px; position: relative; }
         #menu-overlay li:after { content: '›'; position: absolute; right: 20px; color: #888; }
-        #filter-overlay .filter-option { margin-bottom: 10px; position: relative; }
+        #filter-overlay .filter-option { margin-bottom: 10px; position: relative; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
         #filter-overlay .filter-suboptions { display: none; }
         #filter-overlay .filter-suboptions li { margin: 5px 0; }
         #catalog { margin-top: 60px; padding: 20px 0; background: #fff; display: none; overflow-y: auto; min-height: calc(100vh - 60px); }
@@ -46,26 +46,24 @@
         .catalog-item .item-text { padding: 10px; color: #000; font-size: 14px; text-align: center; }
         #color-suboptions {
             position: absolute;
-            top: 100%; /* Выдвигается сразу под кнопкой Color */
+            top: 100%;
             left: 0;
             background: #fff;
             padding: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 столбца, как на картинке */
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             z-index: 1001;
             width: 280px;
-            max-height: 200px; /* Ограничение высоты для прокрутки */
-            overflow-y: auto;
         }
         .color-option {
             text-align: center;
             cursor: pointer;
         }
         .color-circle {
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             margin: 0 auto 5px;
             border: 1px solid #ccc;
@@ -93,7 +91,8 @@
             #sort-options { min-width: 120px; }
             .product-image { height: 250px; }
             .order-btn, .back-btn { font-size: 18px; padding: 12px 24px; }
-            #color-suboptions { width: 230px; grid-template-columns: repeat(3, 1fr); } /* 3 столбца на мобильных */
+            #color-suboptions { width: 230px; grid-template-columns: repeat(3, 1fr); }
+            .color-circle { width: 30px; height: 30px; }
         }
     </style>
 </head>
@@ -132,6 +131,7 @@
                     <li id="filter-all">All</li>
                     <li id="filter-women">Women</li>
                     <li id="filter-men">Men</li>
+                    <li id="filter-unisex">Unisex</li>
                 </ul>
             </li>
             <li class="filter-option" id="filter-color">Color
@@ -180,7 +180,7 @@
             <div class="product-price" id="product-price"></div>
         </div>
         <div class="product-actions">
-            <button class="order-btn" id="order-btn">Order</button>
+            <button class="order-btn" id="order-btn">Заказать</button>
             <button class="back-btn" id="back-btn">Back</button>
         </div>
     </div>
@@ -193,7 +193,7 @@
             { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "women", winter: false, newIn: true, color: "gold" },
             { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
             { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
-            { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: true, color: "blue" }
+            { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "unisex", winter: true, newIn: true, color: "blue" }
         ];
 
         let currentFilters = { gender: 'all', category: null, color: null };
@@ -281,7 +281,7 @@
             items.forEach(item => {
                 const product = products[item.dataset.index];
                 let show = true;
-                if (currentFilters.gender !== 'all' && product.gender !== currentFilters.gender) show = false;
+                if (currentFilters.gender !== 'all' && product.gender !== currentFilters.gender && currentFilters.gender !== 'all') show = false;
                 if (currentFilters.color && product.color !== currentFilters.color) show = false;
                 if (currentFilters.category && item.dataset[currentFilters.category] !== 'true') show = false;
                 item.style.display = show ? 'block' : 'none';
@@ -294,7 +294,7 @@
             if (filterType === 'all') {
                 currentFilters.gender = 'all';
                 currentFilters.category = null;
-            } else if (filterType === 'women' || filterType === 'men') {
+            } else if (filterType === 'women' || filterType === 'men' || filterType === 'unisex') {
                 currentFilters.gender = filterType;
                 currentFilters.category = null;
             } else if (filterType === 'new' || filterType === 'winter') {
@@ -343,21 +343,32 @@
 
         document.getElementById('filter-all').addEventListener('click', () => {
             currentFilters.gender = 'all';
-            applyFilters();
+            currentFilters.color = null; // Сбрасываем цвет при выборе All
+            renderCatalog(); // Перерисовываем каталог полностью
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
         });
         document.getElementById('filter-women').addEventListener('click', () => {
             currentFilters.gender = 'women';
-            applyFilters();
+            currentFilters.color = null; // Сбрасываем цвет при выборе Women
+            renderCatalog(); // Перерисовываем каталог полностью
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
         });
         document.getElementById('filter-men').addEventListener('click', () => {
             currentFilters.gender = 'men';
-            applyFilters();
+            currentFilters.color = null; // Сбрасываем цвет при выборе Men
+            renderCatalog(); // Перерисовываем каталог полностью
+            filterOverlay.style.display = 'none';
+            genderSuboptions.style.display = 'none';
+            colorSuboptions.style.display = 'none';
+        });
+        document.getElementById('filter-unisex').addEventListener('click', () => {
+            currentFilters.gender = 'unisex';
+            currentFilters.color = null; // Сбрасываем цвет при выборе Unisex
+            renderCatalog(); // Перерисовываем каталог полностью
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
