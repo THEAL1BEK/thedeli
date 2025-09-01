@@ -52,35 +52,43 @@
             padding: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(4, 1fr); /* 4 столбца для 3 рядов */
+            grid-template-rows: repeat(3, auto); /* 3 ряда */
+            gap: 15px;
             z-index: 1001;
             width: 280px;
+            max-height: 300px;
+            overflow-y: auto;
         }
         .color-option {
             text-align: center;
             cursor: pointer;
+            padding: 5px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background: #f9f9f9;
         }
         .color-circle {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             margin: 0 auto 5px;
-            border: 1px solid #ccc;
+            border: 2px solid #ddd;
+            transition: transform 0.2s;
         }
         .color-option:hover .color-circle {
-            opacity: 0.7;
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+        .color-option span {
+            font-size: 12px;
+            color: #333;
         }
         #filter-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Убрали выравнивание с правой стороны */
             align-items: center;
             margin-bottom: 10px;
-        }
-        #reset-all {
-            cursor: pointer;
-            text-decoration: underline;
-            font-size: 14px;
         }
         @media (max-width: 768px) {
             .logo { font-size: 1.2rem; }
@@ -91,8 +99,9 @@
             #sort-options { min-width: 120px; }
             .product-image { height: 250px; }
             .order-btn, .back-btn { font-size: 18px; padding: 12px 24px; }
-            #color-suboptions { width: 230px; grid-template-columns: repeat(3, 1fr); }
-            .color-circle { width: 30px; height: 30px; }
+            #color-suboptions { width: 230px; grid-template-columns: repeat(4, 1fr); }
+            .color-circle { width: 40px; height: 40px; }
+            .color-option span { font-size: 10px; }
         }
     </style>
 </head>
@@ -122,7 +131,6 @@
     <div id="filter-overlay">
         <div id="filter-header">
             <span>FILTER</span>
-            <span id="reset-all">Reset All</span>
         </div>
         <div class="close-btn" id="filter-close"><span>&times;</span></div>
         <ul>
@@ -136,18 +144,18 @@
             </li>
             <li class="filter-option" id="filter-color">Color
                 <div id="color-suboptions" style="display: none;">
-                    <div class="color-option"><div class="color-circle" style="background-color: black;" data-color="black"></div>Black</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: brown;" data-color="brown"></div>Brown</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: gold;" data-color="gold"></div>Gold</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: silver;" data-color="silver"></div>Silver</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: grey;" data-color="grey"></div>Grey</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: blue;" data-color="blue"></div>Blue</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: #800020;" data-color="bordeaux"></div>Bordeaux</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: green;" data-color="green"></div>Green</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: white;" data-color="white"></div>White</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: orange;" data-color="orange"></div>Orange</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: red;" data-color="red"></div>Red</div>
-                    <div class="color-option"><div class="color-circle" style="background-color: yellow;" data-color="yellow"></div>Yellow</div>
+                    <div class="color-option"><div class="color-circle" style="background-color: black;" data-color="black"></div><span>Black</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: brown;" data-color="brown"></div><span>Brown</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: gold;" data-color="gold"></div><span>Gold</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: silver;" data-color="silver"></div><span>Silver</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: grey;" data-color="grey"></div><span>Grey</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: blue;" data-color="blue"></div><span>Blue</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: #800020;" data-color="bordeaux"></div><span>Bordeaux</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: green;" data-color="green"></div><span>Green</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: white;" data-color="white"></div><span>White</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: orange;" data-color="orange"></div><span>Orange</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: red;" data-color="red"></div><span>Red</span></div>
+                    <div class="color-option"><div class="color-circle" style="background-color: yellow;" data-color="yellow"></div><span>Yellow</span></div>
                 </div>
             </li>
         </ul>
@@ -233,7 +241,6 @@
         const genderSuboptions = document.getElementById('gender-suboptions');
         const filterColor = document.getElementById('filter-color');
         const colorSuboptions = document.getElementById('color-suboptions');
-        const resetAll = document.getElementById('reset-all');
 
         // === функции отображения каталога и товара ===
         function renderCatalog() {
@@ -343,32 +350,32 @@
 
         document.getElementById('filter-all').addEventListener('click', () => {
             currentFilters.gender = 'all';
-            currentFilters.color = null; // Сбрасываем цвет при выборе All
-            renderCatalog(); // Перерисовываем каталог полностью
+            currentFilters.color = null;
+            renderCatalog();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
         });
         document.getElementById('filter-women').addEventListener('click', () => {
             currentFilters.gender = 'women';
-            currentFilters.color = null; // Сбрасываем цвет при выборе Women
-            renderCatalog(); // Перерисовываем каталог полностью
+            currentFilters.color = null;
+            renderCatalog();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
         });
         document.getElementById('filter-men').addEventListener('click', () => {
             currentFilters.gender = 'men';
-            currentFilters.color = null; // Сбрасываем цвет при выборе Men
-            renderCatalog(); // Перерисовываем каталог полностью
+            currentFilters.color = null;
+            renderCatalog();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
         });
         document.getElementById('filter-unisex').addEventListener('click', () => {
             currentFilters.gender = 'unisex';
-            currentFilters.color = null; // Сбрасываем цвет при выборе Unisex
-            renderCatalog(); // Перерисовываем каталог полностью
+            currentFilters.color = null;
+            renderCatalog();
             filterOverlay.style.display = 'none';
             genderSuboptions.style.display = 'none';
             colorSuboptions.style.display = 'none';
@@ -394,18 +401,9 @@
             });
         });
 
-        resetAll.addEventListener('click', () => {
-            currentFilters = { gender: 'all', category: null, color: null };
-            renderCatalog(); // Перерисовываем каталог с сбросом фильтров
-            genderSuboptions.style.display = 'none';
-            colorSuboptions.style.display = 'none';
-            filterOverlay.style.display = 'none';
-        });
-
         // сортировка
         function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
         document.getElementById('sort-relevance').addEventListener('click', () => { showAllItems(); sortOptions.style.display = 'none'; });
-
         document.getElementById('sort-high-to-low').addEventListener('click', () => {
             const items = Array.from(document.querySelectorAll('.catalog-item'));
             items.sort((a, b) => parseInt(b.querySelector('.item-text').textContent.split('$')[1]) - parseInt(a.querySelector('.item-text').textContent.split('$')[1]));
