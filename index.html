@@ -44,6 +44,26 @@
         .catalog-item{border:0.8px solid #ddd;text-align:center;cursor:pointer;padding-bottom:8px;background:#fff;}
         .catalog-item img{width:100%;object-fit:cover;display:block;}
         .catalog-item .item-text{padding:10px;color:#000;font-size:14px;text-align:center;}
+        #color-suboptions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        .color-option {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .color-option:hover {
+            opacity: 0.7;
+        }
         @media (max-width:768px){
             .logo{font-size:1.2rem;}
             #shop-now-btn{font-size:18px;padding:12px 24px;}
@@ -89,7 +109,22 @@
                     <li id="filter-men">Men</li>
                 </ul>
             </li>
-            <li class="filter-option" id="filter-color">Color</li>
+            <li class="filter-option" id="filter-color">Color
+                <div id="color-suboptions" class="filter-suboptions" style="display: none;">
+                    <div class="color-option" data-color="black" style="background-color: black;"></div>
+                    <div class="color-option" data-color="brown" style="background-color: brown;"></div>
+                    <div class="color-option" data-color="gold" style="background-color: gold;"></div>
+                    <div class="color-option" data-color="silver" style="background-color: silver;"></div>
+                    <div class="color-option" data-color="grey" style="background-color: grey;"></div>
+                    <div class="color-option" data-color="blue" style="background-color: blue;"></div>
+                    <div class="color-option" data-color="bordeaux" style="background-color: #800020;"></div>
+                    <div class="color-option" data-color="green" style="background-color: green;"></div>
+                    <div class="color-option" data-color="white" style="background-color: white; border: 1px solid #ccc;"></div>
+                    <div class="color-option" data-color="orange" style="background-color: orange;"></div>
+                    <div class="color-option" data-color="red" style="background-color: red;"></div>
+                    <div class="color-option" data-color="yellow" style="background-color: yellow;"></div>
+                </div>
+            </li>
         </ul>
     </div>
 
@@ -128,12 +163,12 @@
     <script>
     // === данные товаров ===
     const products = [
-        { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
-        { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false },
-        { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true },
-        { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
-        { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false },
-        { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true }
+        { name: "Cat Eye Glasses", price: 149, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "black" },
+        { name: "Elegant Eyewear", price: 119, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: false, color: "brown" },
+        { name: "Stylish Goggles", price: 129, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "women", winter: false, newIn: true, color: "gold" },
+        { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
+        { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
+        { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG","IMG_8125.JPG","IMG_8125.JPG"], gender: "men", winter: true, newIn: true, color: "blue" }
     ];
 
     // === элементы ===
@@ -166,6 +201,9 @@
 
     const backBtn = document.getElementById('back-btn');
     const orderBtn = document.getElementById('order-btn');
+
+    const filterColor = document.getElementById('filter-color');
+    const colorSuboptions = document.getElementById('color-suboptions');
 
     // === функции отображения каталога и товара ===
     function renderCatalog() {
@@ -227,6 +265,21 @@
         });
     }
 
+    function filterByColor(color) {
+        renderCatalog();
+        const items = document.querySelectorAll('.catalog-item');
+        items.forEach(item => {
+            const product = products[item.dataset.index];
+            if (!product || !product.color) {
+                item.style.display = 'none';
+            } else if (color === 'all' || product.color === color) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
     // === обработчики ===
     menuIcon.addEventListener('click', () => { menuOverlay.style.display = 'flex'; });
     menuClose.addEventListener('click', () => { menuOverlay.style.display = 'none'; });
@@ -253,15 +306,33 @@
     filterCloseBtn.addEventListener('click', () => {
         filterOverlay.style.display = 'none';
         document.getElementById('gender-suboptions').style.display = 'none';
+        colorSuboptions.style.display = 'none';
     });
 
-    document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
-    document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
-    document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; });
+    document.getElementById('filter-all').addEventListener('click', () => { handleMenuNavigation('all'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
+    document.getElementById('filter-women').addEventListener('click', () => { handleMenuNavigation('women'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
+    document.getElementById('filter-men').addEventListener('click', () => { handleMenuNavigation('men'); filterOverlay.style.display = 'none'; document.getElementById('gender-suboptions').style.display = 'none'; colorSuboptions.style.display = 'none'; });
 
     const filterGender = document.getElementById('filter-gender');
     const genderSuboptions = document.getElementById('gender-suboptions');
-    filterGender.addEventListener('click', () => { genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block'; });
+    filterGender.addEventListener('click', () => {
+        genderSuboptions.style.display = (genderSuboptions.style.display === 'block') ? 'none' : 'block';
+        colorSuboptions.style.display = 'none'; // Скрыть цвет при открытии Gender
+    });
+
+    filterColor.addEventListener('click', () => {
+        colorSuboptions.style.display = (colorSuboptions.style.display === 'block') ? 'none' : 'block';
+        genderSuboptions.style.display = 'none'; // Скрыть Gender при открытии Color
+    });
+
+    document.querySelectorAll('.color-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const selectedColor = option.getAttribute('data-color');
+            filterByColor(selectedColor);
+            colorSuboptions.style.display = 'none';
+            filterOverlay.style.display = 'none';
+        });
+    });
 
     // сортировка
     function showAllItems() { document.querySelectorAll('.catalog-item').forEach(i => i.style.display = 'block'); }
@@ -293,6 +364,6 @@
     orderBtn.addEventListener('click', () => { window.location.href = 'https://wa.me/77470383524'; });
 
     window.addEventListener('error', (ev) => { /* console.error(ev.message) */ });
-</script>
+    </script>
 </body>
 </html>
