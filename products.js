@@ -5,6 +5,5 @@ const products = [
     { name: "Black Sunglasses", price: 99, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "silver" },
     { name: "Sporty Shades", price: 89, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "men", winter: true, newIn: false, color: "grey" },
     { name: "Classic Aviators", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "unisex", winter: true, newIn: true, color: "blue" }
-    { name: "Lalo", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "unisex", winter: true, newIn: true, color: "blue" }
-    { name: "Escape", price: 109, images: ["IMG_8125.JPG", "IMG_8125.JPG", "IMG_8125.JPG"], gender: "unisex", winter: true, newIn: true, color: "blue" }
+   
 ];
