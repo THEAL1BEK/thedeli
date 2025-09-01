@@ -144,7 +144,7 @@ filterCloseBtn.addEventListener('click', () => {
 
 document.getElementById('filter-all').addEventListener('click', () => {
     currentFilters.gender = 'all';
-    currentFilters.color = null;
+    currentFilters.color = null; // Сброс цвета при выборе "All"
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -152,7 +152,7 @@ document.getElementById('filter-all').addEventListener('click', () => {
 });
 document.getElementById('filter-women').addEventListener('click', () => {
     currentFilters.gender = 'women';
-    currentFilters.color = null;
+    currentFilters.color = null; // Сброс цвета при выборе "Women"
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -160,7 +160,7 @@ document.getElementById('filter-women').addEventListener('click', () => {
 });
 document.getElementById('filter-men').addEventListener('click', () => {
     currentFilters.gender = 'men';
-    currentFilters.color = null;
+    currentFilters.color = null; // Сброс цвета при выборе "Men"
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
@@ -168,7 +168,7 @@ document.getElementById('filter-men').addEventListener('click', () => {
 });
 document.getElementById('filter-unisex').addEventListener('click', () => {
     currentFilters.gender = 'unisex';
-    currentFilters.color = null;
+    currentFilters.color = null; // Сброс цвета при выборе "Unisex"
     renderCatalog();
     filterOverlay.style.display = 'none';
     genderSuboptions.style.display = 'none';
